@@ -1,0 +1,22 @@
+{
+  "name": "electron-react",
+  "main": "app.js",
+  "version": "0.1.0",
+  "authors": [
+    "Denis Vuyka <denis.vuyka@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.4",
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.6.3",
+    "pouchdb": "^5.4.3"
+  }
+}
