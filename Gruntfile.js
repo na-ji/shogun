@@ -8,15 +8,7 @@ module.exports = function (grunt) {
             content: {
                 files: [
                     'components/**/*.js*',
-                    'app.js'
-                ],
-                tasks: ['browserify'],
-                options: {
-                    livereload: true
-                }
-            },
-            renderer: {
-                files: [
+                    'app.js',
                     'index.html',
                     'main.js',
                     'renderer.js',
@@ -69,51 +61,22 @@ module.exports = function (grunt) {
                 link: 'dist/fonts'
             }
         },
-
-        browserify: {
-            options: {
-                debug: true,
-                transform: [['babelify', { presets: ["react", "es2015"] }]]
-            },
-            app: {
-                src: 'components/app.jsx',
-                dest: 'dist/app.js'
-            }
-        },
-
-        uglify: {
-            options: {
-                mangle: true,
-                sourceMap: true
-            },
-            app: {
-                files: {
-                    'dist/app.min.js': 'dist/app.js'
-                }
-            }
-        },
     });
 
-    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-symbolic-link');
 
     grunt.registerTask('default', [
-        'less:dev',
-        'browserify'
+        'less:dev'
     ]);
 
     grunt.registerTask('serve', [
         'less:dev',
-        'browserify',
         'watch'
     ]);
 
     grunt.registerTask('dist', [
-        'less:dist',
-        'browserify',
-        'uglify'
+        'less:dist'
     ]);
 };

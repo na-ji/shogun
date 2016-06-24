@@ -1,6 +1,6 @@
-fs   = require('fs');
-path = require('path');
-yaml = require('js-yaml');
+var fs   = require('fs');
+var path = require('path');
+var yaml = require('js-yaml');
 
 var CatalogManager = {
     catalogs: [],
@@ -23,12 +23,12 @@ CatalogManager.getCatalogList = function() {
         return this.catalogs;
     }
 
-    files = fs.readdirSync(this.sites_path);
+    var files = fs.readdirSync(this.sites_path);
     files.forEach(function (file) {
-        console.log(file);
+        // console.log(file);
         if (".yml" === path.extname(file)) {
             var catalog = CatalogManager.openFile(file);
-            console.log(catalog);
+            // console.log(catalog);
             CatalogManager.catalogs.push(catalog);
         }
     });

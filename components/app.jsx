@@ -1,7 +1,8 @@
+"use babel";
 import React from 'react';
 import { render } from 'react-dom'
 import { Router, Route, hashHistory, IndexRoute, Link } from 'react-router';
-import { HomePage, AboutPage, ContactPage } from './pages';
+import { HomePage, CatalogPage, ContactPage } from './pages';
 
 const App = React.createClass({
     render() {
@@ -19,7 +20,7 @@ const App = React.createClass({
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">
                             <ul className="nav navbar-nav">
-                                <li class="active"><Link to="/about" activeClassName="active">About</Link></li>
+                                <li class="active"><Link to="/catalogs" activeClassName="active">Catalogs</Link></li>
                                 <li><Link to="/contact" activeClassName="active">Contact</Link></li>
                             </ul>
                         </div>
@@ -41,7 +42,7 @@ render((
     <Router history={hashHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={HomePage} />
-            <Route path="about" component={AboutPage} />
+            <Route path="catalogs" component={CatalogPage} />
             <Route path="contact" component={ContactPage} />
         </Route>
     </Router>

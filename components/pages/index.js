@@ -1,5 +1,5 @@
 module.exports = {
     HomePage: require('./HomePage'),
-    AboutPage: require('./AboutPage'),
+    CatalogPage: require('./CatalogPage'),
     ContactPage: require('./ContactPage')
 };

@@ -1,3 +1,4 @@
+"use babel";
 import React from 'react';
 
 var HomePage = React.createClass({

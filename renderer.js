@@ -6,11 +6,11 @@ var db = new PouchDB('http://localhost:5984/open-manga');
 //     console.log(info);
 // });
 
-var catalogManager = require('./core/catalog-manager');
-var parser = require('./core/parser');
+// var catalogManager = require('./core/catalog-manager');
+// var parser = require('./core/parser');
 
-catalogManager.getCatalogList().forEach(function(catalog) {
-    parser.getPopularMangaList(catalog).done(function(mangas) {
-        console.log(mangas);
-    });
-});
+// catalogManager.getCatalogList().forEach(function(catalog) {
+//     parser.getPopularMangaList(catalog).done(function(mangas) {
+//         console.log(mangas);
+//     });
+// });

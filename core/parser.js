@@ -1,8 +1,6 @@
-yaml = require('js-yaml');
-fs   = require('fs');
-path = require('path');
-_ = require('lodash');
-Promise = require('promise');
+var yaml = require('js-yaml');
+var _ = require('lodash');
+var Promise = require('promise');
 
 
 var Parser = {};
@@ -11,7 +9,7 @@ Parser.getPopularMangaList = function(catalog, url) {
     if (undefined === url) {
         url = catalog.base_url + catalog.popular.url;
     }
-    
+
     return new Promise(function (fulfill, reject) {
         jQuery.get(url, function (page) {
             let mangas = [];

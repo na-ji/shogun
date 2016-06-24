@@ -1,3 +1,4 @@
+"use babel";
 import React from 'react';
 
 var ContactPage = React.createClass({
