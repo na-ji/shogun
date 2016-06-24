@@ -8,12 +8,20 @@ module.exports = function (grunt) {
             content: {
                 files: [
                     'components/**/*.js*',
-                    'app.js',
-                    'index.html',
-                    'main.js',
-                    'renderer.js'
+                    'app.js'
                 ],
                 tasks: ['browserify'],
+                options: {
+                    livereload: true
+                }
+            },
+            renderer: {
+                files: [
+                    'index.html',
+                    'main.js',
+                    'renderer.js',
+                    'core/*.js*'
+                ],
                 options: {
                     livereload: true
                 }

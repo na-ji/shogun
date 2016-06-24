@@ -1,0 +1,20 @@
+name: ReadMangaToday
+base_url: http://www.readmanga.today
+lang: en
+
+popular:
+    url: "/hot-manga/"
+    manga:
+        element_selector: "div.hot-manga > div.style-list > div.box"
+        fields:
+            url:
+                selector: "div.title > h2 > a"
+                method: "attr"
+                arguments:
+                    - 'href'
+            title:
+                selector: "div.title > h2 > a"
+                method: "attr"
+                arguments:
+                    - 'title'
+    next_url_selector: "div.hot-manga > ul.pagination > li > a:contains(»)"

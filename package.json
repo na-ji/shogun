@@ -27,6 +27,7 @@
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
     "electron-prebuilt": "^1.2.2",
+    "electron-rebuild": "^1.1.5",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-browserify": "^5.0.0",
@@ -36,9 +37,13 @@
     "grunt-symbolic-link": "^0.3.1"
   },
   "dependencies": {
+    "js-yaml": "^3.6.1",
+    "lodash": "^4.13.1",
+    "promise": "^7.1.1",
     "react": "^15.0.1",
     "react-bootstrap": "^0.29.4",
     "react-router": "^2.4.1",
-    "react-router-bootstrap": "^0.23.0"
+    "react-router-bootstrap": "^0.23.0",
+    "synchronize": "^0.9.15"
   }
 }
