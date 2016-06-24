@@ -9,11 +9,10 @@ var CatalogManager = {
 };
 
 CatalogManager.openFile = function(name) {
-    if (this.files_cache[name] != undefined) {
-        return this.files_cache[name];
+    if (undefined == this.files_cache[name]) {
+        this.files_cache[name] = yaml.safeLoad(fs.readFileSync(this.sites_path + name), 'utf8');
+        this.files_cache[name].file = path.basename(name, '.yml');
     }
-
-    this.files_cache[name] = yaml.safeLoad(fs.readFileSync(this.sites_path + name), 'utf8');
 
     return this.files_cache[name];
 };
@@ -34,6 +33,10 @@ CatalogManager.getCatalogList = function() {
     });
 
     return this.catalogs;
+};
+
+CatalogManager.getCatalog = function(name) {
+    return CatalogManager.openFile(name + ".yml");
 };
 
 module.exports = CatalogManager;
