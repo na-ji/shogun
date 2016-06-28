@@ -3,6 +3,11 @@ var _ = require('lodash');
 var Promise = require('promise');
 
 
+function trimSpaces(str) {
+    return str.trim().replace(/ +(?= )/g,'');
+}
+
+
 var Parser = {};
 
 Parser.getPopularMangaList = function(catalog, url) {
@@ -21,6 +26,7 @@ Parser.getPopularMangaList = function(catalog, url) {
                     let selector = jQuery(self).find(options.selector);
                     manga[field] = selector[options.method].apply(selector, options.arguments);
                 });
+                manga._id = manga.url;
                 mangas.push(manga);
             });
 
@@ -29,6 +35,21 @@ Parser.getPopularMangaList = function(catalog, url) {
                 'has_next': Boolean(jQuery(catalog.popular.next_url_selector, page).length),
                 'next_url': jQuery(catalog.popular.next_url_selector, page).attr('href')
             });
+        });
+    });
+};
+
+Parser.getMangaDetail = function(catalog, manga) {
+    return new Promise(function (fulfill, reject) {
+        jQuery.get(manga.url, function (page) {
+            var container = jQuery(catalog.manga_detail.selector, page);
+
+            _.forEach(catalog.manga_detail.fields, function (options, field) {
+                let selector = jQuery(container).find(options.selector);
+                manga[field] = trimSpaces(selector[options.method].apply(selector, options.arguments));
+            });
+
+            fulfill(manga);
         });
     });
 };

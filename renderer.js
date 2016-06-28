@@ -8,9 +8,11 @@ var db = new PouchDB('http://localhost:5984/open-manga');
 
 // var catalogManager = require('./core/catalog-manager');
 // var parser = require('./core/parser');
-
+//
 // catalogManager.getCatalogList().forEach(function(catalog) {
 //     parser.getPopularMangaList(catalog).done(function(mangas) {
-//         console.log(mangas);
+//         mangas.mangas.forEach(function(manga) {
+//             parser.getMangaDetail(catalog, manga);
+//         });
 //     });
 // });

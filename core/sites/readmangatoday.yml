@@ -18,3 +18,27 @@ popular:
                 arguments:
                     - 'title'
     next_url_selector: "div.hot-manga > ul.pagination > li > a:contains(»)"
+
+manga_detail:
+    selector: "div.content-list:first"
+    fields:
+        author:
+            selector: "ul.cast-list li.director > ul a"
+            method: "text"
+        artist:
+            selector: "ul.cast-list li:not(.director) > ul a"
+            method: "text"
+        genre:
+            selector: "dl.dl-horizontal > dd:eq(2)"
+            method: "text"
+        description:
+            selector: "li.movie-detail"
+            method: "text"
+        status:
+            selector: "dl.dl-horizontal > dd:eq(1)"
+            method: "text"
+        thumbnail_url:
+            selector: "img.img-responsive"
+            method: "attr"
+            arguments:
+                - 'src'
