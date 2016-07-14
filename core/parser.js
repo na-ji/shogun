@@ -26,7 +26,7 @@ Parser.getPopularMangaList = function(catalog, url) {
                     let selector = jQuery(self).find(options.selector);
                     manga[field] = selector[options.method].apply(selector, options.arguments);
                 });
-                manga._id = manga.url;
+                manga._id = manga.url.replace(/http[s]?:\/\//, '');
                 mangas.push(manga);
             });
 

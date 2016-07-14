@@ -14,7 +14,7 @@ MangaManager.getPopularManga = function (catalogName) {
 
             _.forEach(mangas.mangas, function(manga) {
                 promises.push(new Promise(function (resolve, reject) {
-                    db.get(manga.url).then(function (doc) {
+                    db.get(manga._id).then(function (doc) {
                         resolve(doc);
                     }).catch(function (err) {
                         Parser.getMangaDetail(catalog, manga).then(function (manga) {

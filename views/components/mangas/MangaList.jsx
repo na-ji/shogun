@@ -7,7 +7,7 @@ class MangaList extends React.Component {
         return (
             <div>
                 {this.props.mangas.map(function(manga, index){
-                    return <div className="col-md-2 col-sm-3"><Manga manga={manga} /></div>;
+                    return <div key={manga._id} className="col-md-2 col-sm-3"><Manga manga={manga} /></div>;
                 })}
             </div>
         );
