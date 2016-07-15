@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="App" pattern="!file[open-manga]:bower_components//*&amp;&amp;!file[open-manga]:node_modules//*&amp;&amp;!file[open-manga]:less/bootstrap-material-design//*&amp;&amp;!file[open-manga]:dist//*&amp;&amp;!file[open-manga]:.idea//*" />
+</component>
