@@ -1,6 +1,7 @@
 var yaml = require('js-yaml');
 var _ = require('lodash');
 var Promise = require('promise');
+var crypto = require('crypto');
 
 
 function trimSpaces(str) {
@@ -26,7 +27,8 @@ Parser.getPopularMangaList = function(catalog, url) {
                     let selector = jQuery(self).find(options.selector);
                     manga[field] = selector[options.method].apply(selector, options.arguments);
                 });
-                manga._id = manga.url.replace(/http[s]?:\/\//, '');
+                manga._id = crypto.createHash('md5').update(manga.url).digest("hex");
+                manga.catalog = catalog.file;
                 mangas.push(manga);
             });
 
