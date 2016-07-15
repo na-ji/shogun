@@ -1,7 +1,7 @@
 "use babel";
 import React from 'react';
 
-class Manga extends React.Component {
+class MangaCard extends React.Component {
     render() {
         var inlineStyle = {
             backgroundImage: 'url(' + this.props.manga.thumbnail_url + ')'
@@ -19,4 +19,4 @@ class Manga extends React.Component {
     }
 }
 
-module.exports = Manga;
+module.exports = MangaCard;
