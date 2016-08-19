@@ -33,4 +33,13 @@ MangaManager.getPopularManga = function (catalogName) {
     });
 };
 
+MangaManager.getMangaById = function (mangaId) {
+    return new Promise(function (fulfill, reject) {
+        db.get(mangaId).then(function (doc) {
+            fulfill(doc);
+        }).catch(function (err) {
+        });
+    });
+};
+
 module.exports = MangaManager;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom'
 import { Router, Route, hashHistory, IndexRoute, Link } from 'react-router';
-import { HomePage, CatalogList, CatalogPage, ContactPage } from './components';
+import { HomePage, CatalogList, CatalogPage, ContactPage, MangaPage } from './components';
 
 const App = React.createClass({
     render() {
@@ -44,6 +44,7 @@ render((
             <IndexRoute component={HomePage} />
             <Route path="catalogs" component={CatalogList} />
             <Route path="/catalog/:catalogName" component={CatalogPage}/>
+            <Route path="/manga/:mangaId" component={MangaPage}/>
             <Route path="contact" component={ContactPage} />
         </Route>
     </Router>
