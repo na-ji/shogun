@@ -4,7 +4,43 @@ import { render } from 'react-dom'
 import { Router, Route, hashHistory, IndexRoute, Link } from 'react-router';
 import { HomePage, CatalogList, CatalogPage, ContactPage, MangaPage } from './components';
 
-const App = React.createClass({
+var canGoBack = 0;
+
+class App extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            showBackButton: false,
+            goingBack: false
+        };
+        
+        // we bind 'this' to goBack()
+        this.goBack = this.goBack.bind(this);
+    }
+
+    goBack() {
+        canGoBack--;
+        if (canGoBack < 0)
+            canGoBack = 0;
+        this.setState({ showBackButton: (canGoBack > 0), goingBack: true }, function () {
+            console.log(this.state);
+            hashHistory.goBack();
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.goingBack) {
+            this.state.goingBack = false;
+        } else {
+            console.log(nextProps.location);
+            if(nextProps.location.pathname !== this.props.location.pathname) {
+                canGoBack++;
+            }
+            this.state.showBackButton = (canGoBack > 0);
+        }
+    }
+
     render() {
         return (
             <div>
@@ -16,11 +52,13 @@ const App = React.createClass({
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            <Link className="navbar-brand" to="/">Brand</Link>
+                            {this.state.showBackButton && <a className="navbar-brand go-back" onClick={this.goBack}><i className="fa fa-arrow-left"></i></a>}
+                            {/*<Link className="navbar-brand" to="/">Brand</Link>*/}
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">
                             <ul className="nav navbar-nav">
-                                <li class="active"><Link to="/catalogs" activeClassName="active">Catalogs</Link></li>
+                                <li><Link to="/" activeClassName="active">Home</Link></li>
+                                <li><Link to="/catalogs" activeClassName="active">Catalogs</Link></li>
                                 <li><Link to="/contact" activeClassName="active">Contact</Link></li>
                             </ul>
                         </div>
@@ -36,7 +74,7 @@ const App = React.createClass({
             </div>
         );
     }
-});
+}
 
 render((
     <Router history={hashHistory}>
