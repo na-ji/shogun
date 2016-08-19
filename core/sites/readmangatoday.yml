@@ -42,3 +42,32 @@ manga_detail:
             method: "attr"
             arguments:
                 - 'src'
+
+chapter_list:
+    selector: "ul.chp_lst > li"
+    fields:
+        url:
+            selector: "a:first"
+            method: "attr"
+            arguments:
+                - 'href'
+        name:
+            selector: "a:first span.val"
+            method: "text"
+        date:
+            selector: "span.dte:first"
+            method: "attr"
+            arguments:
+                - 'title'
+
+page_list:
+    selector: "ul.list-switcher-2 > li > select.jump-menu:first option"
+    method: "attr"
+    arguments:
+        - 'value'
+
+image_url:
+    selector: "img.img-responsive-2:first"
+    method: "attr"
+    arguments:
+        - 'src'

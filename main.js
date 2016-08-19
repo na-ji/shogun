@@ -23,7 +23,7 @@ function createWindow () {
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     // Open the DevTools.
-    BrowserWindow.addDevToolsExtension('/home/naji/.config/chromium/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.14.11_0');
+    BrowserWindow.addDevToolsExtension('/home/naji/.config/chromium/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.1_0');
     // mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.

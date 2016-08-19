@@ -2,12 +2,15 @@ var yaml = require('js-yaml');
 var _ = require('lodash');
 var Promise = require('promise');
 var crypto = require('crypto');
+var chapterRecognition = require('./chapter-recognition');
 
 
 function trimSpaces(str) {
     return str.trim().replace(/ +(?= )/g,'');
 }
 
+
+// TODO : Manage manga status
 
 var Parser = {};
 
@@ -52,6 +55,36 @@ Parser.getMangaDetail = function(catalog, manga) {
             });
 
             fulfill(manga);
+        });
+    });
+};
+
+Parser.getChapterList = function(catalog, manga) {
+    return new Promise(function (fulfill, reject) {
+        jQuery.get(manga.url, function (page) {
+            let chapters = [];
+
+            jQuery(catalog.chapter_list.selector, page).each(function() {
+                var chapter = {
+                    manga_id: manga._id,
+                    read: false
+
+                };
+                var self = this;
+
+                _.forEach(catalog.chapter_list.fields, function (options, field) {
+                    let selector = jQuery(self).find(options.selector);
+                    chapter[field] = selector[options.method].apply(selector, options.arguments).trim();
+                });
+
+                chapter._id = crypto.createHash('md5').update(chapter.url).digest("hex");
+
+                chapterRecognition.parseChapterNumber(chapter, manga);
+
+                chapters.push(chapter);
+            });
+
+            fulfill(chapters);
         });
     });
 };
