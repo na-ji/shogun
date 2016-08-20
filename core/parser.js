@@ -24,13 +24,15 @@ Parser.getPopularMangaList = function(catalog, url) {
             let mangas = [];
             jQuery(catalog.popular.manga.element_selector, page).each(function () {
                 // console.log($(this).html());
-                var manga = {};
+                var manga = {
+                    in_library: false
+                };
                 var self = this;
                 _.forEach(catalog.popular.manga.fields, function (options, field) {
                     let selector = jQuery(self).find(options.selector);
                     manga[field] = selector[options.method].apply(selector, options.arguments);
                 });
-                manga._id = crypto.createHash('md5').update(manga.url).digest("hex");
+                manga.id = crypto.createHash('md5').update(manga.url).digest("hex");
                 manga.catalog = catalog.file;
                 mangas.push(manga);
             });
@@ -66,7 +68,7 @@ Parser.getChapterList = function(catalog, manga) {
 
             jQuery(catalog.chapter_list.selector, page).each(function() {
                 var chapter = {
-                    manga_id: manga._id,
+                    manga_id: manga.id,
                     read: false
 
                 };
@@ -77,7 +79,7 @@ Parser.getChapterList = function(catalog, manga) {
                     chapter[field] = selector[options.method].apply(selector, options.arguments).trim();
                 });
 
-                chapter._id = crypto.createHash('md5').update(chapter.url).digest("hex");
+                chapter.id = crypto.createHash('md5').update(chapter.url).digest("hex");
 
                 chapterRecognition.parseChapterNumber(chapter, manga);
 

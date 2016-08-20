@@ -14,13 +14,15 @@ MangaManager.getPopularManga = function (catalogName) {
 
             _.forEach(mangas.mangas, function(manga) {
                 promises.push(new Promise(function (resolve, reject) {
-                    db.get(manga._id).then(function (doc) {
-                        resolve(doc);
-                    }).catch(function (err) {
-                        Parser.getMangaDetail(catalog, manga).then(function (manga) {
-                            db.put(manga);
-                            resolve(manga);
-                        });
+                    db.rel.find('manga', manga.id).then(function (doc) {
+                        if (doc.mangas.length) {
+                            resolve(doc.mangas[0]);
+                        } else {
+                            Parser.getMangaDetail(catalog, manga).then(function (manga) {
+                                db.rel.save('manga', manga);
+                                resolve(manga);
+                            });
+                        }
                     });
                 }));
             });
@@ -35,9 +37,12 @@ MangaManager.getPopularManga = function (catalogName) {
 
 MangaManager.getMangaById = function (mangaId) {
     return new Promise(function (fulfill, reject) {
-        db.get(mangaId).then(function (doc) {
-            fulfill(doc);
-        }).catch(function (err) {
+        db.rel.find('manga', mangaId).then(function (doc) {
+            if (doc.mangas.length) {
+                fulfill(doc.mangas[0]);
+            } else {
+                reject({error: 'No manga found'});
+            }
         });
     });
 };

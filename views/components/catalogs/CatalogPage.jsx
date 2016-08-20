@@ -28,7 +28,7 @@ class CatalogPage extends React.Component {
             _.forEach(response.promises, function(promise) {
                 promise.then(function(manga) {
                     var mangas = self.state.mangas;
-                    mangas[_.findIndex(self.state.mangas, {_id: manga._id})] = manga;
+                    mangas[_.findIndex(self.state.mangas, {id: manga.id})] = manga;
                     self.setState({mangas: mangas});
                 });
             });
