@@ -72,4 +72,26 @@ MangaManager.getChapterList = function(manga) {
     });
 };
 
+MangaManager.getLibrary = function() {
+    return new Promise(function (fulfill, reject) {
+        let before = (new Date()).getTime();
+        db.query('manga_index/by_in_library', {
+            key: true,
+            include_docs : true
+        }).then(function (response) {
+            let timeTaken = (new Date()).getTime() - before;
+            console.log('Took %d ms', timeTaken);
+            let mangas = [];
+
+            _.forEach(response.rows, function(row) {
+                let manga = row.doc.data;
+                manga.id = row.id.replace('manga', '').replace(/^_\d+_/, '');
+                mangas.push(manga);
+            });
+            
+            fulfill(mangas);
+        });
+    });
+};
+
 module.exports = MangaManager;

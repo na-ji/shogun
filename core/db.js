@@ -9,4 +9,20 @@ DB.setSchema([
 //     console.log(info);
 // });
 
+// manga.in_library index
+var ddoc = {
+    _id: '_design/manga_index',
+    views: {
+        by_in_library: {
+            map: function (doc) { emit(doc.data.in_library); }.toString()
+        }
+    }
+};
+
+DB.put(ddoc).then(function () {
+    // success!
+}).catch(function (err) {
+    // some error (maybe a 409, because it already exists?)
+});
+
 module.exports = DB;
