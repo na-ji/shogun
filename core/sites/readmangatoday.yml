@@ -56,9 +56,8 @@ chapter_list:
             method: "text"
         date:
             selector: "span.dte:first"
-            method: "attr"
-            arguments:
-                - 'title'
+            method: "text"
+            parser: parseDateAgo
 
 page_list:
     selector: "ul.list-switcher-2 > li > select.jump-menu:first option"

@@ -1,5 +1,6 @@
 "use babel";
 import React from 'react';
+var moment = require('moment');
 
 class ChapterRow extends React.Component {
     render() {
@@ -7,7 +8,7 @@ class ChapterRow extends React.Component {
             <div>
                 <h4>
                     {this.props.chapter.name}
-                    <span className="pull-right">{this.props.chapter.date}</span>
+                    <span className="pull-right">{moment(this.props.chapter.date).format('DD-MM-YYYY')}</span>
                 </h4>
             </div>
         );

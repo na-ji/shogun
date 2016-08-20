@@ -3,6 +3,7 @@ var _ = require('lodash');
 var Promise = require('promise');
 var crypto = require('crypto');
 var chapterRecognition = require('./chapter-recognition');
+var moment = require('moment');
 
 
 function trimSpaces(str) {
@@ -77,6 +78,9 @@ Parser.getChapterList = function(catalog, manga) {
                 _.forEach(catalog.chapter_list.fields, function (options, field) {
                     let selector = jQuery(self).find(options.selector);
                     chapter[field] = selector[options.method].apply(selector, options.arguments).trim();
+                    if (options.parser) {
+                        chapter[field] = Parser[options.parser](chapter[field]);
+                    }
                 });
 
                 chapter.id = crypto.createHash('md5').update(chapter.url).digest("hex");
@@ -89,6 +93,26 @@ Parser.getChapterList = function(catalog, manga) {
             fulfill(chapters);
         });
     });
+};
+
+
+/**
+ * Parse string '8 months ago' to Date object
+ * @param date string in the format of '8 months ago'
+ * @return Date object corresponding
+ */
+Parser.parseDateAgo = function(date) {
+    let dateWords = date.toLowerCase().split(' ');
+
+    if (dateWords.length == 3) {
+        if (dateWords[1].substr(dateWords[1].length - 1) != "s") {
+            dateWords[1] = dateWords[1] + 's';
+        }
+
+        return moment().subtract(parseInt(dateWords[0]), dateWords[1]).toDate();
+    }
+
+    return new Date(1970, 0, 1);
 };
 
 module.exports = Parser;
