@@ -25,4 +25,11 @@ DB.put(ddoc).then(function () {
     // some error (maybe a 409, because it already exists?)
 });
 
+// Initial query to build index and have faster queries after
+// DB.query('manga_index/by_in_library', {
+//     limit: 0 // don't return any results
+// }).then(function (res) {
+// }).catch(function (err) {
+// });
+
 module.exports = DB;
