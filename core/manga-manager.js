@@ -39,10 +39,35 @@ MangaManager.getMangaById = function (mangaId) {
     return new Promise(function (fulfill, reject) {
         db.rel.find('manga', mangaId).then(function (doc) {
             if (doc.mangas.length) {
-                fulfill(doc.mangas[0]);
+                fulfill({
+                    manga: doc.mangas[0],
+                    chapters: (doc.chapters ? doc.chapters : [])
+                });
             } else {
                 reject({error: 'No manga found'});
             }
+        });
+    });
+};
+
+MangaManager.getChapterList = function(manga) {
+    var catalog = CatalogManager.getCatalog(manga.catalog);
+
+    return new Promise(function (fulfill, reject) {
+        Parser.getChapterList(catalog, manga).then(function(chapters) {
+            if (manga.in_library) {
+                // save chapter to DB
+
+                _.forEach(chapters, function(chapter) {
+                    db.rel.find('chapter', chapter.id).then(function (doc) {
+                        if (!doc.chapters.length) {
+                            db.rel.save('chapter', chapter);
+                        }
+                    });
+                });
+            }
+
+            fulfill(chapters);
         });
     });
 };

@@ -68,7 +68,7 @@ Parser.getChapterList = function(catalog, manga) {
 
             jQuery(catalog.chapter_list.selector, page).each(function() {
                 var chapter = {
-                    manga_id: manga.id,
+                    manga: manga.id,
                     read: false
 
                 };
