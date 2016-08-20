@@ -57,12 +57,20 @@ MangaManager.getChapterList = function(manga) {
         Parser.getChapterList(catalog, manga).then(function(chapters) {
             if (manga.in_library) {
                 // save chapter to DB
+                var chapterIds = [];
+                let done = _.after(chapters.length, function() {
+                    console.log(chapterIds);
+                    manga.chapters = _.union(manga.chapters, chapterIds);
+                    db.rel.save('manga', manga);
+                });
 
                 _.forEach(chapters, function(chapter) {
                     db.rel.find('chapter', chapter.id).then(function (doc) {
                         if (!doc.chapters.length) {
+                            chapterIds.push(chapter.id);
                             db.rel.save('chapter', chapter);
                         }
+                        done();
                     });
                 });
             }
@@ -88,7 +96,7 @@ MangaManager.getLibrary = function() {
                 manga.id = row.id.replace('manga', '').replace(/^_\d+_/, '');
                 mangas.push(manga);
             });
-            
+
             fulfill(mangas);
         });
     });

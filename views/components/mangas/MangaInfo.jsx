@@ -16,8 +16,6 @@ class MangaInfo extends React.Component {
     }
 
     render() {
-        console.log(this.props.manga);
-
         var fieldsToRender = [];
         var self = this;
 

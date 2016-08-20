@@ -36,7 +36,7 @@ var db = require('./core/db');
 // console.log(chapterRecognition.parseChapterNumber({name: "Solanin 028.b Vol. 2"}, {title: "Solanin"}));
 // console.log(chapterRecognition.parseChapterNumber({name: "Onepunch-Man Punch Ver002 028"}, {title: "Onepunch-Man"}));
 
-var mangaManager = require('./core/manga-manager');
-mangaManager.getLibrary().then(function (mangas) {
-    console.log(mangas);
-});
+// var mangaManager = require('./core/manga-manager');
+// mangaManager.getLibrary().then(function (mangas) {
+//     console.log(mangas);
+// });
