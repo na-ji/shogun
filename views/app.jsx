@@ -14,7 +14,7 @@ class App extends React.Component {
             showBackButton: false,
             goingBack: false
         };
-        
+
         // we bind 'this' to goBack()
         this.goBack = this.goBack.bind(this);
     }
@@ -24,7 +24,7 @@ class App extends React.Component {
         if (canGoBack < 0)
             canGoBack = 0;
         this.setState({ showBackButton: (canGoBack > 0), goingBack: true }, function () {
-            console.log(this.state);
+            // console.log(this.state);
             hashHistory.goBack();
         });
     }
@@ -33,7 +33,7 @@ class App extends React.Component {
         if (this.state.goingBack) {
             this.state.goingBack = false;
         } else {
-            console.log(nextProps.location);
+            // console.log(nextProps.location);
             if(nextProps.location.pathname !== this.props.location.pathname) {
                 canGoBack++;
             }
