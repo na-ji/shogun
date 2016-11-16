@@ -1,14 +1,18 @@
 {
-  "name": "open-manga",
+  "name": "project-m",
+  "productName": "Project M(anga)",
   "version": "1.0.0",
   "description": "An open source Manga Reader",
   "main": "main.js",
   "scripts": {
-    "start": "node_modules/electron-prebuilt/dist/electron ."
+    "start": "electron ./app/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
+    "url": "git+https://github.com/na-ji/project-m.git"
+  },
+  "bin": {
+    "electron": "./node_modules/.bin/electron"
   },
   "keywords": [
     "Electron",
@@ -16,12 +20,16 @@
     "Read",
     "open"
   ],
-  "author": "Naji Astier",
-  "license": "CC0-1.0",
-  "bugs": {
-    "url": "https://github.com/na-ji"
+  "author": {
+    "name": "Naji Astier",
+    "email": "naji@astier.eu",
+    "url": "https://www.naji-astier.com/"
   },
-  "homepage": "https://github.com/na-ji",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/na-ji/project-m/issues"
+  },
+  "homepage": "https://github.com/na-ji/project-m",
   "devDependencies": {
     "electron-prebuilt": "^1.2.2",
     "electron-rebuild": "^1.1.5",

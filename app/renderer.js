@@ -5,14 +5,21 @@ var db = require('./core/db');
 
 // var catalogManager = require('./core/catalog-manager');
 // var parser = require('./core/parser');
-
+//
 // catalogManager.getCatalogList().forEach(function(catalog) {
 //     parser.getPopularMangaList(catalog).done(function(mangas) {
-//         parser.getMangaDetail(catalog, mangas.mangas[0]).done(function(manga) {
-//             console.log(manga);
-//         });
+//         // parser.getMangaDetail(catalog, mangas.mangas[0]).done(function(manga) {
+//         //     console.log(manga);
+//         // });
 //         parser.getChapterList(catalog, mangas.mangas[0]).done(function(chapters) {
-//             console.log(chapters);
+//             // console.log(chapters);
+//             parser.getPageList(catalog, chapters[0]).done(function(pages) {
+//                 console.log(chapters[0]);
+//                 console.log(pages);
+//                 parser.getImageURL(catalog, pages[0]).done(function(imageURL) {
+//                     console.log(imageURL);
+//                 });
+//             });
 //         });
 //     });
 // });

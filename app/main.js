@@ -9,6 +9,12 @@ const BrowserWindow = electron.BrowserWindow;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+if (process.env.NODE_ENV === 'development') {
+    const path = require('path'); // eslint-disable-line
+    const p = path.join(__dirname, '..', 'app', 'node_modules'); // eslint-disable-line
+    require('module').globalPaths.push(p); // eslint-disable-line
+}
+
 function createWindow () {
     // Create the browser window.
     mainWindow = new BrowserWindow({

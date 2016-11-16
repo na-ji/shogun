@@ -7,19 +7,18 @@ module.exports = function (grunt) {
         watch: {
             content: {
                 files: [
-                    'views/**/*.js*',
-                    'app.js',
-                    'index.html',
-                    'main.js',
-                    'renderer.js',
-                    'core/*.js*'
+                    'app/views/**/*.js*',
+                    'app/index.html',
+                    'app/main.js',
+                    'app/renderer.js',
+                    'app/core/*.js*'
                 ],
                 options: {
                     livereload: true
                 }
             },
             less: {
-                files: 'less/**/*.less',
+                files: 'app/less/**/*.less',
                 tasks: ['less:dev'],
                 options: {
                     livereload: true
@@ -33,11 +32,11 @@ module.exports = function (grunt) {
                     relativeUrls: true
                 },
                 files: {
-                    "dist/bootstrap-material-design.css": "less/bootstrap-material-design/bootstrap-material-design.less",
-                    "dist/ripples.css": "less/bootstrap-material-design/ripples.less",
-                    "dist/roboto.css": "less/roboto.less",
-                    "dist/material-icons.css": "less/material-icons.less",
-                    "dist/app.css": "less/app.less"
+                    "app/dist/bootstrap-material-design.css": "app/less/bootstrap-material-design/bootstrap-material-design.less",
+                    "app/dist/ripples.css": "app/less/bootstrap-material-design/ripples.less",
+                    "app/dist/roboto.css": "app/less/roboto.less",
+                    "app/dist/material-icons.css": "app/less/material-icons.less",
+                    "app/dist/app.css": "app/less/app.less"
                 }
             },
             dist: {
@@ -46,11 +45,11 @@ module.exports = function (grunt) {
                     relativeUrls: true
                 },
                 files: {
-                    "dist/bootstrap-material-design.min.css": "less/bootstrap-material-design/bootstrap-material-design.less",
-                    "dist/ripples.min.css": "less/bootstrap-material-design/ripples.less",
-                    "dist/roboto.min.css": "less/roboto.less",
-                    "dist/material-icons.min.css": "less/material-icons.less",
-                    "dist/app.min.css": "less/app.less"
+                    "app/dist/bootstrap-material-design.min.css": "app/less/bootstrap-material-design/bootstrap-material-design.less",
+                    "app/dist/ripples.min.css": "app/less/bootstrap-material-design/ripples.less",
+                    "app/dist/roboto.min.css": "app/less/roboto.less",
+                    "app/dist/material-icons.min.css": "app/less/material-icons.less",
+                    "app/dist/app.min.css": "app/less/app.less"
                 }
             }
         },
@@ -58,9 +57,9 @@ module.exports = function (grunt) {
         symlink: {
             fonts: {
                 target: '../less/fonts',
-                link: 'dist/fonts'
+                link: 'app/dist/fonts'
             }
-        },
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
