@@ -102,12 +102,22 @@ Parser.getPageList = function(catalog, chapter) {
 
             jQuery(catalog.page_list.selector, page).each(function() {
                 let selector = jQuery(this);
-                pages.push(selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments));
+                let page = selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments);
+                pages.push(page);
             });
-            // console.log(selector);
-            // pages = selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments);
 
             fulfill(pages);
+        });
+    });
+};
+
+Parser.getImageURL = function(catalog, pageURL) {
+    return new Promise((fulfill, reject) => {
+        jQuery.get(pageURL, (page) => {
+            let selector = jQuery(catalog.image_url.selector, page);
+            let imageURL = selector[catalog.image_url.method].apply(selector, catalog.image_url.arguments);
+
+            fulfill(imageURL);
         });
     });
 };
