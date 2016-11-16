@@ -95,6 +95,23 @@ Parser.getChapterList = function(catalog, manga) {
     });
 };
 
+Parser.getPageList = function(catalog, chapter) {
+    return new Promise((fulfill, reject) => {
+        jQuery.get(chapter.url, (page) => {
+            let pages = [];
+
+            jQuery(catalog.page_list.selector, page).each(function() {
+                let selector = jQuery(this);
+                pages.push(selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments));
+            });
+            // console.log(selector);
+            // pages = selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments);
+
+            fulfill(pages);
+        });
+    });
+};
+
 
 /**
  * Parse string '8 months ago' to Date object
