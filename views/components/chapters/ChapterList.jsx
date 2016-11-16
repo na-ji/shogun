@@ -35,7 +35,7 @@ class ChapterList extends React.Component {
                 <div className="list-group">
                     {this.props.chapters.map(function(chapter, index){
                         return (
-                            <Link to={`/`} className="list-group-item" key={chapter.id}>
+                            <Link to={`/`} className="list-group-item" key={index}>
                                 <ChapterRow chapter={chapter} />
                             </Link>
                         );

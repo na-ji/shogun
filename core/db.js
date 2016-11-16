@@ -1,4 +1,5 @@
-var DB = new PouchDB('http://localhost:5984/open-manga');
+//var DB = new PouchDB('http://localhost:5984/open-manga');
+var DB = new PouchDB('open-manga');
 
 DB.setSchema([
     {singular: 'manga', plural: 'mangas', relations: { chapters: {hasMany: 'chapter'}}},

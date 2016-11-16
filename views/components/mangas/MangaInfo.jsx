@@ -2,17 +2,40 @@
 import React from 'react';
 var _ = require('lodash');
 const {shell} = require('electron');
+var mangaManager = require('../../../core/manga-manager');
+var manga = {};
 
 class MangaInfo extends React.Component {
     constructor() {
         super();
+
+        this.state = {
+            in_library: false
+        };
+
         // we bind 'this' to handleResize()
         this.openExternal = this.openExternal.bind(this);
+        this.toggleLibrary = this.toggleLibrary.bind(this);
     }
 
     openExternal(e) {
         e.preventDefault();
         shell.openExternal(this.props.manga.url);
+    }
+
+    toggleLibrary(e) {
+        e.preventDefault();
+        mangaManager.toggleInLibrary(manga);
+        this.setState({
+            in_library: !this.state.in_library
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        manga = nextProps.manga;
+        this.setState({
+            in_library: manga.in_library
+        });
     }
 
     render() {
@@ -51,6 +74,7 @@ class MangaInfo extends React.Component {
                         </tr>
                     </tbody>
                 </table>
+                <a href="#!" onClick={this.toggleLibrary} className={`btn btn-fab ${(this.state.in_library ? ' btn-primary' : '')}`}><i className="material-icons">grade</i></a>
             </div>
         );
     }

@@ -37,7 +37,9 @@ MangaManager.getPopularManga = function (catalogName) {
 
 MangaManager.getMangaById = function (mangaId) {
     return new Promise(function (fulfill, reject) {
+        let before = (new Date()).getTime();
         db.rel.find('manga', mangaId).then(function (doc) {
+            console.log('getMangaById took %d ms', (new Date()).getTime() - before);
             if (doc.mangas.length) {
                 fulfill({
                     manga: doc.mangas[0],
@@ -50,6 +52,11 @@ MangaManager.getMangaById = function (mangaId) {
     });
 };
 
+MangaManager.toggleInLibrary = function(manga) {
+    manga.in_library = !manga.in_library;
+    db.rel.save('manga', manga);
+};
+
 MangaManager.getChapterList = function(manga) {
     var catalog = CatalogManager.getCatalog(manga.catalog);
 
@@ -59,17 +66,20 @@ MangaManager.getChapterList = function(manga) {
                 // save chapter to DB
                 var chapterIds = [];
                 let done = _.after(chapters.length, function() {
-                    console.log(chapterIds);
                     manga.chapters = _.union(manga.chapters, chapterIds);
-                    db.rel.save('manga', manga);
+                    db.rel.save('manga', manga).catch(function(err) {
+                        console.log(err);
+                    });
                 });
 
                 _.forEach(chapters, function(chapter) {
                     db.rel.find('chapter', chapter.id).then(function (doc) {
                         if (!doc.chapters.length) {
-                            chapterIds.push(chapter.id);
-                            db.rel.save('chapter', chapter);
+                            db.rel.save('chapter', chapter).catch(function(err) {
+                                console.log(err);
+                            });
                         }
+                        chapterIds.push(chapter.id);
                         done();
                     });
                 });
@@ -87,8 +97,7 @@ MangaManager.getLibrary = function() {
             key: true,
             include_docs : true
         }).then(function (response) {
-            let timeTaken = (new Date()).getTime() - before;
-            console.log('Took %d ms', timeTaken);
+            console.log('getLibrary took %d ms', (new Date()).getTime() - before);
             let mangas = [];
 
             _.forEach(response.rows, function(row) {
