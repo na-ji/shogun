@@ -23,7 +23,7 @@ function createWindow () {
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     // Open the DevTools.
-    BrowserWindow.addDevToolsExtension('/home/naji/.config/chromium/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.1_0');
+    BrowserWindow.addDevToolsExtension('/home/naji/.config/chromium/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.4_0');
     // mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
@@ -47,7 +47,7 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
         app.quit();
     }
-})
+});
 
 app.on('activate', function () {
     // On OS X it's common to re-create a window in the app when the
@@ -55,7 +55,7 @@ app.on('activate', function () {
     if (mainWindow === null) {
         createWindow();
     }
-})
+});
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
