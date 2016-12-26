@@ -1,4 +1,5 @@
 var chai = require("chai");
+chai.use(require('chai-datetime'));
 var expect = chai.expect;
 
 var catalogManager = require('../../app/core/catalog-manager');
@@ -73,6 +74,22 @@ catalogManager.getCatalogList().forEach(function (catalog) {
                     console.log(error);
                     expect(error).to.be.null;
                     done();
+                });
+            });
+        });
+    });
+});
+
+describe('date parsers', function () {
+    describe('date ago', function () {
+        let dateParseFailed = new Date(1970, 0, 1);
+        let types = ['minute', 'hour', 'day', 'week', 'month', 'year'];
+        types.forEach(function (type) {
+            [type, type + 's'].forEach(function (t) {
+                it('expect to parse ' + t, function () {
+                    let parsed = parser.parseDateAgo('8 ' + t + ' ago');
+                    expect(parsed).to.be.a('date');
+                    expect(parsed).to.not.equalDate(dateParseFailed);
                 });
             });
         });
