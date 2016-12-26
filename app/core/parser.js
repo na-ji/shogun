@@ -1,4 +1,3 @@
-var yaml = require('js-yaml');
 var _ = require('lodash');
 var Promise = require('promise');
 var crypto = require('crypto');
@@ -7,23 +6,21 @@ var moment = require('moment');
 var jQuery = require('../bower_components/jquery/dist/jquery.min.js');
 var request = require('request');
 
-
-function trimSpaces(str) {
-    return str.trim().replace(/ +(?= )/g,'');
+function trimSpaces (str) {
+    return str.trim().replace(/ +(?= )/g, '');
 }
-
 
 // TODO : Manage manga status
 
 var Parser = {};
 
-Parser.getPopularMangaList = function(catalog, url) {
+Parser.getPopularMangaList = function (catalog, url) {
     if (undefined === url) {
         url = catalog.base_url + catalog.popular.url;
     }
 
-    return new Promise(function (fulfill, reject) {
-        request(url, function(error, response, page) {
+    return new Promise(function (resolve, reject) {
+        request(url, function (error, response, page) {
             if (error) {
                 return reject(error);
             }
@@ -38,12 +35,12 @@ Parser.getPopularMangaList = function(catalog, url) {
                     let selector = jQuery(self).find(options.selector);
                     manga[field] = selector[options.method].apply(selector, options.arguments);
                 });
-                manga.id = crypto.createHash('md5').update(manga.url).digest("hex");
+                manga.id = crypto.createHash('md5').update(manga.url).digest('hex');
                 manga.catalog = catalog.file;
                 mangas.push(manga);
             });
 
-            return fulfill({
+            return resolve({
                 'mangas': mangas,
                 'has_next': Boolean(jQuery(catalog.popular.next_url_selector, page).length),
                 'next_url': jQuery(catalog.popular.next_url_selector, page).attr('href')
@@ -52,9 +49,9 @@ Parser.getPopularMangaList = function(catalog, url) {
     });
 };
 
-Parser.getMangaDetail = function(catalog, manga) {
-    return new Promise(function (fulfill, reject) {
-        request(manga.url, function(error, response, page) {
+Parser.getMangaDetail = function (catalog, manga) {
+    return new Promise(function (resolve, reject) {
+        request(manga.url, function (error, response, page) {
             if (error) {
                 return reject(error);
             }
@@ -65,20 +62,20 @@ Parser.getMangaDetail = function(catalog, manga) {
                 manga[field] = trimSpaces(selector[options.method].apply(selector, options.arguments));
             });
 
-            fulfill(manga);
+            resolve(manga);
         });
     });
 };
 
-Parser.getChapterList = function(catalog, manga) {
-    return new Promise(function (fulfill, reject) {
-        request(manga.url, function(error, response, page) {
+Parser.getChapterList = function (catalog, manga) {
+    return new Promise(function (resolve, reject) {
+        request(manga.url, function (error, response, page) {
             if (error) {
                 return reject(error);
             }
             let chapters = [];
 
-            jQuery(catalog.chapter_list.selector, page).each(function() {
+            jQuery(catalog.chapter_list.selector, page).each(function () {
                 var chapter = {
                     manga: manga.id,
                     read: false
@@ -94,39 +91,39 @@ Parser.getChapterList = function(catalog, manga) {
                     }
                 });
 
-                chapter.id = crypto.createHash('md5').update(chapter.url).digest("hex");
+                chapter.id = crypto.createHash('md5').update(chapter.url).digest('hex');
 
                 chapterRecognition.parseChapterNumber(chapter, manga);
 
                 chapters.push(chapter);
             });
 
-            fulfill(chapters);
+            resolve(chapters);
         });
     });
 };
 
-Parser.getPageList = function(catalog, chapter) {
-    return new Promise((fulfill, reject) => {
+Parser.getPageList = function (catalog, chapter) {
+    return new Promise((resolve, reject) => {
         request(chapter.url, (error, response, page) => {
             if (error) {
                 return reject(error);
             }
             let pages = [];
 
-            jQuery(catalog.page_list.selector, page).each(function() {
+            jQuery(catalog.page_list.selector, page).each(function () {
                 let selector = jQuery(this);
                 let page = selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments);
                 pages.push(page);
             });
 
-            fulfill(pages);
+            resolve(pages);
         });
     });
 };
 
-Parser.getImageURL = function(catalog, pageURL) {
-    return new Promise((fulfill, reject) => {
+Parser.getImageURL = function (catalog, pageURL) {
+    return new Promise((resolve, reject) => {
         request(pageURL, (error, response, page) => {
             if (error) {
                 return reject(error);
@@ -134,22 +131,21 @@ Parser.getImageURL = function(catalog, pageURL) {
             let selector = jQuery(catalog.image_url.selector, page);
             let imageURL = selector[catalog.image_url.method].apply(selector, catalog.image_url.arguments);
 
-            fulfill(imageURL);
+            resolve(imageURL);
         });
     });
 };
-
 
 /**
  * Parse string '8 months ago' to Date object
  * @param date string in the format of '8 months ago'
  * @return Date object corresponding
  */
-Parser.parseDateAgo = function(date) {
+Parser.parseDateAgo = function (date) {
     let dateWords = date.toLowerCase().split(' ');
 
-    if (dateWords.length == 3) {
-        if (dateWords[1].substr(dateWords[1].length - 1) != "s") {
+    if (dateWords.length === 3) {
+        if (dateWords[1].substr(dateWords[1].length - 1) !== 's') {
             dateWords[1] = dateWords[1] + 's';
         }
 
