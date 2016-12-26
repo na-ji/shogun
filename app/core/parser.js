@@ -4,6 +4,8 @@ var Promise = require('promise');
 var crypto = require('crypto');
 var chapterRecognition = require('./chapter-recognition');
 var moment = require('moment');
+var jQuery = require('../bower_components/jquery/dist/jquery.min.js');
+var request = require('request');
 
 
 function trimSpaces(str) {
@@ -21,7 +23,10 @@ Parser.getPopularMangaList = function(catalog, url) {
     }
 
     return new Promise(function (fulfill, reject) {
-        jQuery.get(url, function (page) {
+        request(url, function(error, response, page) {
+            if (error) {
+                return reject(error);
+            }
             let mangas = [];
             jQuery(catalog.popular.manga.element_selector, page).each(function () {
                 // console.log($(this).html());
@@ -38,7 +43,7 @@ Parser.getPopularMangaList = function(catalog, url) {
                 mangas.push(manga);
             });
 
-            fulfill({
+            return fulfill({
                 'mangas': mangas,
                 'has_next': Boolean(jQuery(catalog.popular.next_url_selector, page).length),
                 'next_url': jQuery(catalog.popular.next_url_selector, page).attr('href')
@@ -49,7 +54,10 @@ Parser.getPopularMangaList = function(catalog, url) {
 
 Parser.getMangaDetail = function(catalog, manga) {
     return new Promise(function (fulfill, reject) {
-        jQuery.get(manga.url, function (page) {
+        request(manga.url, function(error, response, page) {
+            if (error) {
+                return reject(error);
+            }
             var container = jQuery(catalog.manga_detail.selector, page);
 
             _.forEach(catalog.manga_detail.fields, function (options, field) {
@@ -64,7 +72,10 @@ Parser.getMangaDetail = function(catalog, manga) {
 
 Parser.getChapterList = function(catalog, manga) {
     return new Promise(function (fulfill, reject) {
-        jQuery.get(manga.url, function (page) {
+        request(manga.url, function(error, response, page) {
+            if (error) {
+                return reject(error);
+            }
             let chapters = [];
 
             jQuery(catalog.chapter_list.selector, page).each(function() {
@@ -97,7 +108,10 @@ Parser.getChapterList = function(catalog, manga) {
 
 Parser.getPageList = function(catalog, chapter) {
     return new Promise((fulfill, reject) => {
-        jQuery.get(chapter.url, (page) => {
+        request(chapter.url, (error, response, page) => {
+            if (error) {
+                return reject(error);
+            }
             let pages = [];
 
             jQuery(catalog.page_list.selector, page).each(function() {
@@ -113,7 +127,10 @@ Parser.getPageList = function(catalog, chapter) {
 
 Parser.getImageURL = function(catalog, pageURL) {
     return new Promise((fulfill, reject) => {
-        jQuery.get(pageURL, (page) => {
+        request(pageURL, (error, response, page) => {
+            if (error) {
+                return reject(error);
+            }
             let selector = jQuery(catalog.image_url.selector, page);
             let imageURL = selector[catalog.image_url.method].apply(selector, catalog.image_url.arguments);
 
