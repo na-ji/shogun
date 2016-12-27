@@ -31,9 +31,10 @@ var unwanted = /(?:(v|ver|vol|version|volume|season).?[0-9]+)/g;
  */
 var unwantedWhiteSpace = /(\s)(extra|special|omake)/g;
 
-ChapterRecognition.parseChapterNumber = function(chapter, manga) {
-    if (chapter.chapter_number == -2. || chapter.chapter_number > -1.)
-        return;
+ChapterRecognition.parseChapterNumber = function (chapter, manga) {
+    if (chapter.chapter_number === -2 || chapter.chapter_number > -1) {
+        return chapter;
+    }
 
     // Get chapter title with lower case
     let name = chapter.name.toLowerCase();
@@ -58,26 +59,33 @@ ChapterRecognition.parseChapterNumber = function(chapter, manga) {
     let m;
     do {
         m = occurrence.exec(name);
-        if (m)
+        if (m) {
             matches.push(m);
-    } while(m);
+        }
+    } while (m);
 
-    if (matches.length == 1) {
+    if (matches.length === 1) {
         return updateChapter(matches[0], chapter);
     }
 
-    // Remove manga title from chapter title.
-    let nameWithoutManga = name.replace(manga.title.toLowerCase(), "").trim();
+    if (manga && manga.title) {
+        // Remove manga title from chapter title.
+        let nameWithoutManga = name.replace(manga.title.toLowerCase(), '').trim();
 
-    // Check if first value is number after title remove.
-    if (matches = withoutManga.exec(nameWithoutManga)) {
-        return updateChapter(matches, chapter);
+        // Check if first value is number after title remove.
+        if (matches = withoutManga.exec(nameWithoutManga)) {
+            return updateChapter(matches, chapter);
+        }
+
+        // Take the first number encountered.
+        if (matches = occurrence.exec(nameWithoutManga)) {
+            return updateChapter(matches, chapter);
+        }
     }
 
-    // Take the first number encountered.
-    if (matches = occurrence.exec(nameWithoutManga)) {
-        return updateChapter(matches, chapter);
-    }
+    chapter.chapter_number = -2;
+
+    return chapter;
 };
 
 /**
@@ -86,7 +94,7 @@ ChapterRecognition.parseChapterNumber = function(chapter, manga) {
  * @param chapter chapter object
  * @return true if volume is found
  */
-function updateChapter(matches, chapter) {
+function updateChapter (matches, chapter) {
     let initial = parseFloat(matches[1]);
     let subChapterDecimal = matches[2];
     let subChapterAlpha = matches[3];
@@ -96,28 +104,31 @@ function updateChapter(matches, chapter) {
     return chapter;
 }
 
-
 /**
  * Check for decimal in received strings
  * @param decimal decimal value of regex
  * @param alpha alpha value of regex
  * @return decimal/alpha float value
  */
-function checkForDecimal(decimal, alpha) {
-    if (!_.isUndefined(decimal) && !_.isNull(decimal))
+function checkForDecimal (decimal, alpha) {
+    if (!_.isUndefined(decimal) && !_.isNull(decimal)) {
         return parseFloat(decimal);
+    }
 
     if (!_.isUndefined(alpha) && !_.isNull(alpha)) {
-        if (alpha.includes("extra"))
-            return .99;
+        if (alpha.includes('extra')) {
+            return 0.99;
+        }
 
-        if (alpha.includes("omake"))
-            return .98;
+        if (alpha.includes('omake')) {
+            return 0.98;
+        }
 
-        if (alpha.includes("special"))
-            return .97;
+        if (alpha.includes('special')) {
+            return 0.97;
+        }
 
-        if (alpha[0] == '.') {
+        if (alpha[0] === '.') {
             // Take value after (.)
             return parseAlphaPostFix(alpha[1]);
         } else {
@@ -125,14 +136,14 @@ function checkForDecimal(decimal, alpha) {
         }
     }
 
-    return .0;
+    return 0.0;
 }
 
 /**
  * x.a -> x.1, x.b -> x.2, etc
  */
-function parseAlphaPostFix(alpha) {
-    return parseFloat("0." + (alpha.charCodeAt(0) - 96));
+function parseAlphaPostFix (alpha) {
+    return parseFloat('0.' + (alpha.charCodeAt(0) - 96));
 }
 
 module.exports = ChapterRecognition;
