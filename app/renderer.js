@@ -24,25 +24,6 @@ var db = require('./core/db');
 //     });
 // });
 
-// TODO : Transfer to test class
-// var chapterRecognition = require('./core/chapter-recognition');
-// console.log(chapterRecognition.parseChapterNumber({name: "Mokushiroku Alice Vol.1 Ch.4: Misrepresentation"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Mokushiroku Alice Vol.1 Ch.4.1: Misrepresentation"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Mokushiroku Alice Vol.1 Ch.4.4: Misrepresentation"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Mokushiroku Alice Vol.1 Ch.4.a: Misrepresentation"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Mokushiroku Alice Vol.1 Ch.4.b: Misrepresentation"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Mokushiroku Alice Vol.1 Ch.4.extra: Misrepresentation"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Bleach 567: Down With Snowwhite"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Bleach 567.1: Down With Snowwhite"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Bleach 567.4: Down With Snowwhite"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Bleach 567.a: Down With Snowwhite"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Bleach 567.b: Down With Snowwhite"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Bleach 567.extra: Down With Snowwhite"}, {}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Solanin 028 Vol. 2"}, {title: "Solanin"}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Solanin 028.1 Vol. 2"}, {title: "Solanin"}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Solanin 028.b Vol. 2"}, {title: "Solanin"}));
-// console.log(chapterRecognition.parseChapterNumber({name: "Onepunch-Man Punch Ver002 028"}, {title: "Onepunch-Man"}));
-
 // var mangaManager = require('./core/manga-manager');
 // mangaManager.getLibrary().then(function (mangas) {
 //     console.log(mangas);
