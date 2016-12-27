@@ -35,6 +35,16 @@ var specs = [
         result: 4.99
     },
     {
+        it: 'expect to recognise Ch.{number.omake}',
+        name: 'Mokushiroku Alice Vol.1 Ch.4.omake: Misrepresentation',
+        result: 4.98
+    },
+    {
+        it: 'expect to recognise Ch.{number.special}',
+        name: 'Mokushiroku Alice Vol.1 Ch.4.special: Misrepresentation',
+        result: 4.97
+    },
+    {
         it: 'expect to recognise {number}',
         name: 'Bleach 567: Down With Snowwhite',
         result: 567

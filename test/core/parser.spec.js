@@ -1,4 +1,4 @@
-var chai = require("chai");
+var chai = require('chai');
 chai.use(require('chai-datetime'));
 var expect = chai.expect;
 
@@ -18,7 +18,7 @@ catalogManager.getCatalogList().forEach(function (catalog) {
                     expect(response).to.be.an('object');
                     manga = response.mangas[0];
                     done();
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.log(error);
                     expect(error).to.be.null;
                     done();
@@ -28,6 +28,30 @@ catalogManager.getCatalogList().forEach(function (catalog) {
                 expect(response).to.have.all.keys(['mangas', 'has_next', 'next_url']);
                 expect(response.mangas).to.be.an('array');
                 expect(response.has_next).to.be.a('boolean');
+            });
+        });
+
+        describe('getMangaDetail', function () {
+            let response;
+            it('expect manga to be an object', function (done) {
+                parser.getMangaDetail(catalog, manga).then(function (resp) {
+                    response = resp;
+                    expect(response).to.be.an('object');
+                    manga = response;
+                    done();
+                }).catch(function (error) {
+                    console.log(error);
+                    expect(error).to.be.null;
+                    done();
+                });
+            });
+            it('expect manga to contains keys', function () {
+                expect(response).to.contain.all.keys(['url', 'in_library', 'title', 'id', 'catalog', 'thumbnail_url']);
+                expect(response.url).to.be.a('string');
+                expect(response.in_library).to.be.a('boolean');
+                expect(response.id).to.be.a('string');
+                expect(response.catalog).to.be.a('string');
+                expect(response.thumbnail_url).to.be.a('string');
             });
         });
 
@@ -41,7 +65,7 @@ catalogManager.getCatalogList().forEach(function (catalog) {
                     }
                     chapter = chapters[0];
                     done();
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.log(error);
                     expect(error).to.be.null;
                     done();
@@ -52,12 +76,12 @@ catalogManager.getCatalogList().forEach(function (catalog) {
         var page;
         describe('getPageList', function () {
             it('expect pages to be an array', function (done) {
-                parser.getPageList(catalog, chapter).then(function(pages) {
+                parser.getPageList(catalog, chapter).then(function (pages) {
                     expect(pages).to.be.an('array');
                     expect(pages).to.have.length.above(1);
                     page = pages[0];
                     done();
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.log(error);
                     expect(error).to.be.null;
                     done();
@@ -67,10 +91,10 @@ catalogManager.getCatalogList().forEach(function (catalog) {
 
         describe('getImageURL', function () {
             it('expect url to be a string', function (done) {
-                parser.getImageURL(catalog, page).then(function(imageURL) {
+                parser.getImageURL(catalog, page).then(function (imageURL) {
                     expect(imageURL).to.be.a('string');
                     done();
-                }).catch(function(error) {
+                }).catch(function (error) {
                     console.log(error);
                     expect(error).to.be.null;
                     done();
@@ -92,6 +116,12 @@ describe('date parsers', function () {
                     expect(parsed).to.not.equalDate(dateParseFailed);
                 });
             });
+        });
+
+        it('expect Date when parse failed', function () {
+            let parsed = parser.parseDateAgo('yolo');
+            expect(parsed).to.be.a('date');
+            expect(parsed).to.equalDate(dateParseFailed);
         });
     });
 });
