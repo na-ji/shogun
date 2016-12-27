@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import ChapterRow from './ChapterRow';
 import Spinner from '../Spinner';
+let _ = require('lodash');
 
 /* global $ */
 class ChapterList extends React.Component {
@@ -11,7 +12,8 @@ class ChapterList extends React.Component {
         this.state = {
             style: {
                 height: $(window).height() - $('.navbar').outerHeight() - 20
-            }
+            },
+            chapters: []
         };
 
         // we bind 'this' to handleResize()
@@ -24,6 +26,14 @@ class ChapterList extends React.Component {
 
     componentDidMount () {
         window.addEventListener('resize', this.handleResize);
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (this.props.chapters !== nextProps.chapters) {
+            this.setState({
+                chapters: _.orderBy(nextProps.chapters, ['chapter_number', 'date'], ['desc', 'desc'])
+            });
+        }
     }
 
     componentWillUnmount () {
@@ -41,7 +51,7 @@ class ChapterList extends React.Component {
         } else {
             render = (
                 <div className="list-group">
-                    {this.props.chapters.map(function (chapter, index) {
+                    {this.state.chapters.map(function (chapter, index) {
                         return (
                             <Link to={`/`} className="list-group-item" key={index}>
                                 <ChapterRow chapter={chapter} />

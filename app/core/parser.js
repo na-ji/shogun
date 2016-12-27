@@ -149,7 +149,10 @@ Parser.parseDateAgo = function (date) {
             dateWords[1] = dateWords[1] + 's';
         }
 
-        return moment().subtract(parseInt(dateWords[0]), dateWords[1]).toDate();
+        let date = moment().subtract(parseInt(dateWords[0]), dateWords[1]);
+        date.millisecond(0).second(0).minute(0).hour(0);
+
+        return date.toDate();
     }
 
     return new Date(1970, 0, 1);
