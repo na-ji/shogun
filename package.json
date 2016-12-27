@@ -6,8 +6,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron ./app/",
-    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --recursive --require ./tests/setup.js ./tests/**/*.spec.js",
-    "coverage": "istanbul cover -x \"**/bower_components/**\" _mocha -- --compilers js:babel-register --recursive --require ./tests/setup.js ./tests/**/*.spec.js && cat ./coverage/lcov.info | cross-env COVERALLS_REPO_TOKEN=PzYr7S8YrDosMyQIKfCN4iHEmAP9MNJAX ./node_modules/coveralls/bin/coveralls.js && rm -rf coverage"
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --recursive --require ./test/setup.js ./test/**/*.spec.js",
+    "coverage": "istanbul cover -x \"**/bower_components/**\" _mocha -- --compilers js:babel-register --recursive --require ./test/setup.js ./test/**/*.spec.js && cat ./coverage/lcov.info | cross-env COVERALLS_REPO_TOKEN=PzYr7S8YrDosMyQIKfCN4iHEmAP9MNJAX ./node_modules/coveralls/bin/coveralls.js && rm -rf coverage"
   },
   "repository": {
     "type": "git",
