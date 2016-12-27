@@ -1,14 +1,16 @@
-"use babel";
+'use babel';
 import React from 'react';
 import { Link } from 'react-router';
-import ChapterRow from './ChapterRow'
+import ChapterRow from './ChapterRow';
+import Spinner from '../Spinner';
 
+/* global $ */
 class ChapterList extends React.Component {
-    constructor() {
+    constructor () {
         super();
         this.state = {
             style: {
-                height: $(window).height() - $(".navbar").outerHeight() - 20
+                height: $(window).height() - $('.navbar').outerHeight() - 20
             }
         };
 
@@ -16,24 +18,30 @@ class ChapterList extends React.Component {
         this.handleResize = this.handleResize.bind(this);
     }
 
-    handleResize(e) {
-        this.setState({style: {height: $(window).height() - $(".navbar").outerHeight() - 20}});
+    handleResize (e) {
+        this.setState({style: {height: $(window).height() - $('.navbar').outerHeight() - 20}});
     }
 
-    componentDidMount() {
+    componentDidMount () {
         window.addEventListener('resize', this.handleResize);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    render() {
-        return (
-            <div className="chapter-list" style={this.state.style}>
-                <h3>{this.props.chapters.length} chapter{(this.props.chapters.length > 1) ? 's' : ''}</h3>
+    render () {
+        let render;
+        if (this.props.loading) {
+            render = (
                 <div className="list-group">
-                    {this.props.chapters.map(function(chapter, index){
+                    <Spinner />
+                </div>
+            );
+        } else {
+            render = (
+                <div className="list-group">
+                    {this.props.chapters.map(function (chapter, index) {
                         return (
                             <Link to={`/`} className="list-group-item" key={index}>
                                 <ChapterRow chapter={chapter} />
@@ -41,6 +49,13 @@ class ChapterList extends React.Component {
                         );
                     })}
                 </div>
+            );
+        }
+
+        return (
+            <div className="chapter-list" style={this.state.style}>
+                <h3>{this.props.chapters.length} chapter{(this.props.chapters.length > 1) ? 's' : ''}</h3>
+                {render}
             </div>
         );
     }
