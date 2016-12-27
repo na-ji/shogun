@@ -19,7 +19,7 @@ class MangaList extends React.Component {
                 {this.props.mangas.map(function (manga, index) {
                     return (
                         <div key={manga.id} className="col-md-2 col-sm-3">
-                            <Link to={`/manga/${manga.id}`}>
+                            <Link to={{ pathname: `/manga/${manga.id}`, state: { manga: manga } }}>
                                 <MangaCard manga={manga} />
                             </Link>
                         </div>

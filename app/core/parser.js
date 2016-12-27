@@ -37,6 +37,7 @@ Parser.getPopularMangaList = function (catalog, url) {
                 });
                 manga.id = crypto.createHash('md5').update(manga.url).digest('hex');
                 manga.catalog = catalog.file;
+                manga.chapters = [];
                 mangas.push(manga);
             });
 

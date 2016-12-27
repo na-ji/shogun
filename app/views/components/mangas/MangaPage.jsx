@@ -15,28 +15,34 @@ class MangaPage extends React.Component {
         };
     }
 
-    componentDidMount () {
-        var self = this;
-        mangaManager.getMangaById(this.props.params.mangaId).then(function (manga) {
-            self.setState({
-                manga: manga.manga,
-                chapters: manga.chapters,
-                infoLoading: false
-            });
+    loadManga (manga) {
+        this.setState({
+            manga: manga,
+            infoLoading: false
+        });
 
-            if (!manga.chapters.length) {
-                mangaManager.getChapterList(manga.manga).then(function (chapters) {
-                    self.setState({
-                        chapters: chapters,
-                        chapterLoading: false
-                    });
-                });
-            } else {
+        let self = this;
+        if (!manga.chapters.length) {
+            mangaManager.getChapterList(manga).then(function (chapters) {
                 self.setState({
+                    chapters: chapters,
                     chapterLoading: false
                 });
-            }
-        });
+            });
+        } else {
+            mangaManager.getMangaById(manga.id).then(function (response) {
+                self.setState({
+                    chapters: response.chapters,
+                    chapterLoading: false
+                });
+            });
+        }
+    }
+
+    componentDidMount () {
+        if (this.props.location.state && this.props.location.state.manga) {
+            this.loadManga(this.props.location.state.manga);
+        }
     }
 
     render () {

@@ -68,6 +68,7 @@ MangaManager.getChapterList = function (manga) {
                 // save chapter to DB
                 var chapterIds = [];
                 let done = _.after(chapters.length, function () {
+                    // save manga to DB atfer every chapters are saved
                     manga.chapters = _.union(manga.chapters, chapterIds);
                     db.rel.save('manga', manga).catch(function (err) {
                         console.log(err);
@@ -100,11 +101,13 @@ MangaManager.getLibrary = function () {
             include_docs: true
         }).then(function (response) {
             console.log('getLibrary took %d ms', (new Date()).getTime() - before);
+            console.log(response);
             let mangas = [];
 
             _.forEach(response.rows, function (row) {
                 let manga = row.doc.data;
                 manga.id = row.id.replace('manga', '').replace(/^_\d+_/, '');
+                manga.rev = row.doc._rev;
                 mangas.push(manga);
             });
 
