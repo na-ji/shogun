@@ -6,7 +6,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron ./app/",
-    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --recursive --require ./tests/setup.js ./tests/**/*.spec.js"
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --recursive --require ./tests/setup.js ./tests/**/*.spec.js",
+    "coverage": "istanbul cover -x \"**/bower_components/**\" _mocha -- --compilers js:babel-register --recursive --require ./tests/setup.js ./tests/**/*.spec.js && cat ./coverage/lcov.info | cross-env COVERALLS_REPO_TOKEN=PzYr7S8YrDosMyQIKfCN4iHEmAP9MNJAX ./node_modules/coveralls/bin/coveralls.js && rm -rf coverage"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,9 @@
   "bin": {
     "electron": "./node_modules/.bin/electron",
     "mocha": "./node_modules/.bin/mocha",
-    "cross-env": "./node_modules/.bin/cross-env"
+    "_mocha": "./node_modules/.bin/_mocha",
+    "cross-env": "./node_modules/.bin/cross-env",
+    "istanbul": "./node_modules/istanbul/lib/cli.js"
   },
   "keywords": [
     "Electron",
@@ -47,6 +50,7 @@
     "babel-polyfill": "^6.16.0",
     "chai": "^3.5.0",
     "chai-datetime": "^1.4.1",
+    "coveralls": "^2.11.15",
     "cross-env": "^3.1.3",
     "electron-prebuilt": "^1.2.2",
     "electron-rebuild": "^1.1.5",
@@ -60,9 +64,11 @@
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-symbolic-link": "^0.3.1",
+    "istanbul": "^1.0.0-alpha.2",
     "jsdom": "9.9.1",
     "jsdom-global": "^2.1.1",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "mocha-lcov-reporter": "^1.2.0"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.9.0",
