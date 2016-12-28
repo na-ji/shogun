@@ -49,11 +49,13 @@ class ChapterList extends React.Component {
                 </div>
             );
         } else {
+            let manga = this.props.manga;
+            let self = this;
             render = (
                 <div className="list-group">
                     {this.state.chapters.map(function (chapter, index) {
                         return (
-                            <Link to={`/`} className="list-group-item" key={index}>
+                            <Link to={{ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: manga, chapters: self.state.chapters } }} className="list-group-item" key={index}>
                                 <ChapterRow chapter={chapter} />
                             </Link>
                         );

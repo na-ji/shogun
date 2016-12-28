@@ -1,9 +1,9 @@
-"use babel";
+'use babel';
 import React from 'react';
 var moment = require('moment');
 
 class ChapterRow extends React.Component {
-    render() {
+    render () {
         return (
             <div>
                 <h4>

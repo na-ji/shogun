@@ -52,7 +52,7 @@ class MangaPage extends React.Component {
                     <MangaInfo manga={this.state.manga} loading={this.state.infoLoading} />
                 </div>
                 <div className="col-sm-7 col-md-8 col-lg-9">
-                    <ChapterList chapters={this.state.chapters} loading={this.state.chapterLoading} />
+                    <ChapterList manga={this.state.manga} chapters={this.state.chapters} loading={this.state.chapterLoading} />
                 </div>
             </div>
         );

@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom'
 import { Router, Route, hashHistory, IndexRoute, Link } from 'react-router';
-import { HomePage, CatalogList, CatalogPage, ContactPage, MangaPage } from './components';
+import { HomePage, CatalogList, CatalogPage, ContactPage, MangaPage, ReaderPage } from './components';
 
 var canGoBack = 0;
 
@@ -59,7 +59,6 @@ class App extends React.Component {
                             <ul className="nav navbar-nav">
                                 <li><Link to="/" activeClassName="active">Library</Link></li>
                                 <li><Link to="/catalogs" activeClassName="active">Catalogs</Link></li>
-                                <li><Link to="/contact" activeClassName="active">Contact</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -83,6 +82,7 @@ render((
             <Route path="catalogs" component={CatalogList} />
             <Route path="/catalog/:catalogName" component={CatalogPage}/>
             <Route path="/manga/:mangaId" component={MangaPage}/>
+            <Route path="/chapter/:chapterId" component={ReaderPage} />
             <Route path="contact" component={ContactPage} />
         </Route>
     </Router>

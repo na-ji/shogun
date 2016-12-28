@@ -3,5 +3,6 @@ module.exports = {
     CatalogList: require('./catalogs/CatalogList'),
     CatalogPage: require('./catalogs/CatalogPage'),
     ContactPage: require('./ContactPage'),
-    MangaPage: require('./mangas/MangaPage')
+    MangaPage: require('./mangas/MangaPage'),
+    ReaderPage: require('./reader/ReaderPage')
 };

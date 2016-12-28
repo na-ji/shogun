@@ -116,4 +116,18 @@ MangaManager.getLibrary = function () {
     });
 };
 
+MangaManager.getChapterPages = function (manga, chapter) {
+    var catalog = CatalogManager.getCatalog(manga.catalog);
+
+    return new Promise(function (resolve, reject) {
+        let before = (new Date()).getTime();
+        Parser.getPageList(catalog, chapter).then(function (pages) {
+            console.log('getChapterPages took %d ms', (new Date()).getTime() - before);
+            resolve(pages);
+        }).catch(function (error) {
+            reject(error);
+        });
+    });
+};
+
 module.exports = MangaManager;
