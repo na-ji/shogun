@@ -15,7 +15,7 @@ class Paginator extends React.Component {
                         </li>
                         {this.props.pages.map(function (pages, index) {
                             return (
-                                <li key={index} className={(self.props.page === index ? 'active' : '')} onClick={self.props.handler} data-page={index}>
+                                <li key={index} className={(self.props.page === index ? 'active ' : '') + (self.props.loadedImages[index] ? 'loaded' : '')} onClick={self.props.handler} data-page={index}>
                                     <a href="#!">{index + 1}</a>
                                 </li>
                             );
