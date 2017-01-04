@@ -71,6 +71,9 @@ class ReaderPage extends React.Component {
         if ($(e.currentTarget).attr('data-page') === 'next') {
             newPage = Math.min(this.state.pagesURL.length - 1, this.state.page + 1);
         }
+        if (isNaN(newPage)) {
+            return;
+        }
 
         this.setState({
             page: newPage

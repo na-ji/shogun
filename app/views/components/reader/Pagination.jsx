@@ -4,6 +4,30 @@ import React from 'react';
 class Pagination extends React.Component {
     render () {
         let self = this;
+        let pagesDisplayed = [];
+        let numberDisplayed = 20;
+        let offset = 0;
+        // calculate the position of the '...'
+        if (this.props.pages.length > numberDisplayed) {
+            if (this.props.page > numberDisplayed / 2) {
+                pagesDisplayed.push('...');
+            }
+
+            offset = Math.max(this.props.page - numberDisplayed / 2, 0);
+            pagesDisplayed = pagesDisplayed.concat(
+                this.props.pages.slice(
+                    offset,
+                    Math.min(offset + numberDisplayed, this.props.pages.length - 1)
+                )
+            );
+
+            if (this.props.page + numberDisplayed / 2 + 1 < this.props.pages.length) {
+                pagesDisplayed.push('...');
+            }
+        } else {
+            pagesDisplayed = this.props.pages;
+        }
+
         return (
             <div>
                 <nav>
@@ -13,10 +37,17 @@ class Pagination extends React.Component {
                                 <span>&laquo;</span>
                             </a>
                         </li>
-                        {this.props.pages.map(function (pages, index) {
+                        {pagesDisplayed.map(function (page, index) {
+                            if (page === '...') {
+                                return (
+                                    <li key={index} className="disabled" data-page="none" onClick={self.props.handler}>
+                                        <a href="#!">...</a>
+                                    </li>
+                                );
+                            }
                             return (
-                                <li key={index} className={(self.props.page === index ? 'active ' : '') + (self.props.loadedImages[index] ? 'loaded' : '')} onClick={self.props.handler} data-page={index}>
-                                    <a href="#!">{index + 1}</a>
+                                <li key={index} className={(self.props.page === offset + index ? 'active ' : '') + (self.props.loadedImages[offset + index] ? 'loaded' : '')} onClick={self.props.handler} data-page={offset + index}>
+                                    <a href="#!">{offset + index + 1}</a>
                                 </li>
                             );
                         })}
