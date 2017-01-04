@@ -5,6 +5,8 @@ const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
+require('electron-debug')({showDevTools: false});
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -27,10 +29,6 @@ function createWindow () {
 
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-
-    // Open the DevTools.
-    BrowserWindow.addDevToolsExtension('/home/naji/.config/chromium/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/0.15.4_0');
-    // mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
