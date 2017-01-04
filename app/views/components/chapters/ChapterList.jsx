@@ -1,5 +1,6 @@
 'use babel';
 import React from 'react';
+import ReactList from 'react-list';
 import { Link } from 'react-router';
 import ChapterRow from './ChapterRow';
 import Spinner from '../Spinner';
@@ -18,6 +19,7 @@ class ChapterList extends React.Component {
 
         // we bind 'this' to handleResize()
         this.handleResize = this.handleResize.bind(this);
+        this.renderItem = this.renderItem.bind(this);
     }
 
     handleResize (e) {
@@ -40,6 +42,15 @@ class ChapterList extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
+    renderItem (index, key) {
+        let chapter = this.state.chapters[index];
+        return (
+            <Link to={{ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: this.props.manga, chapters: this.state.chapters } }} className="list-group-item" key={key}>
+                <ChapterRow chapter={chapter} />
+            </Link>
+        );
+    }
+
     render () {
         let render;
         if (this.props.loading) {
@@ -49,17 +60,13 @@ class ChapterList extends React.Component {
                 </div>
             );
         } else {
-            let manga = this.props.manga;
-            let self = this;
             render = (
                 <div className="list-group">
-                    {this.state.chapters.map(function (chapter, index) {
-                        return (
-                            <Link to={{ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: manga, chapters: self.state.chapters } }} className="list-group-item" key={index}>
-                                <ChapterRow chapter={chapter} />
-                            </Link>
-                        );
-                    })}
+                    <ReactList
+                        itemRenderer={this.renderItem}
+                        length={this.state.chapters.length}
+                        type="uniform"
+                    />
                 </div>
             );
         }
