@@ -34,12 +34,22 @@
 }
 
 // Pagination
-.pagination > .loaded > a {
-    border-color: #4caf50;
+.pagination > .loaded {
+    > a {
+        border-color: #4caf50;
+    }
+
+    + li > a {
+        border-left-color: #4caf50;
+    }
 }
 
-.pagination > .loaded + li > a {
-    border-left-color: #4caf50;
+.img-page {
+    display: inline;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 

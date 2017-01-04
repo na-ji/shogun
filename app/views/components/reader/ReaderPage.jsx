@@ -77,11 +77,23 @@ class ReaderPage extends React.Component {
         });
     }
 
+    static imageClick (e) {
+        let offset = $(e.currentTarget).offset();
+
+        if (e.clientX - offset.left < $(e.currentTarget).width() / 2) {
+            // if we clicked on the left side, we go on the previous page
+            $('[data-page="previous"]').trigger('click');
+        } else {
+            // if we clicked on the right side, we go on the next page
+            $('[data-page="next"]').trigger('click');
+        }
+    }
+
     render () {
         let image;
         if (this.state.images[this.state.page]) {
             image = (
-                <img src={this.state.images[this.state.page].src} />
+                <img className="img-responsive img-page" src={this.state.images[this.state.page].src} onClick={ReaderPage.imageClick} />
             );
         } else {
             image = (
@@ -94,6 +106,7 @@ class ReaderPage extends React.Component {
                     <h3>{this.state.chapter.name}</h3>
                     <Paginator pages={this.state.pagesURL} page={this.state.page} loadedImages={this.state.images} handler={this.changePage} />
                     {image}
+                    <Paginator pages={this.state.pagesURL} page={this.state.page} loadedImages={this.state.images} handler={this.changePage} />
                 </div>
             </div>
         );
