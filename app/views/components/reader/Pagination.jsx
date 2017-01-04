@@ -1,7 +1,7 @@
 'use babel';
 import React from 'react';
 
-class Paginator extends React.Component {
+class Pagination extends React.Component {
     render () {
         let self = this;
         return (
@@ -32,4 +32,4 @@ class Paginator extends React.Component {
     }
 }
 
-module.exports = Paginator;
+module.exports = Pagination;

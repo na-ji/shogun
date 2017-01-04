@@ -1,7 +1,7 @@
 'use babel';
 import React from 'react';
 var mangaManager = require('../../../core/manga-manager');
-import Paginator from './Paginator';
+import Pagination from './Pagination';
 import Spinner from '../Spinner';
 
 /* global $, Image */
@@ -100,13 +100,16 @@ class ReaderPage extends React.Component {
                 <Spinner />
             );
         }
+        let pagination = (
+            <Pagination pages={this.state.pagesURL} page={this.state.page} loadedImages={this.state.images} handler={this.changePage} />
+        );
         return (
             <div>
                 <div className="text-center">
                     <h3>{this.state.chapter.name}</h3>
-                    <Paginator pages={this.state.pagesURL} page={this.state.page} loadedImages={this.state.images} handler={this.changePage} />
+                    {pagination}
                     {image}
-                    <Paginator pages={this.state.pagesURL} page={this.state.page} loadedImages={this.state.images} handler={this.changePage} />
+                    {pagination}
                 </div>
             </div>
         );
