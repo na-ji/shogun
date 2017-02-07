@@ -1,8 +1,6 @@
 "use babel";
 import React from 'react';
-import { render } from 'react-dom'
-import { Router, Route, hashHistory, IndexRoute, Link } from 'react-router';
-import { HomePage, CatalogList, CatalogPage, ContactPage, MangaPage, ReaderPage } from './components';
+import { hashHistory, Link } from 'react-router';
 
 var canGoBack = 0;
 
@@ -75,15 +73,4 @@ class App extends React.Component {
     }
 }
 
-render((
-    <Router history={hashHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={HomePage} />
-            <Route path="catalogs" component={CatalogList} />
-            <Route path="/catalog/:catalogName" component={CatalogPage}/>
-            <Route path="/manga/:mangaId" component={MangaPage}/>
-            <Route path="/chapter/:chapterId" component={ReaderPage} />
-            <Route path="contact" component={ContactPage} />
-        </Route>
-    </Router>
-), document.getElementById('wrapper'));
+module.exports = App;

@@ -9,9 +9,11 @@ module.exports = function (grunt) {
                 files: [
                     'app/views/**/*.js*',
                     'app/index.html',
-                    'app/main.js',
-                    'app/renderer.js',
-                    'app/core/*.js*'
+                    'app/*.js',
+                    'app/core/*.js*',
+                    'app/actions/*.js*',
+                    'app/reducers/*.js*',
+                    'app/store/*.js*'
                 ],
                 options: {
                     livereload: true
