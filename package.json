@@ -5,7 +5,7 @@
   "description": "An open source Manga Reader",
   "main": "main.js",
   "scripts": {
-    "start": "electron ./app/",
+    "start": "cross-env NODE_ENV=development electron ./app/",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --retries 2 --compilers js:babel-register --recursive --require ./test/setup.js ./test/**/*.spec.js",
     "coverage": "istanbul cover -x \"**/bower_components/**\" _mocha -- --compilers js:babel-register --recursive --require ./test/setup.js ./test/**/*.spec.js && cat ./coverage/lcov.info | cross-env COVERALLS_REPO_TOKEN=PzYr7S8YrDosMyQIKfCN4iHEmAP9MNJAX ./node_modules/coveralls/bin/coveralls.js && rm -rf coverage"
   },
@@ -55,6 +55,7 @@
     "coveralls": "^2.11.15",
     "cross-env": "^3.1.3",
     "devtron": "^1.4.0",
+    "electron-devtools-installer": "^2.1.0",
     "electron-prebuilt": "^1.2.2",
     "electron-rebuild": "^1.1.5",
     "eslint": "^3.12.2",

@@ -17,7 +17,27 @@ if (process.env.NODE_ENV === 'development') {
     require('module').globalPaths.push(p); // eslint-disable-line
 }
 
+const installExtensions = () => {
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV === 'development') {
+        const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
+
+        const extensions = [
+            'REACT_DEVELOPER_TOOLS',
+            'REDUX_DEVTOOLS'
+        ];
+
+        const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+
+        return Promise
+            .all(extensions.map(name => installer.default(installer[name], forceDownload)))
+            .then((name) => console.log(`Added Extension:  ${name}`))
+            .catch(console.log);
+    }
+};
+
 function createWindow () {
+    installExtensions();
     // Create the browser window.
     mainWindow = new BrowserWindow({
         'width': 800,
@@ -37,6 +57,7 @@ function createWindow () {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+    console.log(app.getPath('userData'));
 }
 
 // This method will be called when Electron has finished
