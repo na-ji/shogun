@@ -125,6 +125,7 @@ MangaManager.getChapterPages = function (manga, chapter) {
             console.log('getChapterPages took %d ms', (new Date()).getTime() - before);
             resolve(pages);
         }).catch(function (error) {
+            console.error('getChapterPages failed after %d ms', (new Date()).getTime() - before);
             reject(error);
         });
     });
@@ -139,6 +140,7 @@ MangaManager.getImageURL = function (manga, pageURL) {
             console.log('getImageURL took %d ms', (new Date()).getTime() - before);
             resolve(imageURL);
         }).catch(function (error) {
+            console.error('getImageURL failed after %d ms', (new Date()).getTime() - before);
             reject(error);
         });
     });

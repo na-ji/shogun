@@ -6,6 +6,14 @@ var moment = require('moment');
 var jQuery = require('../bower_components/jquery/dist/jquery.min.js');
 var request = require('request');
 
+// if (process.env.NODE_ENV === 'development') {
+//     request.debug = true;
+// }
+
+request = request.defaults({
+    timeout: 10000
+});
+
 function trimSpaces (str) {
     return str.trim().replace(/ +(?= )/g, '');
 }

@@ -7,27 +7,29 @@ export const RECEIVE_IMAGE = 'RECEIVE_IMAGE';
 export const REQUEST_IMAGE = 'REQUEST_IMAGE';
 export const INIT_IMAGES = 'INIT_IMAGES';
 export const CANCEL_REQUEST = 'CANCEL_REQUEST';
+export const REQUEST_CANCELED = 'REQUEST_CANCELED';
 
 import mangaManager from '../core/manga-manager';
+import _ from 'lodash';
 
-function requestPagesUrl (chapterId) {
+function requestPagesUrl () {
     return {
-        type: REQUEST_PAGES_URL,
+        type: REQUEST_PAGES_URL
+    };
+}
+
+function receivePagesUrl (pagesUrl, chapterId) {
+    return {
+        type: RECEIVE_PAGES_URL,
+        pagesUrl,
         chapterId
     };
 }
 
-function receivePagesUrl (pagesUrl) {
-    return {
-        type: RECEIVE_PAGES_URL,
-        pagesUrl
-    };
-}
-
-export function changePage (currentPage) {
+export function changePage (nextPage) {
     return {
         type: CHANGE_PAGE,
-        currentPage
+        nextPage
     };
 }
 
@@ -74,16 +76,32 @@ export function cancelRequest () {
     };
 }
 
+function requestCanceled () {
+    return {
+        type: REQUEST_CANCELED
+    };
+}
+
 function fetchImage (manga) {
     return (dispatch, getState) => {
-        let downloadingImage = new Image();
         const { pages, images } = getState().reader;
 
+        if (_.findIndex(images.images, _.isUndefined) === -1) {
+            // if we already loaded all the images, we stop here
+            return;
+        }
+
+        let downloadingImage = new Image();
         downloadingImage.onload = function () {
+            // When the image has been downloaded by the browser
             const { images } = getState().reader;
             dispatch(receiveImage(images.imageFetching, downloadingImage));
-            if (!images.cancelRequest && images.imageFetching + 1 < images.images.length) {
+
+            if (!images.cancelRequest && _.findIndex(images.images, _.isUndefined) > -1) {
+                // if there is still image to load
                 dispatch(fetchImage(manga));
+            } else if (images.cancelRequest) {
+                dispatch(requestCanceled());
             }
         };
 
@@ -93,25 +111,42 @@ function fetchImage (manga) {
         mangaManager.getImageURL(manga, pageUrl).then(function (imageURL) {
             dispatch(receiveImageUrl(pageUrl, imageURL));
 
-            dispatch(requestImage(imageURL));
+            const { images } = getState().reader;
+            if (!images.cancelRequest) {
+                dispatch(requestImage(imageURL));
 
-            downloadingImage.src = imageURL;
+                // we start the downloading of the image by adding it to the Image object
+                downloadingImage.src = imageURL;
+            } else {
+                dispatch(requestCanceled());
+            }
+        }).catch(function (error) {
+            console.log(error);
+            // Todo: manage timeouts
         });
     };
 }
 
 function fetchPages (manga, chapter) {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(requestPagesUrl());
         dispatch(initImages([]));
 
         mangaManager.getChapterPages(manga, chapter).then(function (pagesUrl) {
-            dispatch(receivePagesUrl(pagesUrl));
+            dispatch(receivePagesUrl(pagesUrl, chapter.id));
+            const { pages } = getState().reader;
 
             if (pagesUrl.length) {
-                dispatch(initImages(new Array(pagesUrl.length)));
-                dispatch(fetchImage(manga));
+                if (pages.cancelRequest) {
+                    dispatch(requestCanceled());
+                } else {
+                    dispatch(initImages(new Array(pagesUrl.length)));
+                    dispatch(fetchImage(manga));
+                }
             }
+        }).catch(function (error) {
+            console.log(error);
+            // Todo: manage timeouts
         });
     };
 }
@@ -120,8 +155,17 @@ export function fetchPagesIfNeeded (manga, chapter) {
     return (dispatch, getState) => {
         const { pages } = getState().reader;
 
+        // If the request was canceled previously and requestCanceled never has been dispatched
+        if (pages.cancelRequest) {
+            dispatch(requestCanceled());
+        }
+
         if (pages.chapterId !== chapter.id) {
+            // If it is a new chapter
             dispatch(fetchPages(manga, chapter));
+        } else {
+            // If we already loaded the chapter
+            dispatch(fetchImage(manga));
         }
     };
 }
