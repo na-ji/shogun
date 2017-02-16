@@ -8,10 +8,10 @@ import {
 import _ from 'lodash';
 
 function pages (state = {
-    // currentPage: 0,
+    currentPage: 0,
     isFetching: false,
-    // chapterId: '',
-    // pagesUrl: []
+    chapterId: '',
+    pagesUrl: [],
     cancelRequest: false
 }, action) {
     switch (action.type) {
@@ -45,9 +45,9 @@ function pages (state = {
 }
 
 function images (state = {
-    // imageFetching: 0,
+    imageFetching: 0,
     isFetching: false,
-    // images: [],
+    images: [],
     cancelRequest: false
 }, action) {
     switch (action.type) {
