@@ -1,45 +1,11 @@
 "use babel";
-import React from 'react';
-import { hashHistory, Link } from 'react-router';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
-var canGoBack = 0;
+class App extends Component {
+    render () {
+        const { canGoBack, goBack } = this.props;
 
-class App extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            showBackButton: false,
-            goingBack: false
-        };
-
-        // we bind 'this' to goBack()
-        this.goBack = this.goBack.bind(this);
-    }
-
-    goBack() {
-        canGoBack--;
-        if (canGoBack < 0)
-            canGoBack = 0;
-        this.setState({ showBackButton: (canGoBack > 0), goingBack: true }, function () {
-            // console.log(this.state);
-            hashHistory.goBack();
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.state.goingBack) {
-            this.state.goingBack = false;
-        } else {
-            // console.log(nextProps.location);
-            if(nextProps.location.pathname !== this.props.location.pathname) {
-                canGoBack++;
-            }
-            this.state.showBackButton = (canGoBack > 0);
-        }
-    }
-
-    render() {
         return (
             <div>
                 <div className="navbar navbar-default">
@@ -50,8 +16,8 @@ class App extends React.Component {
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            {this.state.showBackButton && <a className="navbar-brand go-back" onClick={this.goBack}><i className="fa fa-arrow-left"></i></a>}
-                            {/*<Link className="navbar-brand" to="/">Brand</Link>*/}
+                            {canGoBack && <a className="navbar-brand go-back" onClick={goBack}><i className="fa fa-arrow-left"></i></a>}
+                            <Link className="navbar-brand" to="/">Shogun</Link>
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">
                             <ul className="nav navbar-nav">
@@ -72,5 +38,10 @@ class App extends React.Component {
         );
     }
 }
+
+App.propTypes = {
+    canGoBack: PropTypes.bool.isRequired,
+    goBack: PropTypes.func.isRequired
+};
 
 module.exports = App;
