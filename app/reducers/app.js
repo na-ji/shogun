@@ -1,28 +1,37 @@
 // @flow
 // import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
+import { GOING_BACK } from '../actions/app';
 
 function app (state = {
     canGoBack: false,
+    isGoingBack: false,
+    currentPathname: '/',
     historyLength: 0
 }, action) {
     switch (action.type) {
         case LOCATION_CHANGE:
-            console.log(action);
+            if (state.isGoingBack) {
+                return Object.assign({}, state, {
+                    isGoingBack: false
+                });
+            }
 
-            if (action.payload.action === 'PUSH') {
+            if (action.payload.action === 'PUSH' && state.currentPathname !== action.payload.pathname) {
                 return Object.assign({}, state, {
                     canGoBack: true,
+                    currentPathname: action.payload.pathname,
                     historyLength: state.historyLength + 1
-                });
-            } else if (action.payload.action === 'POP') {
-                return Object.assign({}, state, {
-                    historyLength: Math.max(state.historyLength - 1, 0),
-                    canGoBack: state.historyLength - 1 > 0
                 });
             }
 
             return state;
+        case GOING_BACK:
+            return Object.assign({}, state, {
+                isGoingBack: true,
+                historyLength: Math.max(state.historyLength - 1, 0),
+                canGoBack: state.historyLength - 1 > 0
+            });
         default:
             return state;
     }

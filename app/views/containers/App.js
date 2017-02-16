@@ -1,7 +1,7 @@
-// import { bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { App } from '../components';
-// import * as AppActions from '../../actions/app';
+import * as AppActions from '../../actions/app';
 
 function mapStateToProps (state, ownProps) {
     const { canGoBack } = state.app;
@@ -13,8 +13,8 @@ function mapStateToProps (state, ownProps) {
     };
 }
 
-// function mapDispatchToProps (dispatch) {
-//     return bindActionCreators(AppActions, dispatch);
-// }
+function mapDispatchToProps (dispatch) {
+    return bindActionCreators(AppActions, dispatch);
+}
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -3,8 +3,20 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 class App extends Component {
+    constructor () {
+        super();
+
+        this.goBack = this.goBack.bind(this);
+    }
+
+    goBack () {
+        const { goingBack, goBack } = this.props;
+        goingBack();
+        goBack();
+    }
+
     render () {
-        const { canGoBack, goBack } = this.props;
+        const { canGoBack } = this.props;
 
         return (
             <div>
@@ -16,7 +28,7 @@ class App extends Component {
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            {canGoBack && <a className="navbar-brand go-back" onClick={goBack}><i className="fa fa-arrow-left"></i></a>}
+                            {canGoBack && <a className="navbar-brand go-back" onClick={this.goBack}><i className="fa fa-arrow-left"></i></a>}
                             <Link className="navbar-brand" to="/">Shogun</Link>
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">
@@ -41,6 +53,7 @@ class App extends Component {
 
 App.propTypes = {
     canGoBack: PropTypes.bool.isRequired,
+    goingBack: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired
 };
 
