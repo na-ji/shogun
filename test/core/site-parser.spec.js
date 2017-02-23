@@ -1,9 +1,8 @@
 var chai = require('chai');
-chai.use(require('chai-datetime'));
 var expect = chai.expect;
 
 var catalogManager = require('../../app/core/catalog-manager');
-var parser = require('../../app/core/parser');
+var parser = require('../../app/core/site-parser');
 
 catalogManager.getCatalogList().forEach(function (catalog) {
     describe('parser for ' + catalog.name, function () {
@@ -100,28 +99,6 @@ catalogManager.getCatalogList().forEach(function (catalog) {
                     done();
                 });
             });
-        });
-    });
-});
-
-describe('date parsers', function () {
-    describe('date ago', function () {
-        let dateParseFailed = new Date(1970, 0, 1);
-        let types = ['minute', 'hour', 'day', 'week', 'month', 'year'];
-        types.forEach(function (type) {
-            [type, type + 's'].forEach(function (t) {
-                it('expect to parse ' + t, function () {
-                    let parsed = parser.parseDateAgo('8 ' + t + ' ago');
-                    expect(parsed).to.be.a('date');
-                    expect(parsed).to.not.equalDate(dateParseFailed);
-                });
-            });
-        });
-
-        it('expect Date when parse failed', function () {
-            let parsed = parser.parseDateAgo('yolo');
-            expect(parsed).to.be.a('date');
-            expect(parsed).to.equalDate(dateParseFailed);
         });
     });
 });

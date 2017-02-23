@@ -1,6 +1,6 @@
 var Promise = require('promise');
 var CatalogManager = require('./catalog-manager');
-var Parser = require('./parser');
+var Parser = require('./site-parser');
 var _ = require('lodash');
 
 /* global db */

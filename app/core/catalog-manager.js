@@ -1,6 +1,5 @@
-var fs   = require('fs');
+var fs = require('fs');
 var path = require('path');
-var yaml = require('js-yaml');
 
 var CatalogManager = {
     catalogs: [],
@@ -8,16 +7,16 @@ var CatalogManager = {
     files_cache: {}
 };
 
-CatalogManager.openFile = function(name) {
-    if (undefined == this.files_cache[name]) {
-        this.files_cache[name] = yaml.safeLoad(fs.readFileSync(this.sites_path + name), 'utf8');
-        this.files_cache[name].file = path.basename(name, '.yml');
+CatalogManager.openFile = function (name) {
+    if (undefined === this.files_cache[name]) {
+        this.files_cache[name] = require(this.sites_path + name);
+        this.files_cache[name].file = path.basename(name, '.js');
     }
 
     return this.files_cache[name];
 };
 
-CatalogManager.getCatalogList = function() {
+CatalogManager.getCatalogList = function () {
     if (this.catalogs.length > 0) {
         return this.catalogs;
     }
@@ -25,7 +24,7 @@ CatalogManager.getCatalogList = function() {
     var files = fs.readdirSync(this.sites_path);
     files.forEach(function (file) {
         // console.log(file);
-        if (".yml" === path.extname(file)) {
+        if (path.extname(file) === '.js') {
             var catalog = CatalogManager.openFile(file);
             // console.log(catalog);
             CatalogManager.catalogs.push(catalog);
@@ -35,8 +34,8 @@ CatalogManager.getCatalogList = function() {
     return this.catalogs;
 };
 
-CatalogManager.getCatalog = function(name) {
-    return CatalogManager.openFile(name + ".yml");
+CatalogManager.getCatalog = function (name) {
+    return CatalogManager.openFile(name + '.js');
 };
 
 module.exports = CatalogManager;

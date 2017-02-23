@@ -2,9 +2,9 @@ var _ = require('lodash');
 var Promise = require('promise');
 var crypto = require('crypto');
 var chapterRecognition = require('./chapter-recognition');
-var moment = require('moment');
-var jQuery = require('../bower_components/jquery/dist/jquery.min.js');
 var request = require('request');
+var cheerio = require('cheerio');
+import { trimSpaces } from './data-parsers';
 
 // if (process.env.NODE_ENV === 'development') {
 //     request.debug = true;
@@ -14,13 +14,19 @@ request = request.defaults({
     timeout: 10000
 });
 
-function trimSpaces (str) {
-    return str.trim().replace(/ +(?= )/g, '');
-}
-
 // TODO : Manage manga status
 
 var Parser = {};
+
+function getSelector ($, selector) {
+    if (_.isString(selector)) {
+        return $(selector);
+    } else if (_.isFunction(selector)) {
+        return selector($);
+    }
+
+    throw Error('bad selector : ' + selector);
+}
 
 Parser.getPopularMangaList = function (catalog, url) {
     if (undefined === url) {
@@ -33,16 +39,18 @@ Parser.getPopularMangaList = function (catalog, url) {
                 return reject(error);
             }
             let mangas = [];
-            jQuery(catalog.popular.manga.element_selector, page).each(function () {
+            let $ = cheerio.load(page);
+            getSelector($, catalog.popular.manga.element_selector).each(function () {
                 // console.log($(this).html());
                 var manga = {
                     in_library: false
                 };
+
                 var self = this;
-                _.forEach(catalog.popular.manga.fields, function (options, field) {
-                    let selector = jQuery(self).find(options.selector);
-                    manga[field] = selector[options.method].apply(selector, options.arguments);
+                _.forEach(catalog.popular.manga.fields, function (selector, field) {
+                    manga[field] = trimSpaces(selector($(self)));
                 });
+
                 manga.id = crypto.createHash('md5').update(manga.url).digest('hex');
                 manga.catalog = catalog.file;
                 manga.chapters = [];
@@ -51,8 +59,8 @@ Parser.getPopularMangaList = function (catalog, url) {
 
             return resolve({
                 'mangas': mangas,
-                'has_next': Boolean(jQuery(catalog.popular.next_url_selector, page).length),
-                'next_url': jQuery(catalog.popular.next_url_selector, page).attr('href')
+                'has_next': Boolean($(catalog.popular.next_url_selector).length),
+                'next_url': $(catalog.popular.next_url_selector).attr('href')
             });
         });
     });
@@ -64,11 +72,11 @@ Parser.getMangaDetail = function (catalog, manga) {
             if (error) {
                 return reject(error);
             }
-            var container = jQuery(catalog.manga_detail.selector, page);
+            let $ = cheerio.load(page);
+            let $container = getSelector($, catalog.manga_detail.container_selector);
 
-            _.forEach(catalog.manga_detail.fields, function (options, field) {
-                let selector = jQuery(container).find(options.selector);
-                manga[field] = trimSpaces(selector[options.method].apply(selector, options.arguments));
+            _.forEach(catalog.manga_detail.fields, function (selector, field) {
+                manga[field] = trimSpaces(selector($container));
             });
 
             resolve(manga);
@@ -83,21 +91,17 @@ Parser.getChapterList = function (catalog, manga) {
                 return reject(error);
             }
             let chapters = [];
+            let $ = cheerio.load(page);
 
-            jQuery(catalog.chapter_list.selector, page).each(function () {
+            getSelector($, catalog.chapter_list.element_selector).each(function () {
                 var chapter = {
                     manga: manga.id,
                     read: false
-
                 };
                 var self = this;
 
-                _.forEach(catalog.chapter_list.fields, function (options, field) {
-                    let selector = jQuery(self).find(options.selector);
-                    chapter[field] = selector[options.method].apply(selector, options.arguments).trim();
-                    if (options.parser) {
-                        chapter[field] = Parser[options.parser](chapter[field]);
-                    }
+                _.forEach(catalog.chapter_list.fields, function (selector, field) {
+                    chapter[field] = trimSpaces(selector($(self)));
                 });
 
                 chapter.id = crypto.createHash('md5').update(chapter.url).digest('hex');
@@ -119,10 +123,10 @@ Parser.getPageList = function (catalog, chapter) {
                 return reject(error);
             }
             let pages = [];
+            let $ = cheerio.load(page);
 
-            jQuery(catalog.page_list.selector, page).each(function () {
-                let selector = jQuery(this);
-                let page = selector[catalog.page_list.method].apply(selector, catalog.page_list.arguments);
+            getSelector($, catalog.page_list.element_selector).each(function () {
+                let page = catalog.page_list.element_parser($(this));
                 pages.push(page);
             });
 
@@ -137,34 +141,12 @@ Parser.getImageURL = function (catalog, pageURL) {
             if (error) {
                 return reject(error);
             }
-            let selector = jQuery(catalog.image_url.selector, page);
-            let imageURL = selector[catalog.image_url.method].apply(selector, catalog.image_url.arguments);
+
+            let imageURL = catalog.image_url.value(cheerio.load(page));
 
             resolve(imageURL);
         });
     });
-};
-
-/**
- * Parse string '8 months ago' to Date object
- * @param date string in the format of '8 months ago'
- * @return Date object corresponding
- */
-Parser.parseDateAgo = function (date) {
-    let dateWords = date.toLowerCase().split(' ');
-
-    if (dateWords.length === 3) {
-        if (dateWords[1].substr(dateWords[1].length - 1) !== 's') {
-            dateWords[1] = dateWords[1] + 's';
-        }
-
-        let date = moment().subtract(parseInt(dateWords[0]), dateWords[1]);
-        date.millisecond(0).second(0).minute(0).hour(0);
-
-        return date.toDate();
-    }
-
-    return new Date(1970, 0, 1);
 };
 
 module.exports = Parser;

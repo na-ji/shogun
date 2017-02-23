@@ -15,9 +15,9 @@
   ],
   "dependencies": {
     "jquery": "~2.2.4",
-    "bootstrap": "~3.3.6",
+    "bootstrap": "~3.3.7",
     "font-awesome": "~4.7.0",
-    "pouchdb": "^6.1.0",
-    "relational-pouch": "^1.4.4"
+    "pouchdb": "^6.1.2",
+    "relational-pouch": "^1.4.5"
   }
 }
