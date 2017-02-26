@@ -1,5 +1,5 @@
 # Shogun Manga Reader
-[![Coverage Status](https://coveralls.io/repos/github/na-ji/project-m/badge.svg?branch=master)](https://coveralls.io/github/na-ji/project-m?branch=master) [![Dependency Status](https://gemnasium.com/badges/github.com/na-ji/project-m.svg)](https://gemnasium.com/github.com/na-ji/project-m)
+[![Coverage Status](https://coveralls.io/repos/github/na-ji/shogun/badge.svg?branch=master)](https://coveralls.io/github/na-ji/shogun?branch=master) [![Dependency Status](https://gemnasium.com/badges/github.com/na-ji/project-m.svg)](https://gemnasium.com/github.com/na-ji/project-m)
 
 Shogun Manga Reader - An open source manga reader for PC (Windows, Mac, Linux).
 

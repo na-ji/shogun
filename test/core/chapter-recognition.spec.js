@@ -1,6 +1,3 @@
-var chai = require('chai');
-chai.use(require('chai-datetime'));
-var expect = chai.expect;
 var chapterRecognition = require('../../app/core/chapter-recognition');
 
 var specs = [
@@ -104,9 +101,11 @@ describe('chapter recognition', function () {
     specs.forEach(function (spec) {
         it(spec.it, function () {
             let result = chapterRecognition.parseChapterNumber({name: spec.name}, {title: spec.title});
-            expect(result).to.be.an.object;
-            expect(result).to.have.all.keys(['chapter_number', 'name']);
-            expect(result.chapter_number).to.equal(spec.result);
+            let expectedMatch = {
+                name: spec.name,
+                chapter_number: spec.result
+            };
+            expect(result).toMatchObject(expectedMatch);
         });
     });
 });
