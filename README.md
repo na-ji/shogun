@@ -5,13 +5,13 @@ Shogun Manga Reader - An open source manga reader for PC (Windows, Mac, Linux).
 
 Some components are based on [inorichi](https://github.com/inorichi)/[tachiyomi](https://github.com/inorichi/tachiyomi) for Android.
 
-## Technologies:
+## Technologies
  - [Electron](http://electron.atom.io/)
  - [React](https://facebook.github.io/react/)
  - [Redux](https://github.com/reactjs/redux)
  - [Pouchdb](https://pouchdb.com/)
 
-## Features:
+## Features
  - [ ] Reader
    - [x] Online reading
    - [ ] Offline reading
@@ -24,6 +24,6 @@ Some components are based on [inorichi](https://github.com/inorichi)/[tachiyomi]
    - [ ] Desktop notification when new chapter
  - [ ] Catalogs
    - [ ] Fetch manga from different sources
-     - [x] Readmanga.today
+	 - [x] Readmanga.today
  - [ ] Community
    - [ ] Commenting manga and chapter

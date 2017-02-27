@@ -9,7 +9,7 @@ export const INIT_IMAGES = 'INIT_IMAGES';
 export const CANCEL_REQUEST = 'CANCEL_REQUEST';
 export const REQUEST_CANCELED = 'REQUEST_CANCELED';
 
-import mangaManager from '../core/manga-manager';
+import mangaManager from '../utils/manga-manager';
 import _ from 'lodash';
 
 function requestPagesUrl () {

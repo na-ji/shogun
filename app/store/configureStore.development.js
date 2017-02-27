@@ -6,9 +6,11 @@ import { routerMiddleware, push } from 'react-router-redux';
 import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
+import * as appActions from '../actions/app';
 import * as readerActions from '../actions/reader';
 
 const actionCreators = {
+    ...appActions,
     ...readerActions,
     push
 };

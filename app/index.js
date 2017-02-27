@@ -5,13 +5,15 @@ import { Router, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
+import './less/app.global.less';
+import db from './utils/db';
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 
 render(
-    <Provider store={store}>
-        <Router history={history} routes={routes} />
-    </Provider>,
-    document.getElementById('wrapper')
+  <Provider store={store}>
+    <Router history={history} routes={routes} />
+  </Provider>,
+  document.getElementById('root')
 );
