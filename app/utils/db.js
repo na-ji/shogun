@@ -1,11 +1,11 @@
 var PouchDB = require('pouchdb-browser');
 PouchDB.plugin(require('relational-pouch'));
 
-//var DB = new PouchDB('http://localhost:5984/open-manga');
+// var DB = new PouchDB('http://localhost:5984/open-manga');
 var DB = new PouchDB('open-manga');
 
 DB.setSchema([
-    {singular: 'manga', plural: 'mangas', relations: { chapters: {hasMany: 'chapter'}}},
+    {singular: 'manga', plural: 'mangas', relations: {chapters: {hasMany: 'chapter'}}},
     {singular: 'chapter', plural: 'chapters', relations: {manga: {belongsTo: 'manga'}}}
 ]);
 

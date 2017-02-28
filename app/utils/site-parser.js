@@ -1,10 +1,11 @@
-var _ = require('lodash');
-var Promise = require('promise');
-var crypto = require('crypto');
-var chapterRecognition = require('./chapter-recognition');
+import _ from 'lodash';
+import Promise from 'promise';
+import crypto from 'crypto';
 var request = require('request');
-var cheerio = require('cheerio');
+import cheerio from 'cheerio';
+
 import { trimSpaces } from './data-parsers';
+import chapterRecognition from './chapter-recognition';
 
 // if (process.env.NODE_ENV === 'development') {
 //     request.debug = true;
