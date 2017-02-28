@@ -1,4 +1,3 @@
-'use babel';
 import React from 'react';
 var catalogManager = require('../../utils/catalog-manager');
 var mangaManager = require('../../utils/manga-manager');

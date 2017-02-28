@@ -1,4 +1,3 @@
-'use babel';
 import React from 'react';
 import MangaCard from './MangaCard';
 import { Link } from 'react-router';

@@ -4,7 +4,6 @@ import { Route, IndexRoute } from 'react-router';
 import { HomePage, CatalogList, CatalogPage, MangaPage } from './components';
 import { App, ReaderPage } from './containers';
 
-
 export default (
     <Route path="/" component={App}>
         <IndexRoute component={HomePage} />

@@ -1,4 +1,3 @@
-'use babel';
 import React from 'react';
 var mangaManager = require('../utils/manga-manager');
 import MangaList from './mangas/MangaList';

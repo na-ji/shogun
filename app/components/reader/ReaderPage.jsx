@@ -1,4 +1,3 @@
-'use babel';
 import React, { Component, PropTypes } from 'react';
 import Pagination from './Pagination';
 import Spinner from '../Spinner';

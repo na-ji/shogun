@@ -12,94 +12,94 @@ import baseConfig from './webpack.config.base';
 const port = process.env.PORT || 3000;
 
 export default validate(merge(baseConfig, {
-  debug: true,
+    debug: true,
 
-  devtool: 'inline-source-map',
+    devtool: 'inline-source-map',
 
-  entry: [
-    `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
-    'babel-polyfill',
-    './app/index'
-  ],
+    entry: [
+        `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
+        'babel-polyfill',
+        './app/index'
+    ],
 
-  output: {
-    publicPath: `http://localhost:${port}/dist/`
-  },
+    output: {
+        publicPath: `http://localhost:${port}/dist/`
+    },
 
-  module: {
-    loaders: [
-      // Extract all .global.css to style.css as is
-      {
-        test: /\.global\.less$/,
+    module: {
         loaders: [
-          'style-loader',
-          'css-loader?sourceMap&importLoaders=1',
-          'less-loader'
+            // Extract all .global.css to style.css as is
+            {
+                test: /^(?!_).+\.global\.less$/,
+                loaders: [
+                    'style-loader',
+                    'css-loader?sourceMap&importLoaders=1',
+                    'less-loader'
+                ]
+            },
+
+            // Pipe other styles through css modules and append to style.css
+            {
+                test: /^(?!_)((?!\.global).)*\.less$/,
+                loaders: [
+                    'style-loader',
+                    'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+                    'less-loader'
+                ]
+            },
+
+            // Fonts
+            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
+            { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+
+            // Images
+            {
+                test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
+                loader: 'url-loader'
+            }
         ]
-      },
+    },
 
-      // Pipe other styles through css modules and append to style.css
-      {
-        test: /^(?!_)((?!\.global).)*\.less$/,
-        loaders: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'less-loader'
-        ]
-      },
+    plugins: [
+        // https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
+        new webpack.HotModuleReplacementPlugin(),
 
-      // Fonts
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+        /**
+         * If you are using the CLI, the webpack process will not exit with an error
+         * code by enabling this plugin.
+         * https://github.com/webpack/docs/wiki/list-of-plugins#noerrorsplugin
+         */
+        new webpack.NoErrorsPlugin(),
 
-      // Images
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        loader: 'url-loader'
-      }
-    ]
-  },
-
-  plugins: [
-    // https://webpack.github.io/docs/hot-module-replacement-with-webpack.html
-    new webpack.HotModuleReplacementPlugin(),
+        /**
+         * Create global constants which can be configured at compile time.
+         *
+         * Useful for allowing different behaviour between development builds and
+         * release builds
+         *
+         * NODE_ENV should be production so that modules do not perform certain
+         * development checks
+         */
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        })
+    ],
 
     /**
-     * If you are using the CLI, the webpack process will not exit with an error
-     * code by enabling this plugin.
-     * https://github.com/webpack/docs/wiki/list-of-plugins#noerrorsplugin
+     * https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works
      */
-    new webpack.NoErrorsPlugin(),
+    target: 'electron-renderer',
 
     /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
+     * Disables webpack processing of __dirname and __filename.
+     * If you run the bundle in node.js it falls back to these values of node.js.
+     * https://github.com/webpack/webpack/issues/2010
      */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
-  ],
-
-  /**
-   * https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works
-   */
-  target: 'electron-renderer',
-
-  /**
-   * Disables webpack processing of __dirname and __filename.
-   * If you run the bundle in node.js it falls back to these values of node.js.
-   * https://github.com/webpack/webpack/issues/2010
-   */
-  node: {
-    __dirname: false,
-    __filename: false
-  }
+    node: {
+        __dirname: false,
+        __filename: false
+    }
 }));

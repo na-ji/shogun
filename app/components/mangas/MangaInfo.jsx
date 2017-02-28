@@ -1,4 +1,3 @@
-'use babel';
 import React from 'react';
 import Spinner from '../Spinner';
 var _ = require('lodash');

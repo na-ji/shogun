@@ -1,4 +1,3 @@
-'use babel';
 import React from 'react';
 import ReactList from 'react-list';
 import { Link } from 'react-router';

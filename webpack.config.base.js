@@ -7,34 +7,34 @@ import validate from 'webpack-validator';
 // import { dependencies as externals } from './app/package.json';
 
 export default validate({
-  module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      loaders: ['babel-loader'],
-      exclude: /node_modules/
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader'
-    }]
-  },
+    module: {
+        loaders: [{
+            test: /\.jsx?$/,
+            loaders: ['babel-loader'],
+            exclude: /node_modules/
+        }, {
+            test: /\.json$/,
+            loader: 'json-loader'
+        }]
+    },
 
-  output: {
-    path: path.join(__dirname, 'app'),
-    filename: 'bundle.js',
+    output: {
+        path: path.join(__dirname, 'app'),
+        filename: 'bundle.js',
 
-    // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2'
-  },
+        // https://github.com/webpack/webpack/issues/1114
+        libraryTarget: 'commonjs2'
+    },
 
-  /**
-   * Determine the array of extensions that should be used to resolve modules.
-   */
-  resolve: {
-    extensions: ['', '.js', '.jsx', '.json'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
-  },
+    /**
+     * Determine the array of extensions that should be used to resolve modules.
+     */
+    resolve: {
+        extensions: ['', '.js', '.jsx', '.json'],
+        packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+    },
 
-  plugins: [],
+    plugins: []
 
-  // externals: Object.keys(externals || {})
+    // externals: Object.keys(externals || {})
 });

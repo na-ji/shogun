@@ -1,42 +1,48 @@
 var fs = require('fs');
 var path = require('path');
 
-var CatalogManager = {
-    catalogs: [],
-    relative_path: './sites/',
-    sites_path: path.resolve(__dirname, 'utils/sites') + '/',
-    files_cache: {}
-};
-
-CatalogManager.openFile = function (name) {
-    if (undefined === this.files_cache[name]) {
-        this.files_cache[name] = require(this.relative_path + name);
-        this.files_cache[name].file = path.basename(name, '.js');
+class CatalogManager {
+    constructor () {
+        this.catalogs = [];
+        this.relative_path = './sites/';
+        this.sites_path = path.resolve(__dirname, 'utils/sites') + '/';
+        if (process.env.NODE_ENV === 'test') {
+            this.sites_path = path.resolve(__dirname, 'sites') + '/';
+        }
+        this.files_cache = {};
     }
 
-    return this.files_cache[name];
-};
+    openFile (name) {
+        if (undefined === this.files_cache[name]) {
+            this.files_cache[name] = require(this.relative_path + name);
+            this.files_cache[name].file = path.basename(name, '.js');
+        }
 
-CatalogManager.getCatalogList = function () {
-    if (this.catalogs.length > 0) {
+        return this.files_cache[name];
+    }
+
+    getCatalogList () {
+        if (this.catalogs.length > 0) {
+            return this.catalogs;
+        }
+
+        let files = fs.readdirSync(this.sites_path);
+        let _this = this;
+        files.forEach(function (file) {
+            // console.log(file);
+            if (path.extname(file) === '.js') {
+                var catalog = _this.openFile(file);
+                // console.log(catalog);
+                _this.catalogs.push(catalog);
+            }
+        });
+
         return this.catalogs;
     }
 
-    var files = fs.readdirSync(this.sites_path);
-    files.forEach(function (file) {
-        // console.log(file);
-        if (path.extname(file) === '.js') {
-            var catalog = CatalogManager.openFile(file);
-            // console.log(catalog);
-            CatalogManager.catalogs.push(catalog);
-        }
-    });
+    getCatalog (name) {
+        return this.openFile(name + '.js');
+    }
+}
 
-    return this.catalogs;
-};
-
-CatalogManager.getCatalog = function (name) {
-    return CatalogManager.openFile(name + '.js');
-};
-
-module.exports = CatalogManager;
+module.exports = new CatalogManager();
