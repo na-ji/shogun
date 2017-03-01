@@ -71,10 +71,7 @@
   },
   "bin": {
     "electron": "./node_modules/.bin/electron",
-    "mocha": "./node_modules/.bin/mocha",
-    "_mocha": "./node_modules/.bin/_mocha",
-    "cross-env": "./node_modules/.bin/cross-env",
-    "istanbul": "./node_modules/istanbul/lib/cli.js"
+    "cross-env": "./node_modules/.bin/cross-env"
   },
   "repository": {
     "type": "git",
@@ -171,7 +168,6 @@
     "flow-typed": "^2.0.0",
     "html-webpack-plugin": "^2.26.0",
     "identity-obj-proxy": "^3.0.0",
-    "istanbul": "^1.0.0-alpha.2",
     "jest": "^18.1.0",
     "jsdom": "^9.9.1",
     "json-loader": "^0.5.4",
