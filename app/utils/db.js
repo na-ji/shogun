@@ -18,7 +18,10 @@ var ddoc = {
     _id: '_design/manga_index',
     views: {
         by_in_library: {
-            map: function (doc) { emit(doc.data.in_library); }.toString()
+            map: function (doc) {
+                /* global emit */
+                emit(doc.data.in_library);
+            }.toString()
         }
     }
 };
@@ -27,6 +30,7 @@ DB.put(ddoc).then(function () {
     // success!
 }).catch(function (err) {
     // some error (maybe a 409, because it already exists?)
+    console.error(err);
 });
 
 // Initial query to build index and have faster queries after

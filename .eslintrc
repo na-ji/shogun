@@ -6,7 +6,9 @@
     "node": true
   },
   "rules": {
-    "indent": [2, 4, { "SwitchCase": 1}]
+    "indent": [2, 4, { "SwitchCase": 1}],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   },
   "plugins": [
     "flowtype",
@@ -21,6 +23,11 @@
       "webpack": {
         "config": "webpack.config.eslint.js"
       }
+    }
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     }
   }
 }

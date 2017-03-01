@@ -6,7 +6,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import './less/app.global.less';
-import db from './utils/db';
+import db from './utils/db';// eslint-disable-line
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);

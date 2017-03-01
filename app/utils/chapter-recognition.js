@@ -50,7 +50,8 @@ ChapterRecognition.parseChapterNumber = function (chapter, manga) {
     name = name.replace(unwanted, '');
 
     // Check base case ch.xx
-    if (matches = basic.exec(name)) {
+    matches = basic.exec(name);
+    if (matches) {
         return updateChapter(matches, chapter);
     }
 
@@ -73,12 +74,14 @@ ChapterRecognition.parseChapterNumber = function (chapter, manga) {
         let nameWithoutManga = name.replace(manga.title.toLowerCase(), '').trim();
 
         // Check if first value is number after title remove.
-        if (matches = withoutManga.exec(nameWithoutManga)) {
+        matches = withoutManga.exec(nameWithoutManga);
+        if (matches) {
             return updateChapter(matches, chapter);
         }
 
         // Take the first number encountered.
-        if (matches = occurrence.exec(nameWithoutManga)) {
+        matches = occurrence.exec(nameWithoutManga);
+        if (matches) {
             return updateChapter(matches, chapter);
         }
     }
