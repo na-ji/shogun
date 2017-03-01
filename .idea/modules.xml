@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../shogun/.idea/project-m.iml" filepath="$PROJECT_DIR$/../shogun/.idea/project-m.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/shogun.iml" filepath="$PROJECT_DIR$/.idea/shogun.iml" />
     </modules>
   </component>
 </project>
