@@ -9,6 +9,7 @@
             <path value="file://$PROJECT_DIR$/bower_components" />
             <path value="file://$PROJECT_DIR$/less/bootstrap-material-design" />
             <path value="file://$PROJECT_DIR$/app/bower_components" />
+            <path value="file://$PROJECT_DIR$/flow-typed" />
           </resourceRoots>
         </entryData>
       </entry>
