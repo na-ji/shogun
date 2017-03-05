@@ -26,11 +26,7 @@ export default validate(merge(baseConfig, {
             // Extract all .global.css to style.css as is
             {
                 test: /^(?!_).+\.global\.less$/,
-                loader: ExtractTextPlugin.extract(
-                    'style-loader',
-                    'css-loader',
-                    'less-loader'
-                )
+                loader: 'style-loader!css-loader!less-loader'
             },
 
             // Pipe other styles through css modules and append to style.css
