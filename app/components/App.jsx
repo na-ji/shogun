@@ -28,7 +28,7 @@ class App extends Component {
                                 <span className="icon-bar"></span>
                                 <span className="icon-bar"></span>
                             </button>
-                            {canGoBack && <a className="navbar-brand go-back" onClick={this.goBack}><i className="fa fa-arrow-left"></i></a>}
+                            {canGoBack && <a className="navbar-brand go-back" onClick={this.goBack}><i className="material-icons">arrow_back</i></a>}
                             <Link className="navbar-brand" to="/">Shogun</Link>
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">

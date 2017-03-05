@@ -79,7 +79,7 @@ class MangaInfo extends React.Component {
                     })}
                     <tr>
                         <th>URL</th>
-                        <td><a target="_blank" href="#!" onClick={this.openExternal}><i className="fa fa-external-link"></i></a></td>
+                        <td><a target="_blank" href="#!" onClick={this.openExternal}><i className="material-icons">open_in_new</i></a></td>
                     </tr>
                     </tbody>
                 </table>
