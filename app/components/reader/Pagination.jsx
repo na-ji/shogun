@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './pagination.less';
 
 class Pagination extends React.Component {
     render () {
@@ -30,7 +31,7 @@ class Pagination extends React.Component {
         return (
             <div>
                 <nav>
-                    <ul className="pagination">
+                    <ul className={styles.pagination + ' pagination'}>
                         <li className={(self.props.page === 0 ? 'disabled' : '')} onClick={this.props.handler} data-page="previous">
                             <a href="#!">
                                 <span>&laquo;</span>
@@ -39,18 +40,29 @@ class Pagination extends React.Component {
                         {pagesDisplayed.map(function (page, index) {
                             if (page === '...') {
                                 return (
-                                    <li key={index} className="disabled" data-page="none" onClick={self.props.handler}>
+                                    <li key={index}
+                                        className="disabled"
+                                        data-page="none"
+                                        onClick={self.props.handler}
+                                    >
                                         <a href="#!">...</a>
                                     </li>
                                 );
                             }
                             return (
-                                <li key={index} className={(self.props.page === offset + index ? 'active ' : '') + (self.props.loadedImages[offset + index] ? 'loaded' : '')} onClick={self.props.handler} data-page={offset + index}>
+                                <li key={index}
+                                    className={(self.props.page === offset + index ? 'active ' : '') + (self.props.loadedImages[offset + index] ? styles.loaded : '')}
+                                    onClick={self.props.handler}
+                                    data-page={offset + index}
+                                >
                                     <a href="#!">{offset + index + 1}</a>
                                 </li>
                             );
                         })}
-                        <li className={(self.props.page === this.props.pages.length - 1 ? 'disabled' : '')} onClick={this.props.handler} data-page="next">
+                        <li className={(self.props.page === this.props.pages.length - 1 ? 'disabled' : '')}
+                            onClick={this.props.handler}
+                            data-page="next"
+                        >
                             <a href="#!">
                                 <span>&raquo;</span>
                             </a>

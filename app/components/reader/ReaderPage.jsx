@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Pagination from './Pagination';
 import Spinner from '../spinner/Spinner';
 import $ from 'jquery';
+import styles from './pagination.less';
 
 /* global Image */
 class ReaderPage extends Component {
@@ -57,7 +58,7 @@ class ReaderPage extends Component {
         let image;
         if (images.images[pages.currentPage]) {
             image = (
-                <img className="img-responsive img-page" src={images.images[pages.currentPage].src} onClick={ReaderPage.imageClick} />
+                <img className={styles.imgPage + ' img-responsive'} src={images.images[pages.currentPage].src} onClick={ReaderPage.imageClick} />
             );
         } else {
             image = (
