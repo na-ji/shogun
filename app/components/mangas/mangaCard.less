@@ -1,0 +1,26 @@
+.manga {
+    margin: 10px 0;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .mangaContent {
+        background-position: center;
+        height: 250px;
+        position: relative;
+
+        .mangaTitle {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.80) 100%);
+            color: white;
+
+            p {
+                margin: 15px 2px 0 2px;
+                font-weight: 500;
+            }
+        }
+    }
+}
