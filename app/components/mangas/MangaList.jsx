@@ -1,7 +1,7 @@
 import React from 'react';
 import MangaCard from './MangaCard';
 import { Link } from 'react-router';
-import Spinner from '../Spinner';
+import Spinner from '../spinner/Spinner';
 
 class MangaList extends React.Component {
     render () {

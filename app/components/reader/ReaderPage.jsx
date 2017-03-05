@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Pagination from './Pagination';
-import Spinner from '../Spinner';
+import Spinner from '../spinner/Spinner';
 import $ from 'jquery';
 
 /* global Image */

@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from '../Spinner';
+import Spinner from '../spinner/Spinner';
 var _ = require('lodash');
 const {shell} = require('electron');
 var mangaManager = require('../../utils/manga-manager');

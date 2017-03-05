@@ -2,7 +2,7 @@ import React from 'react';
 import ReactList from 'react-list';
 import { Link } from 'react-router';
 import ChapterRow from './ChapterRow';
-import Spinner from '../Spinner';
+import Spinner from '../spinner/Spinner';
 import _ from 'lodash';
 import $ from 'jquery';
 
