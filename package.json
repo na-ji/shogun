@@ -8,7 +8,7 @@
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest '(\\\\|/)test(\\\\|/)(?!.*e2e\\.spec\\.js).+\\.spec\\.js'",
     "test-all": "npm run lint && npm run flow && npm run test && npm run build",
     "test-watch": "npm test -- --watch",
-    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/e2e.spec.js",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest --forceExit ./test/e2e.spec.js",
     "coverage": "npm test -- --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf coverage",
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-fix": "npm run lint -- --fix",
