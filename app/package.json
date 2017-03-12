@@ -1,0 +1,15 @@
+{
+    "name": "shogun",
+    "productName": "Shogun Manga Reader",
+    "version": "0.1.0",
+    "description": "An open source Manga Reader",
+    "main": "./main.js",
+    "author": {
+        "name": "Naji Astier",
+        "email": "naji.astier@gmail.com",
+        "url": "https://www.naji-astier.com/"
+    },
+    "license": "WTFPL",
+    "dependencies": {
+    }
+}
