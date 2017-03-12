@@ -24,20 +24,9 @@ class ReaderPage extends Component {
 
     changePage (e) {
         e.preventDefault();
-        const { pages, changePage } = this.props;
+        const { changePage } = this.props;
 
-        let newPage = parseInt($(e.currentTarget).attr('data-page'));
-        if ($(e.currentTarget).attr('data-page') === 'previous') {
-            newPage = Math.max(0, pages.currentPage - 1);
-        }
-        if ($(e.currentTarget).attr('data-page') === 'next') {
-            newPage = Math.min(pages.pagesUrl.length - 1, pages.currentPage + 1);
-        }
-        if (isNaN(newPage)) {
-            return;
-        }
-
-        changePage(newPage);
+        changePage($(e.currentTarget).attr('data-page'));
     }
 
     static imageClick (e) {
