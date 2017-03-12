@@ -47,7 +47,7 @@ MangaManager.getMangaById = function (mangaId) {
                     chapters: (doc.chapters ? doc.chapters : [])
                 });
             } else {
-                reject({error: 'No manga found'});
+                reject(new Error('No manga found'));
             }
         });
     });
