@@ -56,9 +56,9 @@ export default merge(baseConfig, {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimetype: 'application/font-woff',
+                        mimetype: 'application/font-woff'
                     }
-                },
+                }
             },
             {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
@@ -66,7 +66,7 @@ export default merge(baseConfig, {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimetype: 'application/font-woff',
+                        mimetype: 'application/font-woff'
                     }
                 }
             },
@@ -82,7 +82,7 @@ export default merge(baseConfig, {
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                use: 'file-loader',
+                use: 'file-loader'
             },
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -90,7 +90,7 @@ export default merge(baseConfig, {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimetype: 'image/svg+xml',
+                        mimetype: 'image/svg+xml'
                     }
                 }
             },
@@ -98,7 +98,7 @@ export default merge(baseConfig, {
             // Images
             {
                 test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-                use: 'url-loader',
+                use: 'url-loader'
             }
         ]
     },
