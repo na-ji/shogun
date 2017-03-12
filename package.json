@@ -5,7 +5,8 @@
   "description": "An open source Manga Reader",
   "main": "main.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest \"(\\\\|/)test(\\\\|/)(?!.*e2e\\.spec\\.js).+\\.spec\\.js\"",
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest '(\\\\|/)test(\\\\|/)(?!.*e2e\\.spec\\.js).+\\.spec\\.js'",
+    "test-win": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest \"(\\\\|/)test(\\\\|/)(?!.*e2e\\.spec\\.js).+\\.spec\\.js\"",
     "test-all": "npm run lint && npm run flow && npm run test && npm run build",
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest --forceExit ./test/e2e.spec.js",
@@ -201,7 +202,7 @@
     "react-hot-loader": "3.0.0-beta.6",
     "react-list": "^0.8.3",
     "react-redux": "^5.0.2",
-    "react-router": "^4.0.0",
+    "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
