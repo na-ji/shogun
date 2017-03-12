@@ -1,20 +1,24 @@
 var fs = require('fs');
 var path = require('path');
+if (process.env.NODE_ENV !== 'test') {
+    var req = require.context('./sites');
+}
 
 class CatalogManager {
     constructor () {
         this.catalogs = [];
         this.relative_path = './sites/';
-        this.sites_path = path.resolve(__dirname, 'utils/sites') + '/';
-        if (process.env.NODE_ENV === 'test') {
-            this.sites_path = path.resolve(__dirname, 'sites') + '/';
-        }
+        this.sites_path = path.resolve(__dirname, 'sites') + '/';
         this.files_cache = {};
     }
 
     openFile (name) {
         if (undefined === this.files_cache[name]) {
-            this.files_cache[name] = require(this.relative_path + name);
+            if (process.env.NODE_ENV === 'test') {
+                this.files_cache[name] = require(this.relative_path + name);
+            } else {
+                this.files_cache[name] = req(`./${name}`);
+            }
             this.files_cache[name].file = path.basename(name, '.js');
         }
 
