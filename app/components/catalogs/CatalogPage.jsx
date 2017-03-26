@@ -1,48 +1,29 @@
-import React from 'react';
-var catalogManager = require('../../utils/catalog-manager');
-var mangaManager = require('../../utils/manga-manager');
-var _ = require('lodash');
+import React, { Component, PropTypes } from 'react';
+
 import MangaList from '../mangas/MangaList';
 
-class CatalogPage extends React.Component {
-    constructor () {
-        super();
-        this.state = {
-            mangas: [],
-            catalog: {
-                name: ''
-            },
-            loading: true
-        };
-    }
-
+class CatalogPage extends Component {
     componentDidMount () {
-        this.setState({
-            catalog: catalogManager.getCatalog(this.props.params.catalogName)
-        });
-
-        var self = this;
-
-        mangaManager.getPopularManga(this.props.params.catalogName).then(function (response) {
-            self.setState({mangas: response.mangas});
-            _.forEach(response.promises, function (promise) {
-                promise.then(function (manga) {
-                    var mangas = self.state.mangas;
-                    mangas[_.findIndex(self.state.mangas, {id: manga.id})] = manga;
-                    self.setState({mangas: mangas, loading: false});
-                });
-            });
-        });
+        const { fetchPopularMangas, catalogName } = this.props;
+        fetchPopularMangas(catalogName);
     }
 
     render () {
+        const { catalog } = this.props;
+
         return (
             <div>
-                <h3>{this.state.catalog.name}</h3>
-                <MangaList mangas={this.state.mangas} loading={this.state.loading} />
+                <h3>{catalog.catalog ? catalog.catalog.name : ''}</h3>
+                <MangaList mangas={catalog.mangas} loading={catalog.loading} />
             </div>
         );
     }
 }
+
+CatalogPage.propTypes = {
+    catalog: PropTypes.object.isRequired,
+    catalogName: PropTypes.string.isRequired,
+    fetchPopularMangas: PropTypes.func.isRequired
+};
 
 module.exports = CatalogPage;

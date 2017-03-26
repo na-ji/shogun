@@ -7,11 +7,11 @@ var db = require('./db');
 var MangaManager = {};
 
 MangaManager.getPopularManga = function (catalogName) {
-    var catalog = CatalogManager.getCatalog(catalogName);
+    let catalog = CatalogManager.getCatalog(catalogName);
 
     return new Promise(function (resolve, reject) {
         Parser.getPopularMangaList(catalog).then(function (mangas) {
-            var promises = [];
+            let promises = [];
 
             _.forEach(mangas.mangas, function (manga) {
                 promises.push(new Promise(function (resolve, reject) {

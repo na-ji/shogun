@@ -42,12 +42,11 @@ Parser.getPopularMangaList = function (catalog, url) {
             let mangas = [];
             let $ = cheerio.load(page);
             getSelector($, catalog.popular.manga.element_selector).each(function () {
-                // console.log($(this).html());
-                var manga = {
+                let manga = {
                     in_library: false
                 };
 
-                var self = this;
+                let self = this;
                 _.forEach(catalog.popular.manga.fields, function (selector, field) {
                     manga[field] = trimSpaces(selector($(self)));
                 });

@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import { HomePage, CatalogList, CatalogPage, MangaPage } from './components';
-import { App, ReaderPage } from './containers';
+import { HomePage, CatalogList, MangaPage } from './components';
+import { App, ReaderPage, CatalogPage } from './containers';
 
 export default (
     <Route path="/" component={App}>
