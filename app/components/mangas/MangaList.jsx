@@ -5,27 +5,35 @@ import Spinner from '../spinner/Spinner';
 
 class MangaList extends React.Component {
     render () {
+        let spinner;
         if (this.props.loading) {
-            return (
+            spinner = (
                 <div>
                     <Spinner />
                 </div>
             );
         }
-
         return (
             <div>
-                {this.props.mangas.map(function (manga, index) {
-                    return (
-                        <div key={manga.id} className="col-md-2 col-sm-3">
-                            <Link to={{ pathname: `/manga/${manga.id}`, state: { manga: manga } }}>
-                                <MangaCard manga={manga} />
-                            </Link>
-                        </div>
-                    );
-                })}
+                <div>
+                    {this.props.mangas.map(function (manga, index) {
+                        return (
+                            <div key={manga.id} className="col-md-2 col-sm-3">
+                                <Link to={{ pathname: `/manga/${manga.id}`, state: { manga: manga } }}>
+                                    <MangaCard manga={manga} />
+                                </Link>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="clearfix"></div>
+                <div>
+                    {spinner}
+                </div>
+                <div className="clearfix"></div>
             </div>
         );
+
     }
 }
 

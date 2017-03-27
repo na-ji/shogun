@@ -6,14 +6,14 @@ var db = require('./db');
 
 var MangaManager = {};
 
-MangaManager.getPopularManga = function (catalogName) {
+MangaManager.getPopularManga = function (catalogName, url) {
     let catalog = CatalogManager.getCatalog(catalogName);
 
     return new Promise(function (resolve, reject) {
-        Parser.getPopularMangaList(catalog).then(function (mangas) {
+        Parser.getPopularMangaList(catalog, url).then(function (mangaList) {
             let promises = [];
 
-            _.forEach(mangas.mangas, function (manga) {
+            _.forEach(mangaList.mangas, function (manga) {
                 promises.push(new Promise(function (resolve, reject) {
                     db.rel.find('manga', manga.id).then(function (doc) {
                         if (doc.mangas.length) {
@@ -29,8 +29,8 @@ MangaManager.getPopularManga = function (catalogName) {
             });
 
             resolve({
-                mangas: mangas.mangas,
-                promises: promises
+                ...mangaList,
+                promises
             });
         });
     });

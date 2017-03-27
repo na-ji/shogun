@@ -9,12 +9,21 @@ class CatalogPage extends Component {
     }
 
     render () {
-        const { catalog } = this.props;
+        const { catalog, fetchMore } = this.props;
+        let moreButton;
+        if (catalog.hasNext && !catalog.loading) {
+            moreButton = (
+                <div className="col-sm-12">
+                    <button className="btn btn-raised btn-primary" onClick={ () => fetchMore() }>Load More</button>
+                </div>
+            );
+        }
 
         return (
             <div>
                 <h3>{catalog.catalog ? catalog.catalog.name : ''}</h3>
                 <MangaList mangas={catalog.mangas} loading={catalog.loading} />
+                {moreButton}
             </div>
         );
     }
@@ -23,7 +32,8 @@ class CatalogPage extends Component {
 CatalogPage.propTypes = {
     catalog: PropTypes.object.isRequired,
     catalogName: PropTypes.string.isRequired,
-    fetchPopularMangas: PropTypes.func.isRequired
+    fetchPopularMangas: PropTypes.func.isRequired,
+    fetchMore: PropTypes.func.isRequired
 };
 
 module.exports = CatalogPage;
