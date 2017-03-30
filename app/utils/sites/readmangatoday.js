@@ -1,6 +1,6 @@
 import { parseDateAgo, trimSpaces } from '../data-parsers';
 
-var ReadMangaToday = {
+let ReadMangaToday = {
     name: 'ReadMangaToday',
     base_url: 'http://www.readmanga.today',
     lang: 'en',
@@ -15,6 +15,9 @@ var ReadMangaToday = {
                 },
                 title: ($container) => {
                     return $container.find('div.title > h2 > a').attr('title');
+                },
+                thumbnail_url: ($container) => {
+                    return $container.find('img').attr('src');
                 }
             }
         },

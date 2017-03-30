@@ -17,7 +17,7 @@ class MangaPage extends React.Component {
     loadManga (manga) {
         this.setState({
             manga: manga,
-            infoLoading: false
+            infoLoading: !manga.detail_fetched
         });
 
         let self = this;
@@ -33,6 +33,16 @@ class MangaPage extends React.Component {
                 self.setState({
                     chapters: response.chapters,
                     chapterLoading: false
+                });
+            });
+        }
+
+        if (!manga.detail_fetched) {
+            let self = this;
+            mangaManager.getMangaDetail(manga).then(function (manga) {
+                self.setState({
+                    manga: manga,
+                    infoLoading: false
                 });
             });
         }

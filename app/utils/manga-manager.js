@@ -19,10 +19,12 @@ MangaManager.getPopularManga = function (catalogName, url) {
                         if (doc.mangas.length) {
                             resolve(doc.mangas[0]);
                         } else {
-                            Parser.getMangaDetail(catalog, manga).then(function (manga) {
-                                db.rel.save('manga', manga);
-                                resolve(manga);
-                            });
+                            if (!manga.thumbnail_url) {
+                                Parser.getMangaDetail(catalog, manga).then(function (manga) {
+                                    resolve(manga);
+                                    db.rel.save('manga', manga);
+                                });
+                            }
                         }
                     });
                 }));
@@ -49,6 +51,21 @@ MangaManager.getMangaById = function (mangaId) {
             } else {
                 reject(new Error('No manga found'));
             }
+        });
+    });
+};
+
+MangaManager.getMangaDetail = function (manga) {
+    let catalog = CatalogManager.getCatalog(manga.catalog);
+    console.log(catalog);
+
+    return new Promise(function (resolve, reject) {
+        Parser.getMangaDetail(catalog, manga).then(function (manga) {
+            console.log(manga);
+            resolve(manga);
+            db.rel.save('manga', manga);
+        }).catch(function (error) {
+            return reject(error);
         });
     });
 };

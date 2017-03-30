@@ -53,6 +53,7 @@ Parser.getPopularMangaList = function (catalog, url) {
 
                 manga.id = crypto.createHash('md5').update(manga.url).digest('hex');
                 manga.catalog = catalog.file;
+                manga.detail_fetched = false;
                 manga.chapters = [];
                 mangas.push(manga);
             });
@@ -78,6 +79,7 @@ Parser.getMangaDetail = function (catalog, manga) {
             _.forEach(catalog.manga_detail.fields, function (selector, field) {
                 manga[field] = trimSpaces(selector($container));
             });
+            manga.detail_fetched = true;
 
             resolve(manga);
         });
