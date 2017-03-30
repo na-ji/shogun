@@ -18,7 +18,7 @@ class MangaList extends React.Component {
                 <div>
                     {this.props.mangas.map(function (manga, index) {
                         return (
-                            <div key={manga.id} className="col-md-2 col-sm-3">
+                            <div key={manga.id} className="col-lg-2 col-md-3 col-sm-3">
                                 <Link to={{ pathname: `/manga/${manga.id}`, state: { manga: manga } }}>
                                     <MangaCard manga={manga} />
                                 </Link>
@@ -26,14 +26,13 @@ class MangaList extends React.Component {
                         );
                     })}
                 </div>
-                <div className="clearfix"></div>
+                <div className="clearfix" />
                 <div>
                     {spinner}
                 </div>
-                <div className="clearfix"></div>
+                <div className="clearfix" />
             </div>
         );
-
     }
 }
 

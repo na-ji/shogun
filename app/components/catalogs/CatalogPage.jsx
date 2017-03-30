@@ -14,7 +14,7 @@ class CatalogPage extends Component {
         if (catalog.hasNext && !catalog.loading) {
             moreButton = (
                 <div className="col-sm-12">
-                    <button className="btn btn-raised btn-primary" onClick={ () => fetchMore() }>Load More</button>
+                    <button className="btn btn-raised btn-primary full-width" onClick={ () => fetchMore() }>Load More</button>
                 </div>
             );
         }
