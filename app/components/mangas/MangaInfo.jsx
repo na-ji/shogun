@@ -1,4 +1,6 @@
 import React from 'react';
+import Overdrive from 'react-overdrive';
+
 import Spinner from '../spinner/Spinner';
 var _ = require('lodash');
 const {shell} = require('electron');
@@ -89,7 +91,9 @@ class MangaInfo extends React.Component {
         return (
             <div>
                 <h3>{this.props.manga.title}</h3>
-                <img src={this.props.manga.thumbnail_url} />
+                <Overdrive id={this.props.manga.id} duration={400}>
+                    <img src={this.props.manga.thumbnail_url} />
+                </Overdrive>
                 {render}
                 <a href="#!" onClick={this.toggleLibrary} className={`btn btn-fab ${(this.state.in_library ? ' btn-primary' : '')}`}><i className="material-icons">grade</i></a>
             </div>
