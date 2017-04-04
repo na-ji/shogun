@@ -10,15 +10,15 @@ class MangaCard extends React.Component {
         };
 
         return (
-            <div className={styles.manga + ' card'}>
-                <Overdrive id={this.props.manga.id} duration={400}>
+            <Overdrive id={this.props.manga.id} duration={400}>
+                <div className={styles.manga + ' card'}>
                     <div className={styles.mangaContent} style={inlineStyle}>
                         <div className={styles.mangaTitle}>
                             <p>{this.props.manga.title}</p>
                         </div>
                     </div>
-                </Overdrive>
-            </div>
+                </div>
+            </Overdrive>
         );
     }
 }
