@@ -25,7 +25,9 @@
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
-    "package-all": "npm run build && build -mwl"
+    "package-all": "npm run build && build -mwl",
+    "precommit": "npm run lint",
+    "prepush": "npm run lint"
   },
   "browserslist": "electron 1.4",
   "build": {
@@ -167,6 +169,7 @@
     "flow-bin": "^0.41.0",
     "flow-typed": "^2.0.0",
     "html-webpack-plugin": "^2.26.0",
+    "husky": "^0.13.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^19.0.2",
     "jsdom": "^9.9.1",

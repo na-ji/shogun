@@ -18,7 +18,7 @@ export default function manga (state = {
             });
         case MANGA_TOGGLE_LIBRARY:
             let manga = Object.assign({}, state.manga, {
-                in_library: !state.manga.in_library,
+                in_library: !state.manga.in_library
             });
 
             return Object.assign({}, state, {
