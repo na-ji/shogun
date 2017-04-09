@@ -3,6 +3,9 @@ export const LOAD_MANGA = 'LOAD_MANGA';
 export const RECEIVE_CHAPTERS = 'RECEIVE_CHAPTERS';
 // export const REQUEST_DETAILS = 'REQUEST_DETAILS';
 export const RECEIVE_DETAILS = 'RECEIVE_DETAILS';
+export const MANGA_TOGGLE_LIBRARY = 'MANGA_TOGGLE_LIBRARY';
+
+import { TOGGLE_MANGA_TO_LIBRARY } from './library';
 
 let mangaManager = require('../utils/manga-manager');
 
@@ -24,6 +27,21 @@ function receiveDetails (manga) {
     return {
         type: RECEIVE_DETAILS,
         manga
+    };
+}
+
+export function toggleLibrary () {
+    return (dispatch, getState) => {
+        dispatch({
+            type: MANGA_TOGGLE_LIBRARY
+        });
+
+        const { manga } = getState().manga;
+
+        dispatch({
+            type: TOGGLE_MANGA_TO_LIBRARY,
+            manga
+        });
     };
 }
 

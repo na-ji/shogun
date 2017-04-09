@@ -1,23 +1,16 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Overdrive from 'react-overdrive';
+import _ from 'lodash';
+import { shell } from 'electron';
 
 import Spinner from '../spinner/Spinner';
-var _ = require('lodash');
-const {shell} = require('electron');
-var mangaManager = require('../../utils/manga-manager');
-var manga = {};
 
-class MangaInfo extends React.Component {
+export default class MangaInfo extends Component {
     constructor () {
         super();
 
-        this.state = {
-            in_library: false
-        };
-
         // we bind 'this' to handleResize()
         this.openExternal = this.openExternal.bind(this);
-        this.toggleLibrary = this.toggleLibrary.bind(this);
     }
 
     openExternal (e) {
@@ -25,24 +18,9 @@ class MangaInfo extends React.Component {
         shell.openExternal(this.props.manga.url);
     }
 
-    toggleLibrary (e) {
-        e.preventDefault();
-        mangaManager.toggleInLibrary(manga);
-        this.setState({
-            in_library: !this.state.in_library
-        });
-    }
-
-    componentWillReceiveProps (nextProps) {
-        manga = nextProps.manga;
-        this.setState({
-            in_library: manga.in_library
-        });
-    }
-
     render () {
-        var fieldsToRender = [];
-        var self = this;
+        let fieldsToRender = [];
+        let self = this;
 
         if (this.props.manga.author) {
             fieldsToRender.push('author');
@@ -95,10 +73,16 @@ class MangaInfo extends React.Component {
                     <img src={this.props.manga.thumbnail_url} />
                 </Overdrive>
                 {render}
-                <a href="#!" onClick={this.toggleLibrary} className={`btn btn-fab ${(this.state.in_library ? ' btn-primary' : '')}`}><i className="material-icons">grade</i></a>
+                <button onClick={this.props.toggleLibrary} className={`btn btn-fab ${(this.props.manga.in_library ? ' btn-primary' : '')}`}>
+                    <i className="material-icons">grade</i>
+                </button>
             </div>
         );
     }
 }
 
-module.exports = MangaInfo;
+MangaInfo.propTypes = {
+    manga: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
+    toggleLibrary: PropTypes.func.isRequired
+};

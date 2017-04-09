@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './spinner.less';
 
-class Spinner extends React.Component {
+export default class Spinner extends React.Component {
     render () {
         return (
             <div>
@@ -12,5 +12,3 @@ class Spinner extends React.Component {
         );
     }
 }
-
-module.exports = Spinner;

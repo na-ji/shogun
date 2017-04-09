@@ -1,32 +1,29 @@
-import React from 'react';
-var mangaManager = require('../utils/manga-manager');
+import React, { Component, PropTypes } from 'react';
+
 import MangaList from './mangas/MangaList';
 
-class HomePage extends React.Component {
-    constructor () {
-        super();
-        this.state = {
-            mangas: [],
-            loading: true
-        };
-    }
+class HomePage extends Component {
+    componentWillMount () {
+        const { fetchLibrary } = this.props;
 
-    componentDidMount () {
-        var self = this;
-
-        mangaManager.getLibrary().then(function (mangas) {
-            self.setState({mangas: mangas, loading: false});
-        });
+        fetchLibrary();
     }
 
     render () {
+        const { state } = this.props;
+
         return (
             <div>
                 <h3>Library</h3>
-                <MangaList mangas={this.state.mangas} loading={this.state.loading} />
+                <MangaList mangas={state.mangas} loading={!state.loaded} />
             </div>
         );
     }
 }
+
+HomePage.propTypes = {
+    state: PropTypes.object.isRequired,
+    fetchLibrary: PropTypes.func.isRequired
+};
 
 module.exports = HomePage;
