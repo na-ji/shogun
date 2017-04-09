@@ -57,11 +57,9 @@ MangaManager.getMangaById = function (mangaId) {
 
 MangaManager.getMangaDetail = function (manga) {
     let catalog = CatalogManager.getCatalog(manga.catalog);
-    console.log(catalog);
 
     return new Promise(function (resolve, reject) {
         Parser.getMangaDetail(catalog, manga).then(function (manga) {
-            console.log(manga);
             resolve(manga);
             db.rel.save('manga', manga);
         }).catch(function (error) {
