@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import MangaInfo from './MangaInfo';
 import ChapterList from '../chapters/ChapterList';

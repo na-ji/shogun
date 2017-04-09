@@ -1,5 +1,6 @@
 "use babel";
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 class App extends Component {

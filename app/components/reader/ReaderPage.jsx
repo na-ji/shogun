@@ -1,7 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import $ from 'jquery';
+
 import Pagination from './Pagination';
 import Spinner from '../spinner/Spinner';
-import $ from 'jquery';
 import styles from './pagination.less';
 
 /* global Image */
@@ -13,7 +15,7 @@ class ReaderPage extends Component {
     }
 
     componentDidMount () {
-        const { fetchPagesIfNeeded, manga, chapter, pages } = this.props;
+        const { fetchPagesIfNeeded, manga, chapter } = this.props;
         fetchPagesIfNeeded(manga, chapter);
     }
 
