@@ -3,7 +3,7 @@ import Overdrive from 'react-overdrive';
 
 import styles from './mangaCard.less';
 
-class MangaCard extends React.Component {
+export default class MangaCard extends React.Component {
     render () {
         let inlineStyle = {
             backgroundImage: 'url(' + this.props.manga.thumbnail_url + ')'
@@ -22,5 +22,3 @@ class MangaCard extends React.Component {
         );
     }
 }
-
-module.exports = MangaCard;

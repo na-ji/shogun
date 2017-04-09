@@ -2,6 +2,7 @@
   "presets": [
     ["env", { "targets": { "node": 6 }, "useBuiltIns": true }],
     "stage-3",
+    "es2015",
     "react"
   ],
   "plugins": ["add-module-exports"],

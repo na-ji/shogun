@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './spinner.less';
 
 export default class Spinner extends React.Component {
