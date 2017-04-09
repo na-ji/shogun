@@ -30,7 +30,9 @@ DB.put(ddoc).then(function () {
     // success!
 }).catch(function (err) {
     // some error (maybe a 409, because it already exists?)
-    console.error(err);
+    if (err.status !== 409) {
+        console.error(err);
+    }
 });
 
 // Initial query to build index and have faster queries after
