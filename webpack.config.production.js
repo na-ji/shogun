@@ -31,6 +31,20 @@ export default merge(baseConfig, {
                 })
             },
 
+            // Add SASS support  - compile all .global.scss files and pipe it to style.css
+            {
+                test: /\.global\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    use: [
+                        {
+                            loader: 'css-loader'
+                        },
+                        { loader: 'sass-loader' }
+                    ],
+                    fallback: 'style-loader'
+                })
+            },
+
             // Pipe other styles through css modules and append to style.css
             {
                 test: /^(?!_)((?!\.global).)*\.less$/,
@@ -46,6 +60,22 @@ export default merge(baseConfig, {
                         },
                         { loader: 'less-loader' }
                     ]
+                })
+            },
+
+            // Add SASS support  - compile all other .scss files and pipe it to style.css
+            {
+                test: /^(?!_)((?!\.global).)*\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    use: [{
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            importLoaders: 1,
+                            localIdentName: '[name]__[local]__[hash:base64:5]'
+                        }
+                    },
+                        { loader: 'sass-loader' }]
                 })
             },
 
