@@ -4,9 +4,11 @@
 
 import path from 'path';
 import webpack from 'webpack';
-// import { dependencies as externals } from './app/package.json';
+import { dependencies as externals } from './app/package.json';
 
 export default {
+    externals: Object.keys(externals || {}),
+
     module: {
         rules: [{
             test: /\.jsx?$/,
@@ -41,6 +43,4 @@ export default {
     plugins: [
         new webpack.NamedModulesPlugin()
     ]
-
-    // externals: Object.keys(externals || {})
 };
