@@ -25,9 +25,9 @@ class App extends Component {
                     <div className="container-fluid">
                         <div className="navbar-header">
                             <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
+                                <span className="icon-bar" />
+                                <span className="icon-bar" />
+                                <span className="icon-bar" />
                             </button>
                             {canGoBack && <a className="navbar-brand go-back" onClick={this.goBack}><i className="material-icons">arrow_back</i></a>}
                             <Link className="navbar-brand" to="/">Shogun</Link>
