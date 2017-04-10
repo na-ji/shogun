@@ -34,22 +34,6 @@
   "build": {
     "productName": "Shogun Manga Reader",
     "appId": "com.shogun.reader",
-    "category": "public.app-category.tools",
-    "dmg": {
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
-      ]
-    },
     "files": [
       "dist/",
       "node_modules/",
@@ -58,8 +42,22 @@
       "main.js.map",
       "package.json"
     ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
     "win": {
-      "target": "nsis"
+      "target": ["nsis"]
     },
     "linux": {
       "target": [
@@ -149,7 +147,7 @@
     "css-loader": "^0.28.0",
     "devtron": "^1.4.0",
     "electron": "^1.4.15",
-    "electron-builder": "^13.11.1",
+    "electron-builder": "^16.8.0",
     "electron-devtools-installer": "^2.2.0",
     "enzyme": "^2.8.0",
     "eslint": "^3.19.0",
