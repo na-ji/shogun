@@ -1,6 +1,6 @@
 # Shogun Manga Reader
-[![Build Status](https://travis-ci.org/na-ji/shogun.svg?branch=master)](https://travis-ci.org/na-ji/shogun) [![Build status](https://ci.appveyor.com/api/projects/status/0w77f169lmjb64p8/branch/master?svg=true)](https://ci.appveyor.com/project/na-ji/shogun/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/na-ji/shogun/badge.svg?branch=master)](https://coveralls.io/github/na-ji/shogun?branch=master) [![Dependency Status](https://gemnasium.com/badges/github.com/na-ji/shogun.svg)](https://gemnasium.com/github.com/na-ji/shogun)
+[![Travis Build](https://img.shields.io/travis/na-ji/shogun/master.svg?style=flat-square)](https://travis-ci.org/na-ji/shogun) [![AppVeyor Build](https://img.shields.io/appveyor/ci/na-ji/shogun/master.svg?style=flat-square)](https://ci.appveyor.com/project/na-ji/shogun/branch/master)
+[![Coverage](https://img.shields.io/coveralls/na-ji/shogun/master.svg?style=flat-square)](https://coveralls.io/github/na-ji/shogun?branch=master) [![Dependency Status](https://img.shields.io/gemnasium/na-ji/shogun.svg?style=flat-square)](https://gemnasium.com/github.com/na-ji/shogun)
 
 Shogun Manga Reader - An open source manga reader for PC (Windows, Mac, Linux).
 
