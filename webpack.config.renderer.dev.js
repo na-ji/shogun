@@ -1,6 +1,9 @@
 /* eslint global-require: 0, import/no-dynamic-require: 0 */
+
 /**
- * Build config for development process that uses Hot-Module-Replacement
+ * Build config for development electron renderer process that uses
+ * Hot-Module-Replacement
+ *
  * https://webpack.js.org/concepts/hot-module-replacement/
  */
 
@@ -244,7 +247,7 @@ export default merge(baseConfig, {
             if (process.env.START_HOT) {
                 spawn(
                     'npm',
-                    ['run', 'start-hot'],
+                    ['run', 'start-hot-renderer'],
                     { shell: true, env: process.env, stdio: 'inherit' }
                 )
                 .on('close', code => process.exit(code))
