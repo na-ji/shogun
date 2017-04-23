@@ -27,7 +27,6 @@
     "package-win": "npm run build && build --win --x64",
     "package-linux": "npm run build && build --linux",
     "package-all": "npm run build && build -mwl",
-    "precommit": "npm run lint",
     "prepush": "npm run lint"
   },
   "browserslist": "electron 1.4",
