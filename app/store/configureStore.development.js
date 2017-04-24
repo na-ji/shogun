@@ -1,7 +1,8 @@
 // @flow
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { hashHistory } from 'react-router';
+import { hashHistory } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import { routerMiddleware, push } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 
@@ -12,7 +13,9 @@ import * as libraryActions from '../actions/library';
 import * as mangaActions from '../actions/manga';
 import * as readerActions from '../actions/reader';
 
-export default (initialState) => {
+const history = createBrowserHistory();
+
+const configureStore = (initialState) => {
     // Redux Configuration
     const middleware = [];
     const enhancers = [];
@@ -66,3 +69,5 @@ export default (initialState) => {
 
     return store;
 };
+
+export default { configureStore, history };

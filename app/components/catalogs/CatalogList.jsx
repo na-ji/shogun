@@ -1,6 +1,6 @@
 import React from 'react';
 var catalogManager = require('../../utils/catalog-manager');
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 class CatalogList extends React.Component {
     render () {

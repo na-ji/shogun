@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactList from 'react-list';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import ChapterRow from './ChapterRow';
 import Spinner from '../spinner/Spinner';
 import _ from 'lodash';

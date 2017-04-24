@@ -1,0 +1,10 @@
+{
+    "javascript.validate.enable": false,
+    "search.exclude": {
+        ".git": true,
+        "node_modules": true,
+        "flow-typed": true,
+        "__snapshots__": true,
+        "bower_components": true
+    }
+}
