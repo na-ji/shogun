@@ -1,4 +1,4 @@
-// flow-typed signature: 3409726f3a91a28d816e82ed5bd1e410
+// flow-typed signature: 4c2bc7564f595589ccbf8698f6bb85c2
 // flow-typed version: <<STUB>>/coveralls_v^2.13.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

@@ -1,4 +1,4 @@
-// flow-typed signature: 66c8181cb93ef596003af9544914d466
+// flow-typed signature: 11fd6f87a220fcbc12bc1f4d4475fedb
 // flow-typed version: <<STUB>>/relational-pouch_v^1.4.5/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

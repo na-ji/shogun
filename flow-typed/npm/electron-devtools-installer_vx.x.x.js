@@ -1,4 +1,4 @@
-// flow-typed signature: 4e170489e56986dea28933b168982f04
+// flow-typed signature: 8a9779e00daabb813aab7bc588bd4b85
 // flow-typed version: <<STUB>>/electron-devtools-installer_v^2.2.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

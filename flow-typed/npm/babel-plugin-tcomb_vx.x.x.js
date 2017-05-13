@@ -1,4 +1,4 @@
-// flow-typed signature: 8c7e397c269d56278e3f198a24543c26
+// flow-typed signature: 8ab746c9ab94730f3bcf1ddba2ce5ef9
 // flow-typed version: <<STUB>>/babel-plugin-tcomb_v^0.3.25/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

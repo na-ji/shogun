@@ -1,4 +1,4 @@
-// flow-typed signature: 6fd7903778a3639c331057a20b108ca5
+// flow-typed signature: b1312a3628a9f052ef3db27563e0b55c
 // flow-typed version: <<STUB>>/boiler-room-custodian_v^0.6.2/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

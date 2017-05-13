@@ -1,4 +1,4 @@
-// flow-typed signature: b84c3466e9fcf413d91f8923428e9621
+// flow-typed signature: 9e35847ed11af548a909c5f97cde23fb
 // flow-typed version: <<STUB>>/eslint-formatter-pretty_v^1.1.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

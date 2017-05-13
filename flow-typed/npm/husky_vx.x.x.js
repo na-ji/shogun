@@ -1,4 +1,4 @@
-// flow-typed signature: abca35ad8e42c627df6d85b05a9c253f
+// flow-typed signature: 8344815343528dbf3d9f5d03847039a5
 // flow-typed version: <<STUB>>/husky_v^0.13.3/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

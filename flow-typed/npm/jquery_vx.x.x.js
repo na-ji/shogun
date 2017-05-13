@@ -1,4 +1,4 @@
-// flow-typed signature: ee836e58396ef889852b93e644cc4fe9
+// flow-typed signature: ea6170a5b951d34cf5424f591c5d97e2
 // flow-typed version: <<STUB>>/jquery_v^3.2.1/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

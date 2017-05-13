@@ -1,4 +1,4 @@
-// flow-typed signature: 3517494b65f49fbdc9d59de4bf0260e4
+// flow-typed signature: 0db77d40a18fb4c0b9c5684b693b7e4c
 // flow-typed version: <<STUB>>/electron-debug_v^1.1.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

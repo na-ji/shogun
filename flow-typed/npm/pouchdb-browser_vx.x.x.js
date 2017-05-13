@@ -1,4 +1,4 @@
-// flow-typed signature: dfb4300a033f14d0f61e83b487683e80
+// flow-typed signature: 516da5f917cd0f0979186ab8e72b9612
 // flow-typed version: <<STUB>>/pouchdb-browser_v^6.1.2/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

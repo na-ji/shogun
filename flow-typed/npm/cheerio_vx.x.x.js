@@ -1,4 +1,4 @@
-// flow-typed signature: ee218c132e0a1b09912f91a036a790e1
+// flow-typed signature: 9dd391f77afcdcf5b01a1e1b90bb36d2
 // flow-typed version: <<STUB>>/cheerio_v^0.22.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

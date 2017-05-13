@@ -1,4 +1,4 @@
-// flow-typed signature: 85edce4caaad777d094a56386caba1dc
+// flow-typed signature: e04a5c8410812d187c908db2b3419e58
 // flow-typed version: <<STUB>>/fbjs-scripts_v^0.7.1/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

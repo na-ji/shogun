@@ -1,4 +1,4 @@
-// flow-typed signature: 133df42532a4f52e85436b8e83ea2d86
+// flow-typed signature: 4fa0d6b919023a59994a81afa9d44aa4
 // flow-typed version: <<STUB>>/identity-obj-proxy_v^3.0.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

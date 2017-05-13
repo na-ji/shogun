@@ -1,4 +1,4 @@
-// flow-typed signature: 619c3f54d702bc7920854cf04ecbd94b
+// flow-typed signature: f68488e11401907440ff0baddf7abf03
 // flow-typed version: <<STUB>>/babili-webpack-plugin_v^0.0.11/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

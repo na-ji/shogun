@@ -1,4 +1,4 @@
-// flow-typed signature: e2d9c582ff0e424437c4ff960877eba6
+// flow-typed signature: 02ff2583c26722111dc7b02d678974a2
 // flow-typed version: <<STUB>>/jsdom_v^9.12.0/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

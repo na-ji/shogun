@@ -7,7 +7,6 @@ import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import BabiliPlugin from 'babili-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
@@ -160,14 +159,6 @@ export default merge.smart(baseConfig, {
         new BundleAnalyzerPlugin({
             analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
             openAnalyzer: process.env.OPEN_ANALYZER === 'true'
-        }),
-
-        /**
-         * Dynamically generate index.html page
-         */
-        new HtmlWebpackPlugin({
-            filename: 'app.html',
-            template: 'app/app.html'
         })
     ],
 

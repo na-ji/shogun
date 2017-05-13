@@ -1,4 +1,4 @@
-// flow-typed signature: 152963cf29b108bb3582ec54a26e323d
+// flow-typed signature: 53b4861e54364ea4a9c9a746816ef0f2
 // flow-typed version: <<STUB>>/less_v^2.7.2/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

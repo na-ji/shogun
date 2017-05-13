@@ -1,4 +1,4 @@
-// flow-typed signature: e9ae917f1991c0d483d6ef4686e1c5c1
+// flow-typed signature: 072077a32a0d69efd0acb1b7f1826f04
 // flow-typed version: <<STUB>>/babel-preset-react-hmre_v^1.1.1/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

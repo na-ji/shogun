@@ -1,4 +1,4 @@
-// flow-typed signature: 96f526dfd16103bbb56004dbfe8a31d7
+// flow-typed signature: f3c2ad67040fdf0b1521c28398c1dcef
 // flow-typed version: <<STUB>>/babel-plugin-add-module-exports_v^0.2.1/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

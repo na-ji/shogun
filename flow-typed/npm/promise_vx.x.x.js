@@ -1,4 +1,4 @@
-// flow-typed signature: 91643a1b5a78c102049d41aadf031a74
+// flow-typed signature: 9755efa49bb0046af2cf81f36331ec47
 // flow-typed version: <<STUB>>/promise_v^7.1.1/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

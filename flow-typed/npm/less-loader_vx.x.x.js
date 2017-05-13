@@ -1,4 +1,4 @@
-// flow-typed signature: 93d2f1bd88b3a5af6c647a1a24637287
+// flow-typed signature: 71b72d538871c7a8ad74ae2b7ad123f2
 // flow-typed version: <<STUB>>/less-loader_v^4.0.3/flow_v0.44.2
 
 /**
@@ -8,8 +8,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 
