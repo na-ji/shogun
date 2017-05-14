@@ -33,7 +33,7 @@ class App extends Component {
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">
                             <ul className="nav navbar-nav">
-                                <li><NavLink to="/" activeClassName="active">Library</NavLink></li>
+                                <li><NavLink exact to="/" activeClassName="active">Library</NavLink></li>
                                 <li><NavLink to="/catalogs" activeClassName="active">Catalogs</NavLink></li>
                             </ul>
                         </div>

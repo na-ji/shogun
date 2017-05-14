@@ -5,7 +5,8 @@ import * as CatalogActions from '../../actions/catalog';
 
 function mapStateToProps (state, ownProps) {
     const { catalog } = state;
-    const catalogName = ownProps.params.catalogName;
+    console.log(ownProps);
+    const catalogName = ownProps.match.params.catalogName;
 
     return {
         catalog,

@@ -8,11 +8,11 @@ import { App, ReaderPage, CatalogPage, MangaPage, HomePage } from './containers'
 export default () => (
     <App>
         <Switch>
-            <Route path="catalogs" component={CatalogList} />
-            <Route path="/catalog/:catalogName" component={CatalogPage} />
-            <Route path="/manga/:mangaId" component={MangaPage} />
-            <Route path="/chapter/:chapterId" component={ReaderPage} />
-            <Route path="/" component={HomePage} />
+            <Route exact path="/catalogs" component={CatalogList} />
+            <Route exact path="/catalog/:catalogName" component={CatalogPage} />
+            <Route exact path="/manga/:mangaId" component={MangaPage} />
+            <Route exact path="/chapter/:chapterId" component={ReaderPage} />
+            <Route exact path="/" component={HomePage} />
         </Switch>
     </App>
 );
