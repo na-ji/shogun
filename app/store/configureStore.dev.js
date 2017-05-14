@@ -1,9 +1,8 @@
 // @flow
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { hashHistory } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware, push } from 'react-router-redux';
+import { createHashHistory } from 'history';
+import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 
 import rootReducer from '../reducers';
@@ -13,7 +12,7 @@ import * as libraryActions from '../actions/library';
 import * as mangaActions from '../actions/manga';
 import * as readerActions from '../actions/reader';
 
-const history = createBrowserHistory();
+const history = createHashHistory();
 
 const configureStore = (initialState) => {
     // Redux Configuration
@@ -31,7 +30,7 @@ const configureStore = (initialState) => {
     middleware.push(logger);
 
     // Router Middleware
-    const router = routerMiddleware(hashHistory);
+    const router = routerMiddleware(history);
     middleware.push(router);
 
     // Redux DevTools Configuration
@@ -41,7 +40,7 @@ const configureStore = (initialState) => {
         ...libraryActions,
         ...mangaActions,
         ...readerActions,
-        push
+        ...routerActions
     };
 
     // If Redux DevTools Extension is installed use it, otherwise use Redux compose

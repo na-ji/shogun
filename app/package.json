@@ -3,7 +3,7 @@
     "productName": "Shogun Manga Reader",
     "version": "0.1.0",
     "description": "An open source Manga Reader",
-    "main": "./main.js",
+    "main": "./main.prod.js",
     "author": {
         "name": "Naji Astier",
         "email": "naji.astier@gmail.com",

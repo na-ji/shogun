@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 class App extends Component {
     constructor () {
@@ -33,8 +33,8 @@ class App extends Component {
                         </div>
                         <div className="navbar-collapse collapse navbar-responsive-collapse">
                             <ul className="nav navbar-nav">
-                                <li><Link to="/" activeClassName="active">Library</Link></li>
-                                <li><Link to="/catalogs" activeClassName="active">Catalogs</Link></li>
+                                <li><NavLink to="/" activeClassName="active">Library</NavLink></li>
+                                <li><NavLink to="/catalogs" activeClassName="active">Catalogs</NavLink></li>
                             </ul>
                         </div>
                     </div>

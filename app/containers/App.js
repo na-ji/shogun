@@ -1,11 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { goBack } from 'react-router-redux';
+
 import { App } from '../components';
 import * as AppActions from '../actions/app';
 
-function mapStateToProps (state, ownProps) {
+function mapStateToProps (state) {
     const { canGoBack } = state.app;
-    const { goBack } = ownProps.router;
 
     return {
         canGoBack,
