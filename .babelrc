@@ -8,7 +8,11 @@
     "es2015",
     "react"
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack"],
+  "plugins": [
+    "transform-class-properties",
+    "add-module-exports",
+    "dynamic-import-webpack"
+  ],
   "env": {
     "production": {
       "presets": ["react-optimize"],
@@ -16,7 +20,6 @@
     },
     "development": {
       "plugins": [
-        "transform-class-properties",
         "transform-es2015-classes",
         "react-hot-loader/babel",
         ["flow-runtime", {
