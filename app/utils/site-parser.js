@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Promise from 'promise';
 import crypto from 'crypto';
-var request = require('request');
+let request = require('request');
 import cheerio from 'cheerio';
 
 import { trimSpaces } from './data-parsers';
@@ -17,7 +17,7 @@ request = request.defaults({
 
 // TODO : Manage manga status
 
-var Parser = {};
+let Parser = {};
 
 function getSelector ($, selector) {
     if (_.isString(selector)) {
@@ -43,7 +43,10 @@ Parser.getPopularMangaList = function (catalog, url) {
             let $ = cheerio.load(page);
             getSelector($, catalog.popular.manga.element_selector).each(function () {
                 let manga = {
-                    in_library: false
+                    in_library: false,
+                    catalog: catalog.file,
+                    detail_fetched: false,
+                    chapters: []
                 };
 
                 let self = this;
@@ -52,9 +55,6 @@ Parser.getPopularMangaList = function (catalog, url) {
                 });
 
                 manga.id = crypto.createHash('md5').update(manga.url).digest('hex');
-                manga.catalog = catalog.file;
-                manga.detail_fetched = false;
-                manga.chapters = [];
                 mangas.push(manga);
             });
 
@@ -96,11 +96,11 @@ Parser.getChapterList = function (catalog, manga) {
             let $ = cheerio.load(page);
 
             getSelector($, catalog.chapter_list.element_selector).each(function () {
-                var chapter = {
+                let chapter = {
                     manga: manga.id,
                     read: false
                 };
-                var self = this;
+                let self = this;
 
                 _.forEach(catalog.chapter_list.fields, function (selector, field) {
                     chapter[field] = trimSpaces(selector($(self)));

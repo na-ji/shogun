@@ -11,6 +11,9 @@
  * @flow
  */
 import { app, BrowserWindow } from 'electron';
+import fs from 'fs';
+import path from 'path';
+
 import MenuBuilder from './menu';
 
 let mainWindow = null;
@@ -26,6 +29,9 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
     const p = path.join(__dirname, '..', 'app', 'node_modules');
     require('module').globalPaths.push(p);
 }
+
+// adds RxDB coordinator to the main process
+require('electron-rxdb')();
 
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');
@@ -51,7 +57,13 @@ app.on('window-all-closed', () => {
     }
 });
 
-app.on('ready', async () => {
+const prepareFilesystem = (callback) => {
+    global.dataDirectory = path.join(app.getPath('appData'), 'Shogun');
+    console.log(`Using SQLite database at path: ${global.dataDirectory}`);
+    fs.mkdir(global.dataDirectory, callback);
+};
+
+const createMainWindow = async () => {
     if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
         await installExtensions();
     }
@@ -64,9 +76,7 @@ app.on('ready', async () => {
 
     mainWindow.loadURL(`file://${__dirname}/app.html`);
 
-    // @TODO: Use 'ready-to-show' event
-    //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-    mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.once('ready-to-show', () => {
         if (!mainWindow) {
             throw new Error('"mainWindow" is not defined');
         }
@@ -74,10 +84,16 @@ app.on('ready', async () => {
         mainWindow.focus();
     });
 
-    mainWindow.on('closed', () => {
+    mainWindow.once('closed', () => {
         mainWindow = null;
     });
 
     const menuBuilder = new MenuBuilder(mainWindow);
     menuBuilder.buildMenu();
+};
+
+app.on('ready', () => {
+    prepareFilesystem(() => {
+        createMainWindow();
+    });
 });

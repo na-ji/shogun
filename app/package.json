@@ -14,5 +14,6 @@
     },
     "license": "WTFPL",
     "dependencies": {
+        "electron-rxdb": "^0.8.3"
     }
 }

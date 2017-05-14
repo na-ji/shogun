@@ -1,8 +1,15 @@
+import { RxDatabase } from 'electron-rxdb';
+import { remote } from 'electron';
+import path from 'path';
+
+import Chapter from '../models/chapter';
+// import Manga from '../models/manga';
+
 var PouchDB = require('pouchdb-browser');
 PouchDB.plugin(require('relational-pouch'));
 
-// var DB = new PouchDB('http://localhost:5984/open-manga');
-var DB = new PouchDB('open-manga');
+// var DB = new PouchDB('http://localhost:5984/shogun');
+var DB = new PouchDB('shogun');
 
 DB.setSchema([
     {singular: 'manga', plural: 'mangas', relations: {chapters: {hasMany: 'chapter'}}},
@@ -35,11 +42,22 @@ DB.put(ddoc).then(function () {
     }
 });
 
-// Initial query to build index and have faster queries after
-// DB.query('manga_index/by_in_library', {
-//     limit: 0 // don't return any results
-// }).then(function (res) {
-// }).catch(function (err) {
-// });
+const Database = new RxDatabase({
+    primary: true,
+    databasePath: path.join(remote.getGlobal('dataDirectory'), 'sqlite.db'),
+    databaseVersion: '1',
+    logQueries: false,
+    logQueryPlans: false
+});
+
+Database.on('will-rebuild-database', ({error}) => {
+    console.log('A critical database error has occurred.', error.stack);
+});
+
+window.Database = Database;
+window.Chapter = Chapter;
+
+// Database.models.register(Chapter);
+// Database.models.register(Manga);
 
 module.exports = DB;
