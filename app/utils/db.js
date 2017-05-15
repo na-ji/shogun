@@ -3,7 +3,7 @@ import { remote } from 'electron';
 import path from 'path';
 
 import Chapter from '../models/chapter';
-// import Manga from '../models/manga';
+import Manga from '../models/manga';
 
 var PouchDB = require('pouchdb-browser');
 PouchDB.plugin(require('relational-pouch'));
@@ -46,18 +46,26 @@ const Database = new RxDatabase({
     primary: true,
     databasePath: path.join(remote.getGlobal('dataDirectory'), 'sqlite.db'),
     databaseVersion: '1',
-    logQueries: false,
-    logQueryPlans: false
+    logQueries: true,
+    logQueryPlans: true
 });
 
 Database.on('will-rebuild-database', ({error}) => {
     console.log('A critical database error has occurred.', error.stack);
 });
 
-window.Database = Database;
-window.Chapter = Chapter;
+Database.models.registerDeferred({name: 'Chapter', resolver: () => Chapter});
+Database.models.registerDeferred({name: 'Manga', resolver: () => Manga});
 
-// Database.models.register(Chapter);
-// Database.models.register(Manga);
+// const chapter = new Chapter({
+//     name: 'Untitled',
+//     url: 'http://mangastream.com',
+//     publishedAt: new Date()
+// });
+// console.log(chapter);
+// Database.inTransaction((t) => {
+//     console.log(t);
+//     return t.persistModel(chapter);
+// });
 
 module.exports = DB;

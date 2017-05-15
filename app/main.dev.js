@@ -16,6 +16,9 @@ import path from 'path';
 
 import MenuBuilder from './menu';
 
+// adds RxDB coordinator to the main process
+require('electron-rxdb')();
+
 let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
@@ -29,9 +32,6 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
     const p = path.join(__dirname, '..', 'app', 'node_modules');
     require('module').globalPaths.push(p);
 }
-
-// adds RxDB coordinator to the main process
-require('electron-rxdb')();
 
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');

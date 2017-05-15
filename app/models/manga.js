@@ -1,13 +1,10 @@
 import { Model, Attributes } from 'electron-rxdb';
+import crypto from 'crypto';
 
 import Chapter from './chapter';
 
 export default class Manga extends Model {
     static attributes = Object.assign(Model.attributes, {
-        id: Attributes.String({
-            modelKey: 'id',
-            queryable: true
-        }),
         title: Attributes.String({
             modelKey: 'title',
             queryable: true
@@ -50,4 +47,12 @@ export default class Manga extends Model {
             queryable: true
         })
     });
+
+    static searchIndexes = {};
+
+    constructor (values = {}) {
+        super(values);
+        this.id = this.url ? crypto.createHash('md5').update(this.url).digest('hex') : this.id;
+        this.updatedAt = new Date();
+    }
 }
