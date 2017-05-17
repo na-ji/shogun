@@ -36,18 +36,8 @@ function pages (state = {
                 chapterId: action.chapterId
             });
         case CHANGE_PAGE:
-            let nextPage = state.currentPage;
-
-            if (!isNaN(parseInt(action.nextPage))) {
-                nextPage = parseInt(action.nextPage);
-            } else if (action.nextPage === 'previous') {
-                nextPage = Math.max(0, state.currentPage - 1);
-            } else if (action.nextPage === 'next') {
-                nextPage = Math.min(state.pagesUrl.length - 1, state.currentPage + 1);
-            }
-
             return Object.assign({}, state, {
-                currentPage: nextPage
+                currentPage: action.nextPage
             });
         default:
             return state;

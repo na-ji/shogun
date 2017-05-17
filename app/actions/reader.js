@@ -26,10 +26,23 @@ function receivePagesUrl (pagesUrl, chapterId) {
     };
 }
 
-export function changePage (nextPage) {
-    return {
-        type: CHANGE_PAGE,
-        nextPage
+export function changePage (targetPage) {
+    return (dispatch, getState) => {
+        const state = getState().reader.pages;
+        let nextPage = state.currentPage;
+
+        if (!isNaN(parseInt(targetPage))) {
+            nextPage = parseInt(targetPage);
+        } else if (targetPage === 'previous') {
+            nextPage = Math.max(0, state.currentPage - 1);
+        } else if (targetPage === 'next') {
+            nextPage = Math.min(state.pagesUrl.length - 1, state.currentPage + 1);
+        }
+
+        dispatch({
+            type: CHANGE_PAGE,
+            nextPage
+        });
     };
 }
 
