@@ -32,7 +32,7 @@ var unwanted = /(?:(v|ver|vol|version|volume|season).?[0-9]+)/g;
 var unwantedWhiteSpace = /(\s)(extra|special|omake)/g;
 
 ChapterRecognition.parseChapterNumber = function (chapter, manga) {
-    if (chapter.chapter_number === -2 || chapter.chapter_number > -1) {
+    if (chapter.number === -2 || chapter.number > -1) {
         return chapter;
     }
 
@@ -86,7 +86,7 @@ ChapterRecognition.parseChapterNumber = function (chapter, manga) {
         }
     }
 
-    chapter.chapter_number = -2;
+    chapter.number = -2;
 
     return chapter;
 };
@@ -102,7 +102,7 @@ function updateChapter (matches, chapter) {
     let subChapterDecimal = matches[2];
     let subChapterAlpha = matches[3];
     let addition = checkForDecimal(subChapterDecimal, subChapterAlpha);
-    chapter.chapter_number = initial + addition;
+    chapter.number = initial + addition;
 
     return chapter;
 }

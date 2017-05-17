@@ -1,5 +1,5 @@
-var fs = require('fs');
-var path = require('path');
+let fs = require('fs');
+let path = require('path');
 if (process.env.NODE_ENV !== 'test') {
     var req = require.context('./sites');
 }
@@ -35,7 +35,7 @@ class CatalogManager {
         files.forEach(function (file) {
             // console.log(file);
             if (path.extname(file) === '.js') {
-                var catalog = _this.openFile(file);
+                let catalog = _this.openFile(file);
                 // console.log(catalog);
                 _this.catalogs.push(catalog);
             }

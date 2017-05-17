@@ -37,7 +37,7 @@ manga_detail:
         status:
             selector: "dl.dl-horizontal > dd:eq(1)"
             method: "text"
-        thumbnail_url:
+        thumbnailUrl:
             selector: "img.img-responsive"
             method: "attr"
             arguments:

@@ -16,7 +16,7 @@ let ReadMangaToday = {
                 title: ($container) => {
                     return $container.find('div.title > h2 > a').attr('title');
                 },
-                thumbnail_url: ($container) => {
+                thumbnailUrl: ($container) => {
                     return $container.find('img').attr('src');
                 }
             }
@@ -44,7 +44,7 @@ let ReadMangaToday = {
             status: ($container) => {
                 return $container.find('dl.dl-horizontal > dd').eq(1).text();
             },
-            thumbnail_url: ($container) => {
+            thumbnailUrl: ($container) => {
                 return $container.find('img.img-responsive').attr('src');
             }
         }
@@ -59,7 +59,7 @@ let ReadMangaToday = {
             name: ($container) => {
                 return $container.find('a').first().find('span.val').text();
             },
-            date: ($container) => {
+            publishedAt: ($container) => {
                 return parseDateAgo(trimSpaces($container.find('span.dte').first().text()));
             }
         }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import MangaInfo from './MangaInfo';
 import ChapterList from '../chapters/ChapterList';
@@ -20,7 +21,7 @@ class MangaPage extends Component {
                     <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} />
                 </div>
                 <div className="col-sm-7 col-md-8 col-lg-9">
-                    <ChapterList manga={state.manga} chapters={state.chapters} loading={state.chapterLoading} />
+                    <ChapterList manga={state.manga} chapters={state.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} />
                 </div>
             </div>
         );

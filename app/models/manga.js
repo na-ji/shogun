@@ -1,5 +1,6 @@
 import { Model, Attributes } from 'electron-rxdb';
 import crypto from 'crypto';
+import _ from 'lodash';
 
 import Chapter from './chapter';
 
@@ -8,6 +9,9 @@ export default class Manga extends Model {
         title: Attributes.String({
             modelKey: 'title',
             queryable: true
+        }),
+        catalog: Attributes.String({
+            modelKey: 'catalog'
         }),
         inLibrary: Attributes.Boolean({
             modelKey: 'inLibrary',
@@ -22,7 +26,8 @@ export default class Manga extends Model {
         chapters: Attributes.Collection({
             modelKey: 'chapters',
             itemClass: Chapter,
-            joinOnField: 'id'
+            joinOnField: 'id',
+            joinQueryableBy: ['inLibrary']
         }),
         thumbnailUrl: Attributes.String({
             modelKey: 'thumbnailUrl'
@@ -43,8 +48,7 @@ export default class Manga extends Model {
             modelKey: 'status'
         }),
         updatedAt: Attributes.DateTime({
-            modelKey: 'updatedAt',
-            queryable: true
+            modelKey: 'updatedAt'
         })
     });
 
@@ -52,7 +56,14 @@ export default class Manga extends Model {
 
     constructor (values = {}) {
         super(values);
-        this.id = this.url ? crypto.createHash('md5').update(this.url).digest('hex') : this.id;
         this.updatedAt = new Date();
+        this.inLibrary = _.isNil(this.inLibrary) ? false : this.inLibrary;
+        this.detailsFetched = _.isNil(this.detailsFetched) ? false : this.detailsFetched;
+        this.generateId();
+        // this.generateId = this.generateId.bind(this);
+    }
+
+    generateId () {
+        this.id = this.url ? crypto.createHash('md5').update(this.url).digest('hex') : this.id;
     }
 }

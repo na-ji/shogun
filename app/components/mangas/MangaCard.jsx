@@ -6,7 +6,7 @@ import styles from './mangaCard.less';
 export default class MangaCard extends React.Component {
     render () {
         let inlineStyle = {
-            backgroundImage: 'url(' + this.props.manga.thumbnail_url + ')'
+            backgroundImage: 'url(' + this.props.manga.thumbnailUrl + ')'
         };
 
         return (

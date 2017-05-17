@@ -7,8 +7,8 @@ import { shell } from 'electron';
 import Spinner from '../spinner/Spinner';
 
 export default class MangaInfo extends Component {
-    constructor () {
-        super();
+    constructor (props) {
+        super(props);
 
         // we bind 'this' to handleResize()
         this.openExternal = this.openExternal.bind(this);
@@ -71,10 +71,10 @@ export default class MangaInfo extends Component {
             <div>
                 <h3>{this.props.manga.title}</h3>
                 <Overdrive id={this.props.manga.id} duration={400}>
-                    <img src={this.props.manga.thumbnail_url} />
+                    <img src={this.props.manga.thumbnailUrl} />
                 </Overdrive>
                 {render}
-                <button onClick={this.props.toggleLibrary} className={`btn btn-fab ${(this.props.manga.in_library ? ' btn-primary' : '')}`}>
+                <button onClick={this.props.toggleLibrary} className={`btn btn-fab ${(this.props.manga.inLibrary ? ' btn-primary' : '')}`}>
                     <i className="material-icons">grade</i>
                 </button>
             </div>

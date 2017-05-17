@@ -103,7 +103,7 @@ describe('chapter recognition', function () {
             let result = chapterRecognition.parseChapterNumber({name: spec.name}, {title: spec.title});
             let expectedMatch = {
                 name: spec.name,
-                chapter_number: spec.result
+                number: spec.result
             };
             expect(result).toMatchObject(expectedMatch);
         });

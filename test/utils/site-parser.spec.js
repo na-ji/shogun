@@ -1,7 +1,7 @@
-var catalogManager = require('../../app/utils/catalog-manager');
-var parser = require('../../app/utils/site-parser');
+import CatalogManager from '../../app/utils/catalog-manager';
+import Parser from '../../app/utils/site-parser';
 
-catalogManager.getCatalogList().forEach(function (catalog) {
+CatalogManager.getCatalogList().forEach(function (catalog) {
     describe('parser for ' + catalog.name, function () {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
@@ -9,7 +9,7 @@ catalogManager.getCatalogList().forEach(function (catalog) {
         describe('getPopularMangaList', function () {
             let response;
             it('expect response to be an object with keys', function (done) {
-                parser.getPopularMangaList(catalog).then(function (resp) {
+                Parser.getPopularMangaList(catalog).then(function (resp) {
                     response = resp;
                     expect(response).toEqual(expect.objectContaining({
                         mangas: expect.any(Array),
@@ -29,14 +29,14 @@ catalogManager.getCatalogList().forEach(function (catalog) {
         describe('getMangaDetail', function () {
             let response;
             it('expect manga to be an object with keys', function (done) {
-                parser.getMangaDetail(catalog, manga).then(function (resp) {
+                Parser.getMangaDetail(catalog, manga).then(function (resp) {
                     response = resp;
                     expect(response).toEqual(expect.objectContaining({
                         url: expect.any(String),
-                        in_library: expect.any(Boolean),
+                        inLibrary: expect.any(Boolean),
                         id: expect.any(String),
                         catalog: expect.any(String),
-                        thumbnail_url: expect.any(String)
+                        thumbnailUrl: expect.any(String)
                     }));
                     manga = response;
                     done();
@@ -51,7 +51,7 @@ catalogManager.getCatalogList().forEach(function (catalog) {
         var chapter;
         describe('getChapterList', function () {
             it('expect chapters to be an array', function (done) {
-                parser.getChapterList(catalog, manga).then(function (chapters) {
+                Parser.getChapterList(catalog, manga).then(function (chapters) {
                     expect(chapters).toEqual(expect.any(Array));
                     expect(chapters.length).toBeGreaterThanOrEqual(1);
                     if (chapters.length) {
@@ -78,7 +78,7 @@ catalogManager.getCatalogList().forEach(function (catalog) {
         var page;
         describe('getPageList', function () {
             it('expect pages to be an array', function (done) {
-                parser.getPageList(catalog, chapter).then(function (pages) {
+                Parser.getPageList(catalog, chapter).then(function (pages) {
                     expect(pages).toEqual(expect.any(Array));
                     expect(pages.length).toBeGreaterThanOrEqual(1);
                     page = pages[0];
@@ -93,7 +93,7 @@ catalogManager.getCatalogList().forEach(function (catalog) {
 
         describe('getImageURL', function () {
             it('expect url to be a string', function (done) {
-                parser.getImageURL(catalog, page).then(function (imageURL) {
+                Parser.getImageURL(catalog, page).then(function (imageURL) {
                     expect(imageURL).toEqual(expect.any(String));
                     done();
                 }).catch(function (error) {

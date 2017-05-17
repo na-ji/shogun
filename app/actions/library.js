@@ -2,7 +2,7 @@ export const REQUEST_LIBRARY = 'REQUEST_LIBRARY';
 export const RECEIVE_LIBRARY = 'RECEIVE_LIBRARY';
 export const TOGGLE_MANGA_TO_LIBRARY = 'TOGGLE_MANGA_TO_LIBRARY';
 
-let mangaManager = require('../utils/manga-manager');
+import MangaManager from '../utils/manga-manager';
 
 function requestLibrary () {
     return {
@@ -24,7 +24,7 @@ export function toggleMangaToLibrary (manga) {
             manga
         });
 
-        mangaManager.toggleInLibrary(manga);
+        MangaManager.toggleInLibrary(manga);
     };
 }
 
@@ -34,7 +34,7 @@ export function fetchLibrary () {
 
         if (!state.loaded) {
             dispatch(requestLibrary());
-            mangaManager.getLibrary().then(function (mangas) {
+            MangaManager.getLibrary().observe().subscribe(mangas => {
                 dispatch(receiveLibrary(mangas));
             });
         }

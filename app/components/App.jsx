@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 
 class App extends Component {
-    constructor () {
-        super();
+    constructor (props) {
+        super(props);
 
         this.goBack = this.goBack.bind(this);
     }

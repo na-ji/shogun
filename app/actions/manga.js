@@ -1,13 +1,14 @@
+import _ from 'lodash';
+
+import MangaManager from '../utils/manga-manager';
+import { TOGGLE_MANGA_TO_LIBRARY } from './library';
+
 export const LOAD_MANGA = 'LOAD_MANGA';
 // export const REQUEST_CHAPTERS = 'REQUEST_CHAPTERS';
 export const RECEIVE_CHAPTERS = 'RECEIVE_CHAPTERS';
 // export const REQUEST_DETAILS = 'REQUEST_DETAILS';
 export const RECEIVE_DETAILS = 'RECEIVE_DETAILS';
 export const MANGA_TOGGLE_LIBRARY = 'MANGA_TOGGLE_LIBRARY';
-
-import { TOGGLE_MANGA_TO_LIBRARY } from './library';
-
-let mangaManager = require('../utils/manga-manager');
 
 function loadManga (manga) {
     return {
@@ -37,6 +38,7 @@ export function toggleLibrary () {
         });
 
         const { manga } = getState().manga;
+        MangaManager.persistManga(manga);
 
         dispatch({
             type: TOGGLE_MANGA_TO_LIBRARY,
@@ -49,19 +51,18 @@ function fetchInfos (manga) {
     return (dispatch) => {
         dispatch(loadManga(manga));
 
-        if (!manga.chapters.length) {
-            mangaManager.getChapterList(manga).then(function (chapters) {
+        if (_.isNil(manga.chapters) || !manga.chapters.length) {
+            MangaManager.getChapterList(manga).then(function (chapters) {
                 dispatch(receiveChapters(chapters));
             });
         } else {
-            mangaManager.getMangaById(manga.id).then(function (response) {
+            MangaManager.getMangaById(manga.id).then(function (response) {
                 dispatch(receiveChapters(response.chapters));
             });
         }
 
-        if (!manga.detail_fetched) {
-            mangaManager.getMangaDetail(manga).then(function (manga) {
-                console.log(manga);
+        if (!manga.detailsFetched) {
+            MangaManager.getMangaDetail(manga).then(function (manga) {
                 dispatch(receiveDetails(manga));
             });
         }

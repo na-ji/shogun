@@ -1,163 +1,231 @@
-var Promise = require('promise');
-var CatalogManager = require('./catalog-manager');
-var Parser = require('./site-parser');
-var _ = require('lodash');
-var db = require('./db');
+import _ from 'lodash';
+import Promise from 'promise';
 
-var MangaManager = {};
+import CatalogManager from './catalog-manager';
+import Parser from './site-parser';
+import db from './db';
+import Chapter from '../models/chapter';
+import Manga from '../models/manga';
 
-MangaManager.getPopularManga = function (catalogName, url) {
-    let catalog = CatalogManager.getCatalog(catalogName);
+export default class MangaManager {
+    /**
+     * @param {string} catalogName - The name of the catalog to use
+     * @param {string} url - Optional URL to fetch, used for pagination
+     * @return {Promise}
+     */
+    static getPopularManga (catalogName, url) {
+        let catalog = CatalogManager.getCatalog(catalogName);
 
-    return new Promise(function (resolve, reject) {
-        Parser.getPopularMangaList(catalog, url).then(function (mangaList) {
-            let promises = [];
+        return new Promise((resolve, reject) => {
+            Parser.getPopularMangaList(catalog, url).then(paginator => {
+                // Check if Manga objects are in database
+                db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
+                    let promises = [];
 
-            _.forEach(mangaList.mangas, function (manga) {
-                promises.push(new Promise(function (resolve, reject) {
-                    db.rel.find('manga', manga.id).then(function (doc) {
-                        if (doc.mangas.length) {
-                            resolve(doc.mangas[0]);
-                        } else {
-                            if (!manga.thumbnail_url) {
-                                Parser.getMangaDetail(catalog, manga).then(function (manga) {
-                                    resolve(manga);
-                                    db.rel.save('manga', manga);
-                                });
+                    // Generate Promise that resolve with full details
+                    _.forEach(mangas, (manga, index) => {
+                        promises.push(new Promise((resolve, reject) => {
+                            if (!_.isNil(manga)) {
+                                resolve(manga);
+                            } else {
+                                if (!paginator.mangas[index].thumbnailUrl) {
+                                    Parser.getMangaDetail(catalog, manga).then(manga => {
+                                        resolve(manga);
+                                    });
+                                } else {
+                                    resolve(paginator.mangas[index]);
+                                }
                             }
-                        }
+                        }));
                     });
-                }));
-            });
 
-            resolve({
-                ...mangaList,
-                promises
-            });
-        });
-    });
-};
-
-MangaManager.getMangaById = function (mangaId) {
-    return new Promise(function (resolve, reject) {
-        let before = (new Date()).getTime();
-        db.rel.find('manga', mangaId).then(function (doc) {
-            console.log('getMangaById took %d ms', (new Date()).getTime() - before);
-            if (doc.mangas.length) {
-                resolve({
-                    manga: doc.mangas[0],
-                    chapters: (doc.chapters ? doc.chapters : [])
-                });
-            } else {
-                reject(new Error('No manga found'));
-            }
-        });
-    });
-};
-
-MangaManager.getMangaDetail = function (manga) {
-    let catalog = CatalogManager.getCatalog(manga.catalog);
-
-    return new Promise(function (resolve, reject) {
-        Parser.getMangaDetail(catalog, manga).then(function (manga) {
-            resolve(manga);
-            db.rel.save('manga', manga);
-        }).catch(function (error) {
-            return reject(error);
-        });
-    });
-};
-
-MangaManager.toggleInLibrary = function (manga) {
-    manga.in_library = !manga.in_library;
-    db.rel.save('manga', manga);
-};
-
-MangaManager.getChapterList = function (manga) {
-    var catalog = CatalogManager.getCatalog(manga.catalog);
-
-    return new Promise(function (resolve, reject) {
-        Parser.getChapterList(catalog, manga).then(function (chapters) {
-            if (manga.in_library) {
-                // save chapter to DB
-                var chapterIds = [];
-                let done = _.after(chapters.length, function () {
-                    // save manga to DB atfer every chapters are saved
-                    manga.chapters = _.union(manga.chapters, chapterIds);
-                    db.rel.save('manga', manga).catch(function (err) {
-                        console.log(err);
+                    resolve({
+                        ...paginator,
+                        promises
                     });
-                });
 
-                _.forEach(chapters, function (chapter) {
-                    db.rel.find('chapter', chapter.id).then(function (doc) {
-                        if (!doc.chapters.length) {
-                            db.rel.save('chapter', chapter).catch(function (err) {
-                                console.log(err);
+                    // TODO : Use bluebird mapSeries
+                    Promise.all(promises).then(values => {
+                        let toPersist = [];
+                        _.forEach(mangas, (manga, index) => {
+                            if (_.isNil(manga)) {
+                                toPersist.push(values[index]);
+                            }
+                        });
+
+                        console.log('%d mangas to persist', toPersist.length);
+                        console.log(toPersist);
+
+                        if (toPersist.length) {
+                            db.inTransaction((t) => {
+                                return t.persistModels(toPersist);
                             });
                         }
-                        chapterIds.push(chapter.id);
-                        done();
                     });
                 });
-            }
-
-            resolve(chapters);
-        });
-    });
-};
-
-MangaManager.getLibrary = function () {
-    return new Promise(function (resolve, reject) {
-        let before = (new Date()).getTime();
-        db.query('manga_index/by_in_library', {
-            key: true,
-            include_docs: true
-        }).then(function (response) {
-            console.log('getLibrary took %d ms', (new Date()).getTime() - before);
-            console.log(response);
-            let mangas = [];
-
-            _.forEach(response.rows, function (row) {
-                let manga = row.doc.data;
-                manga.id = row.id.replace('manga', '').replace(/^_\d+_/, '');
-                manga.rev = row.doc._rev;
-                mangas.push(manga);
             });
-
-            resolve(mangas);
         });
-    });
-};
+    }
 
-MangaManager.getChapterPages = function (manga, chapter) {
-    var catalog = CatalogManager.getCatalog(manga.catalog);
+    /**
+     * @param {string} mangaId
+     * @return {Promise}
+     */
+    static getMangaById (mangaId) {
+        return new Promise((resolve, reject) => {
+            let before = (new Date()).getTime();
 
-    return new Promise(function (resolve, reject) {
-        let before = (new Date()).getTime();
-        Parser.getPageList(catalog, chapter).then(function (pages) {
-            console.log('getChapterPages took %d ms', (new Date()).getTime() - before);
-            resolve(pages);
-        }).catch(function (error) {
-            console.error('getChapterPages failed after %d ms', (new Date()).getTime() - before);
-            reject(error);
+            db.find(Manga, mangaId).then(manga => {
+                console.log('getMangaById took %d ms', (new Date()).getTime() - before);
+                if (manga !== null) {
+                    resolve({
+                        manga: manga,
+                        chapters: (manga.chapters ? manga.chapters : [])
+                    });
+                } else {
+                    reject(new Error('No manga found'));
+                }
+            });
         });
-    });
-};
+    }
 
-MangaManager.getImageURL = function (manga, pageURL) {
-    var catalog = CatalogManager.getCatalog(manga.catalog);
+    /**
+     * @param {Manga} manga
+     * @return {Promise}
+     */
+    static getMangaDetail (manga) {
+        let catalog = CatalogManager.getCatalog(manga.catalog);
 
-    return new Promise(function (resolve, reject) {
-        let before = (new Date()).getTime();
-        Parser.getImageURL(catalog, pageURL).then(function (imageURL) {
-            console.log('getImageURL took %d ms', (new Date()).getTime() - before);
-            resolve(imageURL);
-        }).catch(function (error) {
-            console.error('getImageURL failed after %d ms', (new Date()).getTime() - before);
-            reject(error);
+        return new Promise((resolve, reject) => {
+            Parser.getMangaDetail(catalog, manga).then(manga => {
+                resolve(manga);
+                db.inTransaction((t) => {
+                    return t.persistModel(manga);
+                });
+            }).catch(error => {
+                return reject(error);
+            });
         });
-    });
-};
+    }
 
-module.exports = MangaManager;
+    /**
+     * @param {Manga} manga
+     * @return {Promise}
+     */
+    static toggleInLibrary (manga) {
+        manga.inLibrary = !manga.inLibrary;
+
+        return MangaManager.persistManga(manga);
+    }
+
+    /**
+     * @param {Manga} manga
+     * @return {Promise}
+     */
+    static persistManga (manga) {
+        if (!(manga instanceof Manga)) {
+            if (_.isObject(manga)) {
+                manga = new Manga(manga);
+            } else {
+                return console.error(manga, 'is not an object');
+            }
+        }
+        console.log(manga);
+        return db.inTransaction((t) => {
+            return t.persistModel(manga);
+        });
+    }
+
+    /**
+     * @param {Manga} manga
+     * @return {Promise}
+     */
+    static getChapterList (manga) {
+        let catalog = CatalogManager.getCatalog(manga.catalog);
+
+        return new Promise((resolve, reject) => {
+            Parser.getChapterList(catalog, manga).then(chapters => {
+                resolve(chapters);
+
+                if (manga.inLibrary) {
+                    // save chapters to DB
+                    db.modelify(Chapter, _.map(chapters, 'id')).then(chaptersInDb => {
+                        let toPersist = [];
+                        _.forEach(chaptersInDb, function (chapter) {
+                            if (_.isNull(chapter)) {
+                                toPersist.push(chapter);
+                            }
+                        });
+
+                        console.log('%d chapters to persist', toPersist.length);
+                        console.log(toPersist);
+
+                        if (toPersist.length) {
+                            db.inTransaction((t) => {
+                                return t.persistModels(toPersist);
+                            });
+                        }
+
+                        db.inTransaction((t) => {
+                            return t.persistModels(toPersist);
+                        }).then(() => {
+                            manga.chapters = chapters;
+
+                            db.inTransaction((t) => {
+                                return t.persistModel(manga);
+                            });
+                        });
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Return a Query to be observed by Redux
+     * @return {Query}
+     */
+    static getLibrary () {
+        return db.findAll(Manga).where({inLibrary: true}).order(Manga.attributes.title.descending());
+    }
+
+    /**
+     * @param {Manga} manga
+     * @param {Chapter} chapter
+     * @return {Promise}
+     */
+    static getChapterPages (manga, chapter) {
+        let catalog = CatalogManager.getCatalog(manga.catalog);
+
+        return new Promise(function (resolve, reject) {
+            let before = (new Date()).getTime();
+            Parser.getPageList(catalog, chapter).then(function (pages) {
+                console.log('getChapterPages took %d ms', (new Date()).getTime() - before);
+                resolve(pages);
+            }).catch(function (error) {
+                console.error('getChapterPages failed after %d ms', (new Date()).getTime() - before);
+                reject(error);
+            });
+        });
+    }
+
+    /**
+     * @param {Manga} manga
+     * @param {string} pageURL
+     * @return {Promise}
+     */
+    static getImageURL (manga, pageURL) {
+        let catalog = CatalogManager.getCatalog(manga.catalog);
+
+        return new Promise(function (resolve, reject) {
+            let before = (new Date()).getTime();
+            Parser.getImageURL(catalog, pageURL).then(function (imageURL) {
+                console.log('getImageURL took %d ms', (new Date()).getTime() - before);
+                resolve(imageURL);
+            }).catch(function (error) {
+                console.error('getImageURL failed after %d ms', (new Date()).getTime() - before);
+                reject(error);
+            });
+        });
+    }
+}
