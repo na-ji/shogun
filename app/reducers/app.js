@@ -1,4 +1,3 @@
-// @flow
 // import { combineReducers } from 'redux';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { GOING_BACK } from '../actions/app';
@@ -11,13 +10,15 @@ function app (state = {
 }, action) {
     switch (action.type) {
         case LOCATION_CHANGE:
+            console.log(action);
             if (state.isGoingBack) {
                 return Object.assign({}, state, {
-                    isGoingBack: false
+                    isGoingBack: false,
+                    currentPathname: action.payload.pathname
                 });
             }
 
-            if (action.payload.action === 'PUSH' && state.currentPathname !== action.payload.pathname) {
+            if (state.currentPathname !== action.payload.pathname) {
                 return Object.assign({}, state, {
                     canGoBack: true,
                     currentPathname: action.payload.pathname,
