@@ -11,4 +11,6 @@ if (process.argv[2] === 'coverage') {
     pattern = ['--coverage', pattern[0]];
 }
 
-spawn.sync(path.normalize('./node_modules/.bin/jest'), pattern, { stdio: 'inherit' });
+let results = spawn.sync(path.normalize('./node_modules/.bin/jest'), pattern, { stdio: 'inherit' });
+
+process.exit(results.status);
