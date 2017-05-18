@@ -186,7 +186,7 @@ export default class MangaManager {
      * @return {Query}
      */
     static getLibrary () {
-        return db.findAll(Manga).where({inLibrary: true}).order(Manga.attributes.title.descending());
+        return db.findAll(Manga).where({inLibrary: true}).order(Manga.attributes.title.ascending());
     }
 
     /**
