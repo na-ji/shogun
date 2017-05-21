@@ -7106,9 +7106,9 @@ react-list@^0.8.6:
   dependencies:
     prop-types "15"
 
-react-overdrive@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/react-overdrive/-/react-overdrive-0.0.5.tgz#dba3cc80a096adb8a315190f560574e2771c6417"
+react-overdrive@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-overdrive/-/react-overdrive-0.0.6.tgz#8f1697d1a431af014b36fc66b19a98139b721e50"
 
 react-proxy@^1.1.7:
   version "1.1.8"
