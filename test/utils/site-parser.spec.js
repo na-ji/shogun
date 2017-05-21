@@ -1,5 +1,6 @@
 import CatalogManager from '../../app/utils/catalog-manager';
-import Parser from '../../app/utils/site-parser';
+process.type = 'renderer';
+let Parser = require('../../app/utils/site-parser');
 
 CatalogManager.getCatalogList().forEach(function (catalog) {
     describe('parser for ' + catalog.name, function () {
@@ -55,15 +56,12 @@ CatalogManager.getCatalogList().forEach(function (catalog) {
                     expect(chapters).toEqual(expect.any(Array));
                     expect(chapters.length).toBeGreaterThanOrEqual(1);
                     if (chapters.length) {
-                        expect(chapters[0]).toEqual(expect.objectContaining({
-                            manga: expect.any(String),
-                            read: expect.any(Boolean),
-                            url: expect.any(String),
-                            name: expect.any(String),
-                            date: expect.any(Date),
-                            id: expect.any(String),
-                            chapter_number: expect.any(Number)
-                        }));
+                        expect(chapters[0].id).toEqual(expect.any(String));
+                        expect(chapters[0].url).toEqual(expect.any(String));
+                        expect(chapters[0].name).toEqual(expect.any(String));
+                        expect(chapters[0].read).toEqual(expect.any(Boolean));
+                        expect(chapters[0].number).toEqual(expect.any(Number));
+                        expect(chapters[0].publishedAt).toEqual(expect.any(Date));
                     }
                     chapter = chapters[0];
                     done();
