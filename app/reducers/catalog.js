@@ -12,7 +12,6 @@ export default function catalog (state = {
     catalogName: null,
     catalog: null,
     hasNext: false,
-    nextUrl: null,
     mangas: []
 }, action) {
     switch (action.type) {
@@ -28,8 +27,7 @@ export default function catalog (state = {
             });
         case RECEIVE_MANGAS_LIST:
             let futureState = Object.assign({}, state, {
-                hasNext: action.response.has_next,
-                nextUrl: action.response.next_url,
+                hasNext: action.response.hasNext,
                 loading: false
             });
 

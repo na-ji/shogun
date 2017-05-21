@@ -18,6 +18,10 @@ export default class Manga extends Model {
             modelKey: 'catalog',
             queryable: true
         }),
+        catalogId: Attributes.Number({
+            modelKey: 'catalogId',
+            queryable: true
+        }),
         inLibrary: Attributes.Boolean({
             modelKey: 'inLibrary',
             queryable: true

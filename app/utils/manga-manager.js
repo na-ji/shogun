@@ -10,58 +10,92 @@ import Manga from '../models/manga';
 export default class MangaManager {
     /**
      * @param {string} catalogName - The name of the catalog to use
-     * @param {string} url - Optional URL to fetch, used for pagination
+     * @param {boolean} fetchNextPage - Optional URL to fetch, used for pagination
      * @return {Promise}
      */
-    static getPopularManga (catalogName, url) {
+    static getPopularManga (catalogName, fetchNextPage = false) {
         let catalog = CatalogManager.getCatalog(catalogName);
 
         return new Promise((resolve, reject) => {
-            Parser.getPopularMangaList(catalog, url).then(paginator => {
-                // Check if Manga objects are in database
-                db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
-                    let promises = [];
+            if (fetchNextPage) {
+                return MangaManager.handlePopularMangaList(catalog, resolve, reject, fetchNextPage);
+            }
 
-                    // Generate Promise that resolve with full details
-                    _.forEach(mangas, (manga, index) => {
-                        promises.push(new Promise((resolve, reject) => {
-                            if (!_.isNil(manga)) {
-                                resolve(manga);
-                            } else {
-                                if (!paginator.mangas[index].thumbnailUrl) {
-                                    Parser.getMangaDetail(catalog, manga).then(manga => {
-                                        resolve(manga);
-                                    });
-                                } else {
-                                    resolve(paginator.mangas[index]);
-                                }
-                            }
-                        }));
-                    });
-
-                    resolve({
-                        ...paginator,
-                        promises
-                    });
-
-                    // TODO : Use bluebird mapSeries
-                    Promise.all(promises).then(values => {
-                        let toPersist = [];
-                        _.forEach(mangas, (manga, index) => {
-                            if (_.isNil(manga)) {
-                                toPersist.push(values[index]);
-                            }
+            db
+                .findAll(Manga)
+                .where({catalog: catalog.file})
+                .order(Manga.attributes.catalogId.ascending())
+                .limit(20)
+                .then(mangas => {
+                    if (mangas.length) {
+                        resolve({
+                            mangas,
+                            hasNext: true,
+                            promises: []
                         });
 
-                        console.log('%d mangas to persist', toPersist.length);
-                        console.log(toPersist);
+                        return Parser.getPopularMangaList(catalog);
+                    }
 
-                        if (toPersist.length) {
-                            db.inTransaction((t) => {
-                                return t.persistModels(toPersist);
-                            });
+                    MangaManager.handlePopularMangaList(catalog, resolve, reject);
+                })
+            ;
+        });
+    }
+
+    /**
+     * @private
+     * @param {object} catalog
+     * @param {function} resolve
+     * @param {function} reject
+     * @param {boolean} fetchNextPage
+     */
+    static handlePopularMangaList (catalog, resolve, reject, fetchNextPage = false) {
+        Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
+            // Check if Manga objects are in database
+            db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
+                let promises = [];
+
+                // Generate Promise that resolve with full details
+                _.forEach(mangas, (manga, index) => {
+                    promises.push(new Promise(function (resolve, reject) {
+                        if (!_.isNil(manga)) {
+                            resolve(manga);
+                        } else {
+                            if (!paginator.mangas[index].thumbnailUrl) {
+                                Parser.getMangaDetail(catalog, manga).then(manga => {
+                                    resolve(manga);
+                                });
+                            } else {
+                                resolve(paginator.mangas[index]);
+                            }
+                        }
+                    }));
+                });
+
+                resolve({
+                    mangas: paginator.mangas,
+                    hasNext: paginator.hasNext,
+                    promises
+                });
+
+                // TODO : Use bluebird mapSeries
+                Promise.all(promises).then(values => {
+                    let toPersist = [];
+                    _.forEach(mangas, (manga, index) => {
+                        if (_.isNil(manga)) {
+                            toPersist.push(values[index]);
                         }
                     });
+
+                    console.log('%d mangas to persist', toPersist.length);
+                    console.log(toPersist);
+
+                    if (toPersist.length) {
+                        db.inTransaction((t) => {
+                            return t.persistModels(toPersist);
+                        });
+                    }
                 });
             });
         });

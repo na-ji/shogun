@@ -30,13 +30,26 @@ function getSelector ($, selector) {
 
 export default class Parser {
     /**
+     * Next indexes to return by catalog
+     * @type {object}
+     */
+    static indexes = {};
+
+    /**
+     * Paginator by catalog
+     * @type {object}
+     */
+    static popularPaginator = {};
+
+    /**
      * @param {object} catalog
-     * @param {string} url
+     * @param {boolean} fetchNextPage
      * @return {Promise}
      */
-    static getPopularMangaList (catalog, url) {
-        if (undefined === url) {
-            url = catalog.base_url + catalog.popular.url;
+    static getPopularMangaList (catalog, fetchNextPage = false) {
+        let url = catalog.base_url + catalog.popular.url;
+        if (fetchNextPage && catalog.file in Parser.popularPaginator) {
+            url = Parser.popularPaginator[catalog.file].nextUrl;
         }
 
         return new Promise(function (resolve, reject) {
@@ -57,13 +70,18 @@ export default class Parser {
                     });
 
                     manga.generateId();
+                    manga.catalogId = Parser.getNextIndex(catalog);
                     mangas.push(manga);
                 });
 
+                Parser.popularPaginator[catalog.file] = {
+                    hasNext: Boolean($(catalog.popular.next_url_selector).length),
+                    nextUrl: $(catalog.popular.next_url_selector).attr('href')
+                };
+
                 return resolve({
-                    'mangas': mangas,
-                    'has_next': Boolean($(catalog.popular.next_url_selector).length),
-                    'next_url': $(catalog.popular.next_url_selector).attr('href')
+                    mangas,
+                    ...Parser.popularPaginator[catalog.file]
                 });
             });
         });
@@ -168,5 +186,18 @@ export default class Parser {
                 resolve(imageURL);
             });
         });
+    }
+
+    /**
+     * @private
+     * @param {object} catalog
+     * @return {number}
+     */
+    static getNextIndex (catalog) {
+        if (!(catalog.file in Parser.indexes)) {
+            Parser.indexes[catalog.file] = 0;
+        }
+
+        return Parser.indexes[catalog.file]++;
     }
 }

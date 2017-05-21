@@ -6,8 +6,8 @@ export const RECEIVE_MANGA_DETAILS = 'RECEIVE_MANGA_DETAILS';
 // export const CANCEL_REQUEST = 'CANCEL_REQUEST';
 // export const REQUEST_CANCELED = 'REQUEST_CANCELED';
 
-import mangaManager from '../utils/manga-manager';
-import catalogManager from '../utils/catalog-manager';
+import MangaManager from '../utils/manga-manager';
+import CatalogManager from '../utils/catalog-manager';
 import _ from 'lodash';
 
 function receiveMangasList (response, override) {
@@ -26,7 +26,7 @@ function receiveMangaDetails (manga) {
 }
 
 function getPopularMangas (catalogName) {
-    let catalog = catalogManager.getCatalog(catalogName);
+    let catalog = CatalogManager.getCatalog(catalogName);
 
     return {
         type: GET_POPULAR_MANGAS,
@@ -60,7 +60,7 @@ export function fetchPopularMangas (catalogName) {
         const oldCatalogName = getState().catalog.catalogName;
         if (catalogName !== oldCatalogName) {
             dispatch(getPopularMangas(catalogName));
-            dispatch(fetchMangasList(mangaManager.getPopularManga(catalogName), true));
+            dispatch(fetchMangasList(MangaManager.getPopularManga(catalogName), true));
         }
     };
 }
@@ -70,7 +70,7 @@ export function fetchMore () {
         const state = getState().catalog;
         if (state.hasNext) {
             dispatch(loadMore());
-            dispatch(fetchMangasList(mangaManager.getPopularManga(state.catalogName, state.nextUrl), false));
+            dispatch(fetchMangasList(MangaManager.getPopularManga(state.catalogName, true), false));
         }
     };
 }

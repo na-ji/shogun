@@ -20,12 +20,17 @@ Database.on('will-rebuild-database', ({error}) => {
 Database.models.registerDeferred({name: 'Manga', resolver: () => Manga});
 Database.models.registerDeferred({name: 'Chapter', resolver: () => Chapter});
 
-Database._query('SELECT stat FROM sqlite_stat1 WHERE idx = "Manga_id";').then(response => {
-    console.log('%s mangas in DB', response[0].stat.split(' ')[0]);
-});
+let countItemsInDb = function (table, name) {
+    Database._query(`SELECT stat FROM sqlite_stat1 WHERE idx = "${table}";`).then(response => {
+        let count = 0;
+        if (response.length) {
+            count = response[0].stat.split(' ')[0];
+        }
+        console.log('%s %s in DB', count, name);
+    });
+};
 
-Database._query('SELECT stat FROM sqlite_stat1 WHERE idx = "MangaChapter_id";').then(response => {
-    console.log('%s chapters in DB', response[0].stat.split(' ')[0]);
-});
+countItemsInDb('Manga_id', 'mangas');
+countItemsInDb('MangaChapter_id', 'chapters');
 
 export default Database;

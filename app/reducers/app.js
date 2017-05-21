@@ -10,7 +10,6 @@ function app (state = {
 }, action) {
     switch (action.type) {
         case LOCATION_CHANGE:
-            console.log(action);
             if (state.isGoingBack) {
                 return Object.assign({}, state, {
                     isGoingBack: false,
