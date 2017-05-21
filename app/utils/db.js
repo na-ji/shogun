@@ -21,16 +21,16 @@ Database.models.registerDeferred({name: 'Manga', resolver: () => Manga});
 Database.models.registerDeferred({name: 'Chapter', resolver: () => Chapter});
 
 let countItemsInDb = function (table, name) {
-    Database._query(`SELECT stat FROM sqlite_stat1 WHERE idx = "${table}";`).then(response => {
+    Database._query(`SELECT COUNT(*) AS count FROM ${table};`).then(response => {
         let count = 0;
         if (response.length) {
-            count = response[0].stat.split(' ')[0];
+            count = response[0].count;
         }
         console.log('%s %s in DB', count, name);
     });
 };
 
-countItemsInDb('Manga_id', 'mangas');
-countItemsInDb('MangaChapter_id', 'chapters');
+countItemsInDb('Manga', 'mangas');
+countItemsInDb('MangaChapter', 'chapters');
 
 export default Database;
