@@ -58,7 +58,7 @@ CatalogManager.getCatalogList().forEach(function (catalog) {
                     if (chapters.length) {
                         expect(chapters[0].id).toEqual(expect.any(String));
                         expect(chapters[0].url).toEqual(expect.any(String));
-                        expect(chapters[0].name).toEqual(expect.any(String));
+                        expect(chapters[0].title).toEqual(expect.any(String));
                         expect(chapters[0].read).toEqual(expect.any(Boolean));
                         expect(chapters[0].number).toEqual(expect.any(Number));
                         expect(chapters[0].publishedAt).toEqual(expect.any(Date));

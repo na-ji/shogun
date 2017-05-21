@@ -147,36 +147,34 @@ export default class MangaManager {
             Parser.getChapterList(catalog, manga).then(chapters => {
                 resolve(chapters);
 
-                if (manga.inLibrary) {
-                    // save chapters to DB
-                    db.modelify(Chapter, _.map(chapters, 'id')).then(chaptersInDb => {
-                        let toPersist = [];
-                        _.forEach(chaptersInDb, function (chapter) {
-                            if (_.isNull(chapter)) {
-                                toPersist.push(chapter);
-                            }
-                        });
-
-                        console.log('%d chapters to persist', toPersist.length);
-                        console.log(toPersist);
-
-                        if (toPersist.length) {
-                            db.inTransaction((t) => {
-                                return t.persistModels(toPersist);
-                            });
+                // save chapters to DB
+                db.modelify(Chapter, _.map(chapters, 'id')).then(chaptersInDb => {
+                    let toPersist = [];
+                    _.forEach(chaptersInDb, function (chapter) {
+                        if (_.isNull(chapter)) {
+                            toPersist.push(chapter);
                         }
+                    });
 
+                    console.log('%d chapters to persist', toPersist.length);
+                    console.log(toPersist);
+
+                    if (toPersist.length) {
                         db.inTransaction((t) => {
                             return t.persistModels(toPersist);
-                        }).then(() => {
-                            manga.chapters = chapters;
+                        });
+                    }
 
-                            db.inTransaction((t) => {
-                                return t.persistModel(manga);
-                            });
+                    db.inTransaction((t) => {
+                        return t.persistModels(toPersist);
+                    }).then(() => {
+                        manga.chapters = chapters;
+
+                        db.inTransaction((t) => {
+                            return t.persistModel(manga);
                         });
                     });
-                }
+                });
             });
         });
     }

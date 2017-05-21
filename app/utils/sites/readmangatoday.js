@@ -56,7 +56,7 @@ let ReadMangaToday = {
             url: ($container) => {
                 return $container.find('a').first().attr('href');
             },
-            name: ($container) => {
+            title: ($container) => {
                 return $container.find('a').first().find('span.val').text();
             },
             publishedAt: ($container) => {

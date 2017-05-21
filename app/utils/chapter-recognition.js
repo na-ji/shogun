@@ -37,20 +37,20 @@ ChapterRecognition.parseChapterNumber = function (chapter, manga) {
     }
 
     // Get chapter title with lower case
-    let name = chapter.name.toLowerCase();
+    let title = chapter.title.toLowerCase();
     let matches;
 
     // Remove comma's from chapter.
-    name = name.replace(',', '.');
+    title = title.replace(',', '.');
 
     // Remove unwanted white spaces.
-    name = name.replace(unwantedWhiteSpace, '$2');
+    title = title.replace(unwantedWhiteSpace, '$2');
 
     // Remove unwanted tags.
-    name = name.replace(unwanted, '');
+    title = title.replace(unwanted, '');
 
     // Check base case ch.xx
-    matches = basic.exec(name);
+    matches = basic.exec(title);
     if (matches) {
         return updateChapter(matches, chapter);
     }
@@ -59,7 +59,7 @@ ChapterRecognition.parseChapterNumber = function (chapter, manga) {
     matches = [];
     let m;
     do {
-        m = occurrence.exec(name);
+        m = occurrence.exec(title);
         if (m) {
             matches.push(m);
         }
@@ -71,16 +71,16 @@ ChapterRecognition.parseChapterNumber = function (chapter, manga) {
 
     if (manga && manga.title) {
         // Remove manga title from chapter title.
-        let nameWithoutManga = name.replace(manga.title.toLowerCase(), '').trim();
+        let titleWithoutManga = title.replace(manga.title.toLowerCase(), '').trim();
 
         // Check if first value is number after title remove.
-        matches = withoutManga.exec(nameWithoutManga);
+        matches = withoutManga.exec(titleWithoutManga);
         if (matches) {
             return updateChapter(matches, chapter);
         }
 
         // Take the first number encountered.
-        matches = occurrence.exec(nameWithoutManga);
+        matches = occurrence.exec(titleWithoutManga);
         if (matches) {
             return updateChapter(matches, chapter);
         }

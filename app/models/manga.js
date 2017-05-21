@@ -5,13 +5,18 @@ import _ from 'lodash';
 import Chapter from './chapter';
 
 export default class Manga extends Model {
-    static attributes = Object.assign(Model.attributes, {
+    static attributes = {
+        id: Attributes.String({
+            modelKey: 'id',
+            queryable: true
+        }),
         title: Attributes.String({
             modelKey: 'title',
             queryable: true
         }),
         catalog: Attributes.String({
-            modelKey: 'catalog'
+            modelKey: 'catalog',
+            queryable: true
         }),
         inLibrary: Attributes.Boolean({
             modelKey: 'inLibrary',
@@ -26,8 +31,8 @@ export default class Manga extends Model {
         chapters: Attributes.Collection({
             modelKey: 'chapters',
             itemClass: Chapter,
-            joinOnField: 'id',
-            joinQueryableBy: ['inLibrary']
+            queryable: true,
+            joinOnField: 'id'
         }),
         thumbnailUrl: Attributes.String({
             modelKey: 'thumbnailUrl'
@@ -50,7 +55,7 @@ export default class Manga extends Model {
         updatedAt: Attributes.DateTime({
             modelKey: 'updatedAt'
         })
-    });
+    };
 
     static searchIndexes = {};
 

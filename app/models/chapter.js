@@ -3,10 +3,13 @@ import crypto from 'crypto';
 import _ from 'lodash';
 
 export default class Chapter extends Model {
-    static attributes = Object.assign(Model.attributes, {
-        name: Attributes.String({
-            modelKey: 'name',
+    static attributes = {
+        id: Attributes.String({
+            modelKey: 'id',
             queryable: true
+        }),
+        title: Attributes.String({
+            modelKey: 'title'
         }),
         url: Attributes.String({
             modelKey: 'url'
@@ -23,7 +26,7 @@ export default class Chapter extends Model {
         read: Attributes.Boolean({
             modelKey: 'read'
         })
-    });
+    };
 
     static searchIndexes = {};
 

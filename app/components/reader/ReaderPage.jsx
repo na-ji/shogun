@@ -62,7 +62,7 @@ class ReaderPage extends Component {
         return (
             <div>
                 <div className={styles.container + ' text-center'}>
-                    <h3>{chapter.name}</h3>
+                    <h3>{chapter.title}</h3>
                     {pagination}
                     {image}
                     {pagination}

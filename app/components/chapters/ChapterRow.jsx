@@ -6,7 +6,7 @@ class ChapterRow extends React.Component {
         return (
             <div>
                 <h4>
-                    {this.props.chapter.name}
+                    {this.props.chapter.title}
                     <span className="pull-right">{moment(this.props.chapter.publishedAt).format('DD-MM-YYYY')}</span>
                 </h4>
             </div>
