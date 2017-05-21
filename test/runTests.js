@@ -8,7 +8,7 @@ let pattern = ['--no-cache', process.argv[2] === 'e2e'
 ];
 
 if (process.argv[2] === 'coverage') {
-    pattern = ['--coverage', pattern[0]];
+    pattern.unshift('--coverage');
 }
 
 let results = spawn.sync(path.normalize('./node_modules/.bin/jest'), pattern, { stdio: 'inherit' });
