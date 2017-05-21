@@ -14,8 +14,8 @@ CatalogManager.getCatalogList().forEach(function (catalog) {
                     response = resp;
                     expect(response).toEqual(expect.objectContaining({
                         mangas: expect.any(Array),
-                        has_next: expect.any(Boolean),
-                        next_url: expect.any(String)
+                        hasNext: expect.any(Boolean),
+                        nextUrl: expect.any(String)
                     }));
                     manga = response.mangas[0];
                     done();
