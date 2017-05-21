@@ -55,10 +55,6 @@ function fetchInfos (manga) {
             MangaManager.getChapterList(manga).then(function (chapters) {
                 dispatch(receiveChapters(chapters));
             });
-        } else {
-            MangaManager.getMangaById(manga.id).then(function (response) {
-                dispatch(receiveChapters(response.chapters));
-            });
         }
 
         if (!manga.detailsFetched) {
