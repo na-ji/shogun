@@ -32,7 +32,7 @@ install:
   - npm install -g npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
   - npm install
-  - cd app && npm rebuild
+  - cd app && npm rebuild && cd ..
 
 # Enable when https://github.com/yarnpkg/yarn/issues/1233 and
 # https://github.com/yarnpkg/yarn/issues/1059 are resolved and disable npm cache
