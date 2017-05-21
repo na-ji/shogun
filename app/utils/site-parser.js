@@ -189,6 +189,50 @@ export default class Parser {
     }
 
     /**
+     * @param {catalog} catalog
+     * @param {string} query
+     */
+    static searchManga (catalog, query) {
+        let options = {
+            url: catalog.base_url + catalog.search.url(query),
+            headers: 'headers' in catalog.search ? catalog.search.headers : {},
+            method: 'method' in catalog.search ? catalog.search.method : 'POST',
+            form: 'form' in catalog.search ? catalog.search.form(query) : {}
+        };
+
+        return new Promise(function (resolve, reject) {
+            request(options, function (error, response, page) {
+                if (error) {
+                    return reject(error);
+                }
+                let mangas = [];
+                let $ = cheerio.load(page);
+
+                getSelector($, catalog.search.manga.element_selector).each(function () {
+                    let manga = new Manga({
+                        catalog: catalog.file
+                    });
+
+                    let self = this;
+                    _.forEach(catalog.search.manga.fields, function (selector, field) {
+                        manga[field] = trimSpaces(selector($(self)));
+                    });
+
+                    manga.generateId();
+                    manga.catalogId = Infinity;
+                    mangas.push(manga);
+                });
+
+                return resolve({
+                    mangas,
+                    hasNext: false,
+                    nextUrl: null
+                });
+            });
+        });
+    }
+
+    /**
      * @private
      * @param {object} catalog
      * @return {number}

@@ -78,6 +78,36 @@ let ReadMangaToday = {
         value: ($) => {
             return $('img.img-responsive-2').first().attr('src');
         }
+    },
+
+    search: {
+        url: () => {
+            return '/service/advanced_search';
+        },
+        form: (query) => {
+            return {
+                type: 'all',
+                status: 'both',
+                'manga-name': query
+            };
+        },
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        manga: {
+            element_selector: 'div.style-list > div.box',
+            fields: {
+                url: ($container) => {
+                    return $container.find('div.title > h2 > a').attr('href');
+                },
+                title: ($container) => {
+                    return $container.find('div.title > h2 > a').attr('title');
+                },
+                thumbnailUrl: ($container) => {
+                    return $container.find('img').attr('src');
+                }
+            }
+        }
     }
 };
 

@@ -18,7 +18,9 @@ export default class MangaManager {
 
         return new Promise((resolve, reject) => {
             if (fetchNextPage) {
-                return MangaManager.handlePopularMangaList(catalog, resolve, reject, fetchNextPage);
+                return Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
+                    MangaManager.handleMangaList(catalog, paginator, resolve, reject, fetchNextPage);
+                });
             }
 
             db
@@ -37,66 +39,83 @@ export default class MangaManager {
                         return Parser.getPopularMangaList(catalog);
                     }
 
-                    MangaManager.handlePopularMangaList(catalog, resolve, reject);
+                    return Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
+                        MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+                    });
                 })
             ;
         });
     }
 
     /**
+     * @param {string} catalogName - The name of the catalog to use
+     * @param {string} query - the manga title to search
+     */
+    static searchManga (catalogName, query) {
+        let catalog = CatalogManager.getCatalog(catalogName);
+
+        return new Promise((resolve, reject) => {
+            Parser.searchManga(catalog, query).then(paginator => {
+                MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+            });
+        });
+    }
+
+    /**
      * @private
      * @param {object} catalog
+     * @param {object} paginator
      * @param {function} resolve
      * @param {function} reject
      * @param {boolean} fetchNextPage
      */
-    static handlePopularMangaList (catalog, resolve, reject, fetchNextPage = false) {
-        Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
-            // Check if Manga objects are in database
-            db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
-                let promises = [];
+    static handleMangaList (catalog, paginator, resolve, reject, fetchNextPage = false) {
+        // Check if Manga objects are in database
+        db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
+            let promises = [];
 
-                // Generate Promise that resolve with full details
-                _.forEach(mangas, (manga, index) => {
-                    promises.push(new Promise(function (resolve, reject) {
-                        if (!_.isNil(manga)) {
-                            resolve(manga);
+            // Generate Promise that resolve with full details
+            _.forEach(mangas, (manga, index) => {
+                promises.push(new Promise(function (resolve, reject) {
+                    if (!_.isNil(manga)) {
+                        // Fix to prevent loss of data from database
+                        manga.catalogId = paginator.mangas[index].catalogId;
+                        resolve(manga);
+                    } else {
+                        if (!paginator.mangas[index].thumbnailUrl) {
+                            Parser.getMangaDetail(catalog, manga).then(manga => {
+                                resolve(manga);
+                            });
                         } else {
-                            if (!paginator.mangas[index].thumbnailUrl) {
-                                Parser.getMangaDetail(catalog, manga).then(manga => {
-                                    resolve(manga);
-                                });
-                            } else {
-                                resolve(paginator.mangas[index]);
-                            }
+                            resolve(paginator.mangas[index]);
                         }
-                    }));
-                });
+                    }
+                }));
+            });
 
-                resolve({
-                    mangas: paginator.mangas,
-                    hasNext: paginator.hasNext,
-                    promises
-                });
+            resolve({
+                mangas: paginator.mangas,
+                hasNext: paginator.hasNext,
+                promises
+            });
 
-                // TODO : Use bluebird mapSeries
-                Promise.all(promises).then(values => {
-                    let toPersist = [];
-                    _.forEach(mangas, (manga, index) => {
-                        if (_.isNil(manga)) {
-                            toPersist.push(values[index]);
-                        }
-                    });
-
-                    console.log('%d mangas to persist', toPersist.length);
-                    console.log(toPersist);
-
-                    if (toPersist.length) {
-                        db.inTransaction((t) => {
-                            return t.persistModels(toPersist);
-                        });
+            // TODO : Use bluebird mapSeries
+            Promise.all(promises).then(values => {
+                let toPersist = [];
+                _.forEach(mangas, (manga, index) => {
+                    if (_.isNil(manga)) {
+                        toPersist.push(values[index]);
                     }
                 });
+
+                console.log('%d/%d mangas to persist', toPersist.length, mangas.length);
+                console.log(toPersist);
+
+                if (toPersist.length) {
+                    db.inTransaction((t) => {
+                        return t.persistModels(toPersist);
+                    });
+                }
             });
         });
     }

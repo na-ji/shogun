@@ -1,6 +1,7 @@
 export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS';
 export const LOAD_MORE = 'LOAD_MORE';
-// export const SEARCH = 'SEARCH';
+export const SEARCH = 'SEARCH';
+export const RESET_SEARCH = 'RESET_SEARCH';
 export const RECEIVE_MANGAS_LIST = 'RECEIVE_MANGAS_LIST';
 export const RECEIVE_MANGA_DETAILS = 'RECEIVE_MANGA_DETAILS';
 // export const CANCEL_REQUEST = 'CANCEL_REQUEST';
@@ -41,6 +42,19 @@ function loadMore () {
     };
 }
 
+function search (query) {
+    return {
+        query,
+        type: SEARCH
+    };
+}
+
+export function resetSearch () {
+    return {
+        type: RESET_SEARCH
+    };
+}
+
 function fetchMangasList (promise, override) {
     return (dispatch) => {
         promise.then(function (response) {
@@ -71,6 +85,16 @@ export function fetchMore () {
         if (state.hasNext) {
             dispatch(loadMore());
             dispatch(fetchMangasList(MangaManager.getPopularManga(state.catalogName, true), false));
+        }
+    };
+}
+
+export function searchManga (query) {
+    return (dispatch, getState) => {
+        const oldQuery = getState().catalog.query;
+        if (query !== oldQuery) {
+            dispatch(search(query));
+            dispatch(fetchMangasList(MangaManager.searchManga(getState().catalog.catalogName, query)));
         }
     };
 }
