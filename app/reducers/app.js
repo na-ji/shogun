@@ -6,14 +6,21 @@ function app (state = {
     canGoBack: false,
     isGoingBack: false,
     currentPathname: '/',
-    historyLength: 0
+    historyLength: 0,
+    scrollPosition: []
 }, action) {
     switch (action.type) {
         case LOCATION_CHANGE:
             if (state.isGoingBack) {
+                // scroll restoration -> fuck it
+                setTimeout(() => {
+                    window.scrollTo(0, state.scrollPosition[state.scrollPosition.length - 1]);
+                }, 10);
+
                 return Object.assign({}, state, {
                     isGoingBack: false,
-                    currentPathname: action.payload.pathname
+                    currentPathname: action.payload.pathname,
+                    scrollPosition: state.scrollPosition.slice(0, -1)
                 });
             }
 
@@ -21,7 +28,8 @@ function app (state = {
                 return Object.assign({}, state, {
                     canGoBack: true,
                     currentPathname: action.payload.pathname,
-                    historyLength: state.historyLength + 1
+                    historyLength: state.historyLength + 1,
+                    scrollPosition: [...state.scrollPosition, window.scrollY]
                 });
             }
 
