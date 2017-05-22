@@ -1,21 +1,33 @@
 import React from 'react';
 import Overdrive from 'react-overdrive';
 
-import styles from './mangaCard.less';
+import styles from './mangaCard.scss';
 
 export default class MangaCard extends React.Component {
     render () {
+        let { manga } = this.props;
         let inlineStyle = {
-            backgroundImage: 'url(' + this.props.manga.thumbnailUrl + ')'
+            backgroundImage: 'url(' + manga.thumbnailUrl + ')'
         };
+        let badge = '';
+
+        let unreadCount = manga.getChapterUnreadCount();
+        if (manga.inLibrary && unreadCount) {
+            badge = (
+                <span className={styles.badge}>
+                    { unreadCount }
+                </span>
+            );
+        }
 
         return (
-            <Overdrive id={this.props.manga.id} duration={400}>
+            <Overdrive id={manga.id} duration={400}>
                 <div className={styles.manga + ' card'}>
-                    <div className={styles.mangaContent} style={inlineStyle}>
-                        <div className={styles.mangaTitle}>
-                            <p>{this.props.manga.title}</p>
+                    <div className={styles.content} style={inlineStyle}>
+                        <div className={styles.title}>
+                            <p>{manga.title}</p>
                         </div>
+                        {badge}
                     </div>
                 </div>
             </Overdrive>

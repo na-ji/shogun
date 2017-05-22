@@ -75,4 +75,11 @@ export default class Manga extends Model {
     generateId () {
         this.id = this.url ? crypto.createHash('md5').update(this.url).digest('hex') : this.id;
     }
+
+    /**
+     * @returns {integer}
+     */
+    getChapterUnreadCount () {
+        return _.sumBy(this.chapters, {read: false});
+    }
 }

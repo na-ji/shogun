@@ -5,13 +5,13 @@
         cursor: pointer;
     }
 
-    .mangaContent {
+    .content {
         background-position: center;
         background-size: cover;
         height: 250px;
         position: relative;
 
-        .mangaTitle {
+        .title {
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -22,6 +22,13 @@
                 margin: 15px 2px 0 2px;
                 font-weight: 500;
             }
+        }
+
+        .badge {
+            position: absolute;
+            padding: 4px;
+            background-color: #f44336;
+            color: white;
         }
     }
 }
