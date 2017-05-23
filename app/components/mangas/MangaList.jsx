@@ -16,10 +16,10 @@ export default class MangaList extends React.Component {
         }
         return (
             <div>
-                <div>
+                <div className="grid">
                     {this.props.mangas.map(function (manga, index) {
                         return (
-                            <div key={manga.id} className="col-lg-2 col-md-3 col-sm-3">
+                            <div key={manga.id}>
                                 <Link to={{ pathname: `/manga/${manga.id}`, state: { manga: manga } }}>
                                     <MangaCard manga={manga} />
                                 </Link>
