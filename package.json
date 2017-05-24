@@ -205,6 +205,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-material-design": "^0.5.10",
     "cheerio": "^0.22.0",
     "electron-debug": "^1.1.0",
     "history": "^4.6.1",
@@ -226,6 +227,7 @@
     "redux-thunk": "^2.2.0",
     "relational-pouch": "^1.4.5",
     "request": "^2.81.0",
+    "select2": "^4.0.3",
     "source-map-support": "^0.4.15"
   },
   "devEngines": {

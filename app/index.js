@@ -5,7 +5,8 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './less/app.global.less';
-import db from './utils/db';// eslint-disable-line
+import './scss/app.global.scss';
+import './utils/db';// eslint-disable-line
 
 const store = configureStore();
 
