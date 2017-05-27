@@ -1,11 +1,13 @@
 import _ from 'lodash';
-import Promise from 'promise';
+import Promise from 'bluebird';
 
 import CatalogManager from './catalog-manager';
 import Parser from './site-parser';
 import db from './db';
 import Chapter from '../models/chapter';
 import Manga from '../models/manga';
+
+Promise.config({cancellation: true});
 
 export default class MangaManager {
     /**
