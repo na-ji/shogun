@@ -185,7 +185,7 @@ export default class MangaManager {
                 return console.error(manga, 'is not an object');
             }
         }
-        console.log(manga);
+
         return db.inTransaction((t) => {
             return t.persistModel(manga);
         });

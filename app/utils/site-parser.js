@@ -140,6 +140,8 @@ export default class Parser {
                     chapters.push(chapter);
                 });
 
+                chapters = _.orderBy(chapters, ['number', 'publishedAt'], ['asc', 'asc']);
+
                 resolve(chapters);
             });
         });

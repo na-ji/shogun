@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactList from 'react-list';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
+import $ from 'jquery';
+
 import ChapterRow from './ChapterRow';
 import Spinner from '../spinner/Spinner';
-// import _ from 'lodash';
-import $ from 'jquery';
 
 class ChapterList extends Component {
     constructor (props) {
@@ -30,13 +31,9 @@ class ChapterList extends Component {
 
     componentWillReceiveProps (nextProps) {
         if (this.props.chapters !== nextProps.chapters) {
-            // console.log(_.orderBy(nextProps.chapters, ['number', 'publishedAt'], ['desc', 'desc']));
-            // let self = this;
-            // this.setState({
-            //     chapters: _.orderBy(nextProps.chapters, ['number', 'publishedAt'], ['desc', 'desc'])
-            // }, () => {
-            //     console.log(self.state.chapters);
-            // });
+            this.setState({
+                chapters: _.orderBy(nextProps.chapters, ['number', 'publishedAt'], ['desc', 'desc'])
+            });
         }
     }
 
@@ -54,8 +51,8 @@ class ChapterList extends Component {
             );
         } else {
             let itemRenderer = (index, key) => {
-                if (this.props.chapters.length && index in this.props.chapters) {
-                    let chapter = this.props.chapters[index];
+                if (this.state.chapters && this.state.chapters.length && index in this.state.chapters) {
+                    const chapter = this.state.chapters[index];
                     return (
                         <Link to={{ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: this.props.manga } }} className="list-group-item" key={key}>
                             <ChapterRow chapter={chapter} />
