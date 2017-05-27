@@ -1,3 +1,8 @@
+import _ from 'lodash';
+import { push } from 'react-router-redux';
+
+import mangaManager from '../utils/manga-manager';
+
 export const REQUEST_PAGES_URL = 'REQUEST_PAGES_URL';
 export const RECEIVE_PAGES_URL = 'RECEIVE_PAGES_URL';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
@@ -8,9 +13,6 @@ export const REQUEST_IMAGE = 'REQUEST_IMAGE';
 export const INIT_IMAGES = 'INIT_IMAGES';
 export const CANCEL_REQUEST = 'CANCEL_REQUEST';
 export const REQUEST_CANCELED = 'REQUEST_CANCELED';
-
-import mangaManager from '../utils/manga-manager';
-import _ from 'lodash';
 
 function requestPagesUrl (promise) {
     return {
@@ -27,20 +29,43 @@ function receivePagesUrl (pagesUrl, chapterId) {
     };
 }
 
-export function changePage (targetPage) {
+export function changePage (targetPage, manga) {
     return (dispatch, getState) => {
         const state = getState().reader.pages;
         let nextPage = state.currentPage;
+        const chapterIndex = _.findIndex(manga.chapters, {id: state.chapterId});
+        let nextChapter;
 
         if (!isNaN(parseInt(targetPage))) {
             nextPage = parseInt(targetPage);
         } else if (targetPage === 'previous') {
-            nextPage = Math.max(0, state.currentPage - 1);
+            if (state.currentPage - 1 < 0) {
+                if (chapterIndex - 1 > 0) {
+                    nextChapter = manga.chapters[chapterIndex - 1];
+                }
+            } else {
+                nextPage = Math.max(0, state.currentPage - 1);
+            }
         } else if (targetPage === 'next') {
-            nextPage = Math.min(state.pagesUrl.length - 1, state.currentPage + 1);
+            if (state.currentPage + 1 > state.pagesUrl.length - 1) {
+                if (chapterIndex + 1 < manga.chapters.length) {
+                    nextChapter = manga.chapters[chapterIndex + 1];
+                }
+            } else {
+                nextPage = Math.min(state.pagesUrl.length - 1, state.currentPage + 1);
+            }
         }
 
-        dispatch({
+        if (nextChapter) {
+            return dispatch(
+                push({
+                    pathname: `/chapter/${nextChapter.id}`,
+                    state: {chapter: nextChapter, manga: manga}
+                })
+            );
+        }
+
+        return dispatch({
             type: CHANGE_PAGE,
             nextPage
         });

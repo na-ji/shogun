@@ -20,9 +20,12 @@ class ReaderPage extends Component {
         const { fetchPagesIfNeeded, manga, chapter, push } = this.props;
         fetchPagesIfNeeded(manga, chapter);
 
-        let data = _.map(manga.chapters, (chapter) => {
-            return {id: chapter.id, text: chapter.title};
-        });
+        let data = _.map(
+            _.orderBy(manga.chapters, ['number', 'publishedAt'], ['desc', 'desc']),
+            (chapter) => {
+                return {id: chapter.id, text: chapter.title};
+            }
+        );
 
         $('#chapterSelect')
             .select2({
@@ -51,6 +54,7 @@ class ReaderPage extends Component {
         if (chapter.id !== nextProps.chapter.id) {
             cancelRequest();
             fetchPagesIfNeeded(nextProps.manga, nextProps.chapter);
+            $('#chapterSelect').val(nextProps.chapter.id).trigger('change');
         }
     }
 
@@ -61,9 +65,9 @@ class ReaderPage extends Component {
 
     changePage (e) {
         e.preventDefault();
-        const { changePage } = this.props;
+        const { changePage, manga } = this.props;
 
-        changePage($(e.currentTarget).attr('data-page'));
+        changePage($(e.currentTarget).attr('data-page'), manga);
     }
 
     static imageClick (e) {
