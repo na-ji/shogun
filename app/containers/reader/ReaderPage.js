@@ -1,7 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { routerActions } from 'react-router-redux';
+
 import { ReaderPage } from '../../components';
 import * as ReaderActions from '../../actions/reader';
+
+const actions = {
+    ...ReaderActions,
+    ...routerActions
+};
 
 function mapStateToProps (state, ownProps) {
     const { pages, images } = state.reader;
@@ -16,7 +23,7 @@ function mapStateToProps (state, ownProps) {
 }
 
 function mapDispatchToProps (dispatch) {
-    return bindActionCreators(ReaderActions, dispatch);
+    return bindActionCreators(actions, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReaderPage);

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
+import _ from 'lodash';
+import 'select2';
 
 import Pagination from './Pagination';
 import Spinner from '../spinner/Spinner';
-import styles from './pagination.less';
+import styles from './pagination.scss';
 
 /* global Image */
 class ReaderPage extends Component {
@@ -15,8 +17,41 @@ class ReaderPage extends Component {
     }
 
     componentDidMount () {
-        const { fetchPagesIfNeeded, manga, chapter } = this.props;
+        const { fetchPagesIfNeeded, manga, chapter, push } = this.props;
         fetchPagesIfNeeded(manga, chapter);
+
+        let data = _.map(manga.chapters, (chapter) => {
+            return {id: chapter.id, text: chapter.title};
+        });
+
+        $('#chapterSelect')
+            .select2({
+                theme: 'bootstrap',
+                data: data
+            })
+            .val(chapter.id).trigger('change')
+            .on('change', () => {
+                let id = $('#chapterSelect').val();
+                if (id !== chapter.id) {
+                    let chapter = _.find(manga.chapters, {id: id});
+                    // we move to another page
+                    push({
+                        pathname: `/chapter/${chapter.id}`,
+                        state: {chapter: chapter, manga: manga}
+                    });
+                }
+            })
+        ;
+
+        $('.select2-container--bootstrap').css('display', 'inline-block');
+    }
+
+    componentWillReceiveProps (nextProps) {
+        const { chapter, cancelRequest, fetchPagesIfNeeded } = this.props;
+        if (chapter.id !== nextProps.chapter.id) {
+            cancelRequest();
+            fetchPagesIfNeeded(nextProps.manga, nextProps.chapter);
+        }
     }
 
     componentWillUnmount () {
@@ -44,7 +79,7 @@ class ReaderPage extends Component {
     }
 
     render () {
-        const { pages, images, chapter } = this.props;
+        const { pages, images } = this.props;
 
         let image;
         if (images.images[pages.currentPage]) {
@@ -62,7 +97,8 @@ class ReaderPage extends Component {
         return (
             <div>
                 <div className={styles.container + ' text-center'}>
-                    <h3>{chapter.title}</h3>
+                    <select id="chapterSelect">
+                    </select>
                     {pagination}
                     {image}
                     {pagination}
@@ -79,6 +115,7 @@ ReaderPage.propTypes = {
     chapter: PropTypes.object.isRequired,
     fetchPagesIfNeeded: PropTypes.func.isRequired,
     changePage: PropTypes.func.isRequired,
+    go: PropTypes.func.isRequired,
     cancelRequest: PropTypes.func.isRequired
 };
 

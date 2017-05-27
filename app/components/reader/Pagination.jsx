@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './pagination.less';
+import styles from './pagination.scss';
 
 class Pagination extends React.Component {
     render () {

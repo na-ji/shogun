@@ -57,7 +57,7 @@ class ChapterList extends Component {
                 if (this.props.chapters.length && index in this.props.chapters) {
                     let chapter = this.props.chapters[index];
                     return (
-                        <Link to={{ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: this.props.manga, chapters: this.state.chapters } }} className="list-group-item" key={key}>
+                        <Link to={{ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: this.props.manga } }} className="list-group-item" key={key}>
                             <ChapterRow chapter={chapter} />
                         </Link>
                     );
