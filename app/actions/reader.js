@@ -12,9 +12,10 @@ export const REQUEST_CANCELED = 'REQUEST_CANCELED';
 import mangaManager from '../utils/manga-manager';
 import _ from 'lodash';
 
-function requestPagesUrl () {
+function requestPagesUrl (promise) {
     return {
-        type: REQUEST_PAGES_URL
+        type: REQUEST_PAGES_URL,
+        promise
     };
 }
 
@@ -46,10 +47,11 @@ export function changePage (targetPage) {
     };
 }
 
-function requestImageUrl (pageUrl) {
+function requestImageUrl (pageUrl, promise) {
     return {
         type: REQUEST_IMAGE_URL,
-        pageUrl
+        pageUrl,
+        promise
     };
 }
 
@@ -118,10 +120,11 @@ function fetchImage (manga) {
             }
         };
 
-        let pageUrl = pages.pagesUrl[images.imageFetching];
-        dispatch(requestImageUrl(pageUrl));
+        const pageUrl = pages.pagesUrl[images.imageFetching];
+        const promise = mangaManager.getImageURL(manga, pageUrl);
+        dispatch(requestImageUrl(pageUrl, promise));
 
-        mangaManager.getImageURL(manga, pageUrl).then(function (imageURL) {
+        promise.then(function (imageURL) {
             dispatch(receiveImageUrl(pageUrl, imageURL));
 
             const { images } = getState().reader;
@@ -142,20 +145,16 @@ function fetchImage (manga) {
 
 function fetchPages (manga, chapter) {
     return (dispatch, getState) => {
-        dispatch(requestPagesUrl());
+        const promise = mangaManager.getChapterPages(manga, chapter);
+        dispatch(requestPagesUrl(promise));
         dispatch(initImages([]));
 
-        mangaManager.getChapterPages(manga, chapter).then(function (pagesUrl) {
+        promise.then(function (pagesUrl) {
             dispatch(receivePagesUrl(pagesUrl, chapter.id));
-            const { pages } = getState().reader;
 
             if (pagesUrl.length) {
-                if (pages.cancelRequest) {
-                    dispatch(requestCanceled());
-                } else {
-                    dispatch(initImages(new Array(pagesUrl.length)));
-                    dispatch(fetchImage(manga));
-                }
+                dispatch(initImages(new Array(pagesUrl.length)));
+                dispatch(fetchImage(manga));
             }
         }).catch(function (error) {
             console.log(error);
@@ -167,11 +166,6 @@ function fetchPages (manga, chapter) {
 export function fetchPagesIfNeeded (manga, chapter) {
     return (dispatch, getState) => {
         const { pages } = getState().reader;
-
-        // If the request was canceled previously and requestCanceled never has been dispatched
-        if (pages.cancelRequest) {
-            dispatch(requestCanceled());
-        }
 
         if (pages.chapterId !== chapter.id) {
             // If it is a new chapter

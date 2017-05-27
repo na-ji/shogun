@@ -1,4 +1,3 @@
-// @flow
 import { combineReducers } from 'redux';
 import {
     REQUEST_PAGES_URL, RECEIVE_PAGES_URL, CHANGE_PAGE,
@@ -12,28 +11,30 @@ function pages (state = {
     isFetching: false,
     chapterId: '',
     pagesUrl: [],
-    cancelRequest: false
+    promise: null
 }, action) {
     switch (action.type) {
         case REQUEST_PAGES_URL:
             return Object.assign({}, state, {
                 isFetching: true,
                 pagesUrl: [],
-                currentPage: 0
+                currentPage: 0,
+                promise: action.promise
             });
         case CANCEL_REQUEST:
+            if (state.promise) {
+                state.promise.cancel();
+            }
+
             return Object.assign({}, state, {
-                cancelRequest: true
-            });
-        case REQUEST_CANCELED:
-            return Object.assign({}, state, {
-                cancelRequest: false
+                promise: null
             });
         case RECEIVE_PAGES_URL:
             return Object.assign({}, state, {
                 isFetching: false,
                 pagesUrl: action.pagesUrl,
-                chapterId: action.chapterId
+                chapterId: action.chapterId,
+                promise: null
             });
         case CHANGE_PAGE:
             return Object.assign({}, state, {
@@ -48,11 +49,20 @@ function images (state = {
     imageFetching: 0,
     isFetching: false,
     images: [],
-    cancelRequest: false
+    cancelRequest: false,
+    promise: null
 }, action) {
     switch (action.type) {
         case REQUEST_IMAGE_URL:
+            return Object.assign({}, state, {
+                isFetching: true,
+                promise: action.promise
+            });
         case RECEIVE_IMAGE_URL:
+            return Object.assign({}, state, {
+                isFetching: false,
+                promise: null
+            });
         case REQUEST_IMAGE:
             return Object.assign({}, state, {
                 isFetching: true
@@ -64,9 +74,17 @@ function images (state = {
                 cancelRequest: false
             });
         case CANCEL_REQUEST:
-            return Object.assign({}, state, {
-                cancelRequest: true
-            });
+            let nextState = {
+                promise: null
+            };
+
+            if (state.promise) {
+                state.promise.cancel();
+            } else if (state.isFetching) {
+                nextState.cancelRequest = true;
+            }
+
+            return Object.assign({}, state, nextState);
         case REQUEST_CANCELED:
             return Object.assign({}, state, {
                 cancelRequest: false
