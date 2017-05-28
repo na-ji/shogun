@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
+import $ from 'jquery';
+import 'bootstrap-material-design/dist/js/ripples';
+import 'bootstrap-material-design/dist/js/material';
 
 class App extends Component {
     constructor (props) {
@@ -13,6 +16,10 @@ class App extends Component {
         const { goingBack, goBack } = this.props;
         goingBack();
         goBack();
+    }
+
+    componentDidMount () {
+        $.material.init();
     }
 
     render () {

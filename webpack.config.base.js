@@ -19,7 +19,13 @@ export default {
                     cacheDirectory: true
                 }
             }
-        }]
+        }],
+        loaders: [
+            {
+                test: /select2\.js$/,
+                loader: 'imports-loader?define=>false'
+            }
+        ]
     },
 
     output: {
@@ -37,10 +43,17 @@ export default {
         modules: [
             path.join(__dirname, 'app'),
             'node_modules'
-        ]
+        ],
+        alias: {
+            jquery: 'jquery/src/jquery'
+        }
     },
 
     plugins: [
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
+        })
     ]
 };
