@@ -1,12 +1,10 @@
-import _ from 'lodash';
-
 import { LOAD_MANGA, RECEIVE_CHAPTERS, RECEIVE_DETAILS, MANGA_TOGGLE_LIBRARY } from '../actions/manga';
 
 export default function manga (state = {
     manga: {
-        id: ''
+        id: '',
+        chapters: []
     },
-    chapters: [],
     infoLoading: true,
     chapterLoading: true
 }, action) {
@@ -14,7 +12,6 @@ export default function manga (state = {
         case LOAD_MANGA:
             return Object.assign({}, state, {
                 manga: action.manga,
-                chapters: _.isArray(action.manga.chapters) ? action.manga.chapters : [],
                 chapterLoading: action.manga.chapters && action.manga.chapters.length === 0,
                 infoLoading: !action.manga.detailsFetched
             });
@@ -33,7 +30,6 @@ export default function manga (state = {
             });
         case RECEIVE_CHAPTERS:
             return Object.assign({}, state, {
-                chapters: action.chapters,
                 chapterLoading: false
             });
         default:

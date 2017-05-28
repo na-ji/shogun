@@ -21,7 +21,7 @@ class MangaPage extends Component {
                     <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} />
                 </div>
                 <div className="col-sm-7 col-md-8 col-lg-9">
-                    <ChapterList manga={state.manga} chapters={state.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} />
+                    <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} />
                 </div>
             </div>
         );

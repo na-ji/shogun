@@ -67,6 +67,7 @@ export default class Manga extends Model {
         super(values);
         this.updatedAt = new Date();
         this.inLibrary = _.isNil(this.inLibrary) ? false : this.inLibrary;
+        this.chapters = _.isNil(this.chapters) ? [] : this.chapters;
         this.detailsFetched = _.isNil(this.detailsFetched) ? false : this.detailsFetched;
         this.generateId();
         // this.generateId = this.generateId.bind(this);
@@ -77,7 +78,7 @@ export default class Manga extends Model {
     }
 
     /**
-     * @returns {integer}
+     * @returns {int}
      */
     getChapterUnreadCount () {
         return _.sumBy(this.chapters, {read: false});
