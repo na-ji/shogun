@@ -26,8 +26,8 @@ export default class MangaCard extends React.Component {
                     <div className={styles.content} style={inlineStyle}>
                         <div className={styles.title}>
                             <p>{manga.title}</p>
+                            {badge}
                         </div>
-                        {badge}
                     </div>
                 </div>
             </Overdrive>
