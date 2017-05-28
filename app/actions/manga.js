@@ -9,6 +9,7 @@ export const RECEIVE_CHAPTERS = 'RECEIVE_CHAPTERS';
 // export const REQUEST_DETAILS = 'REQUEST_DETAILS';
 export const RECEIVE_DETAILS = 'RECEIVE_DETAILS';
 export const MANGA_TOGGLE_LIBRARY = 'MANGA_TOGGLE_LIBRARY';
+export const MARK_CHAPTERS_READ = 'MARK_CHAPTERS_READ';
 
 function loadManga (manga) {
     return {
@@ -28,6 +29,21 @@ function receiveDetails (manga) {
     return {
         type: RECEIVE_DETAILS,
         manga
+    };
+}
+
+export function markChaptersRead (manga, chapters) {
+    return (dispatch) => {
+        _.forEach(chapters, (chapter) => {
+            chapter.read = true;
+        });
+
+        MangaManager.persistChapters(chapters);
+        MangaManager.persistManga(manga);
+
+        dispatch({
+            type: MARK_CHAPTERS_READ
+        });
     };
 }
 

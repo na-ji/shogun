@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { push } from 'react-router-redux';
 
-import mangaManager from '../utils/manga-manager';
+import MangaManager from '../utils/manga-manager';
+import { markChaptersRead } from './manga';
 
 export const REQUEST_PAGES_URL = 'REQUEST_PAGES_URL';
 export const RECEIVE_PAGES_URL = 'RECEIVE_PAGES_URL';
@@ -40,6 +41,7 @@ export function changePage (targetPage, manga) {
             nextPage = parseInt(targetPage);
         } else if (targetPage === 'previous') {
             if (state.currentPage - 1 < 0) {
+                // we move to the previous chapter if the reader was on the first page
                 if (chapterIndex - 1 > 0) {
                     nextChapter = manga.chapters[chapterIndex - 1];
                 }
@@ -48,6 +50,7 @@ export function changePage (targetPage, manga) {
             }
         } else if (targetPage === 'next') {
             if (state.currentPage + 1 > state.pagesUrl.length - 1) {
+                // we move to the next chapter if the reader was on the last page
                 if (chapterIndex + 1 < manga.chapters.length) {
                     nextChapter = manga.chapters[chapterIndex + 1];
                 }
@@ -63,6 +66,12 @@ export function changePage (targetPage, manga) {
                     state: {chapter: nextChapter, manga: manga}
                 })
             );
+        }
+
+        // if the reader reached the last page, we mark the chapter as read
+        if (nextPage === state.pagesUrl.length - 1) {
+            let chapter = _.find(manga.chapters, {id: state.chapterId});
+            dispatch(markChaptersRead(manga, [chapter]));
         }
 
         return dispatch({
@@ -146,7 +155,7 @@ function fetchImage (manga) {
         };
 
         const pageUrl = pages.pagesUrl[images.imageFetching];
-        const promise = mangaManager.getImageURL(manga, pageUrl);
+        const promise = MangaManager.getImageURL(manga, pageUrl);
         dispatch(requestImageUrl(pageUrl, promise));
 
         promise.then(function (imageURL) {
@@ -169,8 +178,8 @@ function fetchImage (manga) {
 }
 
 function fetchPages (manga, chapter) {
-    return (dispatch, getState) => {
-        const promise = mangaManager.getChapterPages(manga, chapter);
+    return dispatch => {
+        const promise = MangaManager.getChapterPages(manga, chapter);
         dispatch(requestPagesUrl(promise));
         dispatch(initImages([]));
 

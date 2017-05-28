@@ -31,6 +31,6 @@ let countItemsInDb = function (table, name) {
 };
 
 countItemsInDb('Manga', 'mangas');
-countItemsInDb('MangaChapter', 'chapters');
+countItemsInDb('Chapter', 'chapters');
 
 export default Database;
