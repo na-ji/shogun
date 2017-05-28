@@ -11,12 +11,12 @@ import Spinner from '../spinner/Spinner';
 class ChapterList extends Component {
     constructor (props) {
         super(props);
-        // we bind 'this' to handleResize()
+
         this.state = {
             style: {
                 height: $(window).height() - $('.navbar').outerHeight() - 20
-            }
-            // chapters: []
+            },
+            chapters: []
         };
     }
 
@@ -27,13 +27,20 @@ class ChapterList extends Component {
     componentDidMount () {
         this.handleResize = this.handleResize.bind(this);
         window.addEventListener('resize', this.handleResize);
+        this.loadChapter = this.loadChapter.bind(this);
+        this.loadChapter(this.props.chapters);
+    }
+
+    loadChapter (chapters) {
+        this.setState({
+            chapters: _.orderBy(chapters, ['number', 'publishedAt'], ['desc', 'desc'])
+        });
     }
 
     componentWillReceiveProps (nextProps) {
-        if (this.props.chapters !== nextProps.chapters) {
-            this.setState({
-                chapters: _.orderBy(nextProps.chapters, ['number', 'publishedAt'], ['desc', 'desc'])
-            });
+        if (this.state.chapters !== nextProps.chapters) {
+            this.loadChapter = this.loadChapter.bind(this);
+            this.loadChapter(nextProps.chapters);
         }
     }
 
