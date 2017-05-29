@@ -1,8 +1,10 @@
 .manga {
     margin: 10px 0;
+    transition: all 0.5s ease;
 
     &:hover {
         cursor: pointer;
+        transform: translateY(-5px);
     }
 
     .content {
@@ -10,6 +12,11 @@
         background-size: cover;
         height: 250px;
         position: relative;
+        filter: saturate(0.6);
+
+        &:hover {
+            filter: saturate(1);
+        }
 
         .title {
             position: absolute;
