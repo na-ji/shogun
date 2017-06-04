@@ -20,7 +20,7 @@ export default class MangaList extends React.Component {
                     {this.props.mangas.map(function (manga, index) {
                         return (
                             <div key={manga.id}>
-                                <Link to={{ pathname: `/manga/${manga.id}`, state: { manga: manga } }}>
+                                <Link to={{ pathname: `/manga/${manga.id}` }}>
                                     <MangaCard manga={manga} />
                                 </Link>
                             </div>

@@ -7,9 +7,9 @@ import ChapterList from '../chapters/ChapterList';
 
 class MangaPage extends Component {
     componentWillMount () {
-        const { fetchInfosIfNeeded, mangaFromRouter } = this.props;
+        const { fetchInfosIfNeeded, manga } = this.props;
 
-        fetchInfosIfNeeded(mangaFromRouter);
+        fetchInfosIfNeeded(manga);
     }
 
     render () {
@@ -30,7 +30,7 @@ class MangaPage extends Component {
 
 MangaPage.propTypes = {
     state: PropTypes.object.isRequired,
-    mangaFromRouter: PropTypes.object.isRequired,
+    manga: PropTypes.object.isRequired,
     fetchInfosIfNeeded: PropTypes.func.isRequired,
     toggleLibrary: PropTypes.func.isRequired,
     updateChapters: PropTypes.func.isRequired
