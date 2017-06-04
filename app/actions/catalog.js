@@ -1,6 +1,3 @@
-import Promise from 'bluebird';
-import _ from 'lodash';
-
 import MangaManager from '../utils/manga-manager';
 import CatalogManager from '../utils/catalog-manager';
 

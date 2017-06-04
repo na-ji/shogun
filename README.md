@@ -10,7 +10,6 @@ Some components are based on [inorichi](https://github.com/inorichi)/[tachiyomi]
  - [Electron](http://electron.atom.io/)
  - [React](https://facebook.github.io/react/)
  - [Redux](https://github.com/reactjs/redux)
- - [Pouchdb](https://pouchdb.com/)
 
 ## Features
  - [ ] Reader
@@ -20,7 +19,7 @@ Some components are based on [inorichi](https://github.com/inorichi)/[tachiyomi]
    - [ ] Resume from last chapter read
  - [ ] Library
    - [x] Add manga to library
-   - [ ] Unread count
+   - [x] Unread count
    - [ ] Automatically update chapters
    - [ ] Desktop notification when new chapter
  - [ ] Catalogs
