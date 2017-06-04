@@ -46,6 +46,9 @@ let ReadMangaToday = {
             },
             thumbnailUrl: ($container) => {
                 return $container.find('img.img-responsive').attr('src');
+            },
+            detailsFetched: () => {
+                return true;
             }
         }
     },

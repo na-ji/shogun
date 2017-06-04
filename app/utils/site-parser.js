@@ -104,7 +104,6 @@ export default class Parser {
                 _.forEach(catalog.manga_detail.fields, function (selector, field) {
                     manga[field] = trimSpaces(selector($container));
                 });
-                manga.detailsFetched = true;
 
                 if (!_.isNil(manga.thumbnailUrl)) {
                     let img = new Image();

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
+import EventEmitter from 'events';
 
 import CatalogManager from './catalog-manager';
 import Parser from './site-parser';
@@ -21,7 +22,7 @@ export default class MangaManager {
         return new Promise((resolve, reject) => {
             if (fetchNextPage) {
                 return Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
-                    MangaManager.handleMangaList(catalog, paginator, resolve, reject, fetchNextPage);
+                    MangaManager.handleMangaList(catalog, paginator, resolve, reject);
                 });
             }
 
@@ -35,13 +36,13 @@ export default class MangaManager {
                         resolve({
                             mangas,
                             hasNext: true,
-                            promises: []
+                            mangasEvents: new EventEmitter()
                         });
 
                         return Parser.getPopularMangaList(catalog);
                     }
 
-                    return Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
+                    return Parser.getPopularMangaList(catalog).then(paginator => {
                         MangaManager.handleMangaList(catalog, paginator, resolve, reject);
                     });
                 })
@@ -69,40 +70,35 @@ export default class MangaManager {
      * @param {object} paginator
      * @param {function} resolve
      * @param {function} reject
-     * @param {boolean} fetchNextPage
      */
-    static handleMangaList (catalog, paginator, resolve, reject, fetchNextPage = false) {
+    static handleMangaList (catalog, paginator, resolve, reject) {
         // Check if Manga objects are in database
         db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
-            let promises = [];
+            // let promises = [];
+            const mangasEvents = new EventEmitter();
+            let before = (new Date()).getTime();
 
-            // Generate Promise that resolve with full details
-            _.forEach(mangas, (manga, index) => {
-                promises.push(new Promise(function (resolve, reject) {
-                    if (!_.isNil(manga)) {
-                        // Fix to prevent loss of data from database
-                        manga.catalogId = paginator.mangas[index].catalogId;
-                        resolve(manga);
+            // Generate Events that resolve with full details
+            Promise.mapSeries(mangas, (manga, index) => {
+                if (!_.isNil(manga)) {
+                    // Fix to prevent loss of data from database
+                    manga.catalogId = paginator.mangas[index].catalogId;
+                    mangasEvents.emit('details-fetched', manga);
+                    return Promise.resolve(manga);
+                } else {
+                    if (!paginator.mangas[index].detailsFetched) {
+                        const promise = Parser.getMangaDetail(catalog, paginator.mangas[index]);
+                        promise.then(manga => {
+                            mangasEvents.emit('details-fetched', manga);
+                        });
+                        return promise;
                     } else {
-                        if (!paginator.mangas[index].thumbnailUrl) {
-                            Parser.getMangaDetail(catalog, manga).then(manga => {
-                                resolve(manga);
-                            });
-                        } else {
-                            resolve(paginator.mangas[index]);
-                        }
+                        mangasEvents.emit('details-fetched', paginator.mangas[index]);
+                        return Promise.resolve(paginator.mangas[index]);
                     }
-                }));
-            });
-
-            resolve({
-                mangas: paginator.mangas,
-                hasNext: paginator.hasNext,
-                promises
-            });
-
-            // TODO : Use bluebird mapSeries
-            Promise.all(promises).then(values => {
+                }
+            }).then(values => {
+                console.log('handleMangaList took %d ms', (new Date()).getTime() - before);
                 let toPersist = [];
                 _.forEach(mangas, (manga, index) => {
                     if (_.isNil(manga)) {
@@ -118,6 +114,12 @@ export default class MangaManager {
                         return t.persistModels(toPersist);
                     });
                 }
+            });
+
+            resolve({
+                mangas: paginator.mangas,
+                hasNext: paginator.hasNext,
+                mangasEvents
             });
         });
     }

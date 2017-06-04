@@ -1,3 +1,9 @@
+import Promise from 'bluebird';
+import _ from 'lodash';
+
+import MangaManager from '../utils/manga-manager';
+import CatalogManager from '../utils/catalog-manager';
+
 export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS';
 export const LOAD_MORE = 'LOAD_MORE';
 export const SEARCH = 'SEARCH';
@@ -6,10 +12,6 @@ export const RECEIVE_MANGAS_LIST = 'RECEIVE_MANGAS_LIST';
 export const RECEIVE_MANGA_DETAILS = 'RECEIVE_MANGA_DETAILS';
 // export const CANCEL_REQUEST = 'CANCEL_REQUEST';
 // export const REQUEST_CANCELED = 'REQUEST_CANCELED';
-
-import MangaManager from '../utils/manga-manager';
-import CatalogManager from '../utils/catalog-manager';
-import _ from 'lodash';
 
 function receiveMangasList (response, override) {
     return {
@@ -60,10 +62,8 @@ function fetchMangasList (promise, override) {
         promise.then(function (response) {
             dispatch(receiveMangasList(response, override));
 
-            _.forEach(response.promises, function (promise) {
-                promise.then(function (manga) {
-                    dispatch(receiveMangaDetails(manga));
-                });
+            response.mangasEvents.on('details-fetched', manga => {
+                dispatch(receiveMangaDetails(manga));
             });
         });
     };
