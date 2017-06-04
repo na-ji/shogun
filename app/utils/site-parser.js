@@ -106,7 +106,25 @@ export default class Parser {
                 });
                 manga.detailsFetched = true;
 
-                resolve(manga);
+                if (!_.isNil(manga.thumbnailUrl)) {
+                    let img = new Image();
+
+                    img.onload = function () {
+                        let canvas = document.createElement('canvas');
+                        canvas.width = this.width;
+                        canvas.height = this.height;
+
+                        canvas.getContext('2d').drawImage(this, 0, 0);
+
+                        manga.thumbnailUrl = canvas.toDataURL('image/png');
+
+                        resolve(manga);
+                    };
+
+                    img.src = manga.thumbnailUrl;
+                } else {
+                    resolve(manga);
+                }
             });
         });
     }
