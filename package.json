@@ -120,7 +120,13 @@
     ],
     "transform": {
       "^.+\\.js$": "babel-jest"
-    }
+    },
+    "collectCoverageFrom": [
+      "app/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/main.prod.js"
+    ]
   },
   "devDependencies": {
     "asar": "^0.13.0",
@@ -181,7 +187,6 @@
     "husky": "^0.13.4",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
-    "jsdom": "^11.0.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.4",
     "minimist": "^1.2.0",
