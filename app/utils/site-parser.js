@@ -105,7 +105,9 @@ export default class Parser {
                     manga[field] = trimSpaces(selector($container));
                 });
 
-                if (!_.isNil(manga.thumbnailUrl)) {
+                if (!_.isNil(manga.thumbnailUrl) &&
+                    !(navigator.userAgent.includes('Node.js') || navigator.userAgent.includes('jsdom'))) {
+                    // The check before prevents running canvas inside JSDOM provoking segfaults
                     let img = new Image();
 
                     img.onload = function () {
