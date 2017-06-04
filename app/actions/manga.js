@@ -4,7 +4,7 @@ import MangaManager from '../utils/manga-manager';
 import { TOGGLE_MANGA_TO_LIBRARY } from './library';
 
 export const LOAD_MANGA = 'LOAD_MANGA';
-// export const REQUEST_CHAPTERS = 'REQUEST_CHAPTERS';
+export const REFRESH_CHAPTERS = 'REFRESH_CHAPTERS';
 export const RECEIVE_CHAPTERS = 'RECEIVE_CHAPTERS';
 // export const REQUEST_DETAILS = 'REQUEST_DETAILS';
 export const RECEIVE_DETAILS = 'RECEIVE_DETAILS';
@@ -88,5 +88,18 @@ export function fetchInfosIfNeeded (manga) {
         if (oldManga.id !== manga.id) {
             dispatch(fetchInfos(manga));
         }
+    };
+}
+
+export function updateChapters () {
+    return (dispatch, getState) => {
+        dispatch({
+            type: REFRESH_CHAPTERS
+        });
+
+        const manga = getState().manga.manga;
+        MangaManager.getChapterList(manga).then(function (chapters) {
+            dispatch(receiveChapters(chapters));
+        });
     };
 }

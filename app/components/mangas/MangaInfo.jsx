@@ -77,6 +77,9 @@ export default class MangaInfo extends Component {
                 <button onClick={this.props.toggleLibrary} className={`btn btn-fab ${(this.props.manga.inLibrary ? ' btn-primary' : '')}`}>
                     <i className="material-icons">grade</i>
                 </button>
+                <button onClick={this.props.updateChapters} className={`btn btn-fab btn-primary`}>
+                    <i className="material-icons">refresh</i>
+                </button>
             </div>
         );
     }

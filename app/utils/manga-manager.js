@@ -211,7 +211,7 @@ export default class MangaManager {
         return new Promise((resolve, reject) => {
             Parser.getChapterList(catalog, manga).then(chapters => {
                 chapters = _.uniqBy(chapters, 'id');
-                manga.chapters = chapters;
+                manga.chapters = _.unionBy(manga.chapters, chapters, 'id');
 
                 resolve(chapters);
 
@@ -224,15 +224,13 @@ export default class MangaManager {
                         }
                     });
 
-                    console.log('%d chapters to persist', toPersist.length);
+                    console.log('%d/%d chapters to persist', toPersist.length, chapters.length);
                     console.log(toPersist);
 
                     if (toPersist.length) {
                         db.inTransaction((t) => {
                             return t.persistModels(toPersist);
                         }).then(() => {
-                            manga.chapters = chapters;
-
                             db.inTransaction((t) => {
                                 return t.persistModel(manga);
                             });

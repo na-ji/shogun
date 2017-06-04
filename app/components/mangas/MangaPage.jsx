@@ -13,12 +13,12 @@ class MangaPage extends Component {
     }
 
     render () {
-        const { state, toggleLibrary } = this.props;
+        const { state, toggleLibrary, updateChapters } = this.props;
 
         return (
             <div>
                 <div className="col-sm-5 col-md-4 col-lg-3">
-                    <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} />
+                    <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} updateChapters={updateChapters} />
                 </div>
                 <div className="col-sm-7 col-md-8 col-lg-9">
                     <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} />
@@ -32,7 +32,8 @@ MangaPage.propTypes = {
     state: PropTypes.object.isRequired,
     mangaFromRouter: PropTypes.object.isRequired,
     fetchInfosIfNeeded: PropTypes.func.isRequired,
-    toggleLibrary: PropTypes.func.isRequired
+    toggleLibrary: PropTypes.func.isRequired,
+    updateChapters: PropTypes.func.isRequired
 };
 
 module.exports = MangaPage;
