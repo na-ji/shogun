@@ -62,6 +62,8 @@ function fetchMangasList (promise, override) {
             response.mangasEvents.on('details-fetched', manga => {
                 dispatch(receiveMangaDetails(manga));
             });
+        }).catch(error => {
+            console.log(error);
         });
     };
 }

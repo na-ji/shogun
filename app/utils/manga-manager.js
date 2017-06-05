@@ -45,6 +45,11 @@ export default class MangaManager {
                     return Parser.getPopularMangaList(catalog).then(paginator => {
                         MangaManager.handleMangaList(catalog, paginator, resolve, reject);
                     });
+                }).catch(error => {
+                    console.log(error);
+                    return Parser.getPopularMangaList(catalog).then(paginator => {
+                        MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+                    });
                 })
             ;
         });
