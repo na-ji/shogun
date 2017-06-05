@@ -11,6 +11,14 @@ MangaManager.getPopularManga = jest.fn(() => {
     });
 });
 
+MangaManager.getChapterList = jest.fn(() => {
+    return Promise.resolve([]);
+});
+
+MangaManager.getMangaDetail = jest.fn(() => {
+    return Promise.resolve({});
+});
+
 MangaManager.searchManga = jest.fn(() => {
     return Promise.reject(new Error(''));
 });
