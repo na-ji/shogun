@@ -15,4 +15,16 @@ MangaManager.searchManga = jest.fn(() => {
     return Promise.reject(new Error(''));
 });
 
+MangaManager.getLibrary = jest.fn(() => {
+    return {
+        observe: jest.fn(() => {
+            return {
+                subscribe: jest.fn((fn) => {
+                    fn([]);
+                })
+            };
+        })
+    };
+});
+
 module.exports = MangaManager;
