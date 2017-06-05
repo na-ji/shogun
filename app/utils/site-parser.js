@@ -60,9 +60,7 @@ export default class Parser {
                 let mangas = [];
                 let $ = cheerio.load(page);
                 getSelector($, catalog.popular.manga.element_selector).each(function () {
-                    let manga = new Manga({
-                        catalog: catalog.file
-                    });
+                    let manga = new Manga();
 
                     let self = this;
                     _.forEach(catalog.popular.manga.fields, function (selector, field) {
@@ -71,6 +69,7 @@ export default class Parser {
 
                     manga.generateId();
                     manga.catalogId = Parser.getNextIndex(catalog);
+                    manga.catalog = catalog.file;
                     mangas.push(manga);
                 });
 

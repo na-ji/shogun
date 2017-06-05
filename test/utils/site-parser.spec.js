@@ -1,6 +1,7 @@
+jest.mock('electron-rxdb');
+
 import CatalogManager from '../../app/utils/catalog-manager';
-process.type = 'renderer';
-let Parser = require('../../app/utils/site-parser');
+import Parser from '../../app/utils/site-parser';
 
 CatalogManager.getCatalogList().forEach(function (catalog) {
     describe('parser for ' + catalog.name, function () {
@@ -62,6 +63,7 @@ CatalogManager.getCatalogList().forEach(function (catalog) {
                         expect(chapters[0].read).toEqual(expect.any(Boolean));
                         expect(chapters[0].number).toEqual(expect.any(Number));
                         expect(chapters[0].publishedAt).toEqual(expect.any(Date));
+                        expect(manga.getChapterUnreadCount()).toBeGreaterThanOrEqual(1);
                     }
                     chapter = chapters[0];
                     done();
