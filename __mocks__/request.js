@@ -1,9 +1,16 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const request = (url, callback) => {
-    // console.log(url);
-    const file = encodeURIComponent(url.trim());
+const request = (options, callback) => {
+    // console.log(options);
+    let file;
+    if (typeof options === 'object') {
+        file = encodeURIComponent(options.url.trim());
+    } else if (typeof options === 'string') {
+        file = encodeURIComponent(options.trim());
+    } else {
+        throw new Error('Unhandled options');
+    }
     // console.log(file);
     const filePath = path.resolve(__dirname, `../__mockData__/${file}.html`);
 

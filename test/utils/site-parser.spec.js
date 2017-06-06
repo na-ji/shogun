@@ -6,8 +6,6 @@ import Parser from '../../app/utils/site-parser';
 
 CatalogManager.getCatalogList().forEach(function (catalog) {
     describe('parser for ' + catalog.name, function () {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
-
         var manga;
         describe('getPopularMangaList', function () {
             let response;
@@ -97,6 +95,26 @@ CatalogManager.getCatalogList().forEach(function (catalog) {
             it('expect url to be a string', function (done) {
                 Parser.getImageURL(catalog, page).then(function (imageURL) {
                     expect(imageURL).toEqual(expect.any(String));
+                    done();
+                }).catch(function (error) {
+                    console.log(error);
+                    expect(error).toBe(null);
+                    done();
+                });
+            });
+        });
+
+        describe('searchManga', function () {
+            let response;
+            it('expect response to be an object with keys', function (done) {
+                Parser.searchManga(catalog, 'naruto').then(function (resp) {
+                    response = resp;
+                    expect(response).toEqual(expect.objectContaining({
+                        mangas: expect.any(Array),
+                        hasNext: false,
+                        nextUrl: null
+                    }));
+                    expect(response.mangas.length).toBeGreaterThanOrEqual(5);
                     done();
                 }).catch(function (error) {
                     console.log(error);
