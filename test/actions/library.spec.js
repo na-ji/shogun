@@ -1,6 +1,5 @@
 import { spy } from 'sinon';
 
-jest.mock('electron-rxdb');
 jest.mock('../../app/utils/manga-manager');
 
 import * as actions from '../../app/actions/library';

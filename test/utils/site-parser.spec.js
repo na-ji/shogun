@@ -1,4 +1,5 @@
 jest.mock('electron-rxdb');
+jest.mock('request');
 
 import CatalogManager from '../../app/utils/catalog-manager';
 import Parser from '../../app/utils/site-parser';
@@ -54,6 +55,7 @@ CatalogManager.getCatalogList().forEach(function (catalog) {
         describe('getChapterList', function () {
             it('expect chapters to be an array', function (done) {
                 Parser.getChapterList(catalog, manga).then(function (chapters) {
+                    manga.chapters = chapters;
                     expect(chapters).toEqual(expect.any(Array));
                     expect(chapters.length).toBeGreaterThanOrEqual(1);
                     if (chapters.length) {
