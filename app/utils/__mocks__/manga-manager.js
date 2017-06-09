@@ -15,6 +15,14 @@ MangaManager.getChapterList = jest.fn(() => {
     return Promise.resolve([]);
 });
 
+MangaManager.getChapterPages = jest.fn(() => {
+    return Promise.resolve(new Array(5));
+});
+
+MangaManager.getImageURL = jest.fn(() => {
+    return Promise.resolve('https://swag.army/');
+});
+
 MangaManager.getMangaDetail = jest.fn(() => {
     return Promise.resolve({});
 });
