@@ -156,7 +156,7 @@
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "devtron": "^1.4.0",
-    "electron": "^1.7.1",
+    "electron": "1.6.11",
     "electron-builder": "^18.3.5",
     "electron-devtools-installer": "^2.2.0",
     "enzyme": "^2.8.2",

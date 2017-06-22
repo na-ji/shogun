@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import MangaCard from './MangaCard';
 import Spinner from '../spinner/Spinner';
+import styles from './mangaList.scss';
 
 export default class MangaList extends React.Component {
     render () {
@@ -14,9 +15,10 @@ export default class MangaList extends React.Component {
                 </div>
             );
         }
+
         return (
             <div>
-                <div className="grid">
+                <div className={styles.container}>
                     {this.props.mangas.map(function (manga, index) {
                         return (
                             <div key={manga.id}>

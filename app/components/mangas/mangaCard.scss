@@ -1,6 +1,10 @@
 .manga {
-    margin: 10px 0;
+    margin: 10px 10px;
     transition: all 0.5s ease;
+    width: 165px;
+    box-shadow:
+        0 8px 17px 0 rgba(0, 0, 0, 0.2),
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     &:hover {
         cursor: pointer;

@@ -22,7 +22,7 @@ export default class MangaCard extends React.Component {
 
         return (
             <Overdrive id={manga.id} duration={400}>
-                <div className={styles.manga + ' card'}>
+                <div className={styles.manga}>
                     <div className={styles.content} style={inlineStyle}>
                         <div className={styles.title}>
                             <p>{manga.title}</p>
