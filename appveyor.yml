@@ -25,7 +25,7 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - yarn
-  - cd app && yarn && cd..
+  - cd app && npm rebuild && cd..
 
 test_script:
   - node --version
