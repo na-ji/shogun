@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import Promise from 'promise';
+import Promise from 'bluebird';
 let request = require('request');
 import cheerio from 'cheerio';
 
