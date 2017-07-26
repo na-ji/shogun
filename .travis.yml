@@ -37,7 +37,7 @@ before_script:
 script:
   - node --version
   - yarn lint
+  - yarn package
   - yarn test
   - yarn coverage
 #  - yarn test-e2e
-  - yarn package
