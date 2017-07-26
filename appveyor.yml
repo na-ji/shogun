@@ -25,11 +25,11 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - yarn
-  - cd app && npm rebuild && cd..
 
 test_script:
   - node --version
   - yarn lint
   - yarn package
+  - yarn rebuild-app
   - yarn test
 #  - yarn test-e2e
