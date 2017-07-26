@@ -1,7 +1,7 @@
 {
   "presets": [
     ["env", {
-      "targets": { "node": 6 },
+      "targets": { "node": 7 },
       "useBuiltIns": true
     }],
     "electron",
@@ -22,7 +22,6 @@
     },
     "development": {
       "plugins": [
-        "react-hot-loader/babel",
         ["flow-runtime", {
           "assert": true,
           "annotate": true
