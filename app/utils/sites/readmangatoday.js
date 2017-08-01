@@ -1,11 +1,11 @@
 // @flow
-import type { load as CheerioObject } from 'cheerio';
-
 import { parseDateAgo, trimSpaces } from '../data-parsers';
 import AbstractCatalog from '../abstract-catalog';
 import ChapterRecognition from '../chapter-recognition';
 import Chapter from '../../models/chapter';
 import Manga from '../../models/manga';
+
+type CheerioObject = any;
 
 class ReadMangaToday extends AbstractCatalog {
     name: string;

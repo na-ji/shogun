@@ -1,7 +1,8 @@
 // @flow
-import type { load as CheerioObject } from 'cheerio';
 import type Chapter from '../models/chapter';
 import type Manga from '../models/manga';
+
+type CheerioObject = any;
 
 export default class AbstractCatalog {
     index: number;
