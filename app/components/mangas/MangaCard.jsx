@@ -1,5 +1,6 @@
 import React from 'react';
 import Overdrive from 'react-overdrive';
+import { Typography } from 'material-ui';
 
 import styles from './mangaCard.scss';
 
@@ -14,9 +15,9 @@ export default class MangaCard extends React.Component {
         let unreadCount = manga.getChapterUnreadCount();
         if (manga.inLibrary && unreadCount) {
             badge = (
-                <span className={styles.badge}>
+                <Typography className={styles.badge}>
                     { unreadCount }
-                </span>
+                </Typography>
             );
         }
 
@@ -25,7 +26,7 @@ export default class MangaCard extends React.Component {
                 <div className={styles.manga}>
                     <div className={styles.content} style={inlineStyle}>
                         <div className={styles.title}>
-                            <p>{manga.title}</p>
+                            <Typography className={styles.text}>{manga.title}</Typography>
                             {badge}
                         </div>
                     </div>

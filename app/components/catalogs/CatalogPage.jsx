@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
-import { Button, TextField } from 'material-ui';
+import { Button, TextField, Typography } from 'material-ui';
 import { Search as SearchIcon, Close as CloseIcon } from 'material-ui-icons';
 
 import MangaList from '../mangas/MangaList';
@@ -48,7 +48,7 @@ class CatalogPage extends Component {
 
         return (
             <div>
-                <h3>{catalog.catalog ? catalog.catalog.name : ''}</h3>
+                <Typography type="headline">{catalog.catalog ? catalog.catalog.name : ''}</Typography>
                 <form className="form-inline" onSubmit={search}>
                     <div className="input-group">
                         <TextField

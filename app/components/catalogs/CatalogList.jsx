@@ -1,18 +1,21 @@
 import React from 'react';
-var catalogManager = require('../../utils/catalog-manager');
 import { Link } from 'react-router-dom';
+import { Typography } from 'material-ui';
+
+import CatalogManager from '../../utils/catalog-manager';
 
 class CatalogList extends React.Component {
     render () {
-        var catalogs = catalogManager.getCatalogList();
+        const catalogs = CatalogManager.getCatalogList();
+
         return (
             <div>
-                <h3>Catalogs Page</h3>
+                <Typography type="headline">Catalogs Page</Typography>
                 <ul>
-                    {catalogs.map(function (catalog, index){
+                    {catalogs.map(function (catalog, index) {
                         return (
                             <li key={index}>
-                                <Link to={`/catalog/${catalog.file}`}>{catalog.name}</Link>
+                                <Link to={`/catalog/${catalog.file}`}><Typography>{catalog.name}</Typography></Link>
                             </li>
                         );
                     })}
