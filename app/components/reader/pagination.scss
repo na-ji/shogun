@@ -1,16 +1,24 @@
-.pagination > .loaded {
-    > a {
-        border-color: #4caf50;
-    }
+.pagination {
+    button {
+        height: 36px;
+        line-height: 36px;
+        min-width: 36px;
+        margin: 0px;
+        padding: 0px;
 
-    + li > a {
-        border-left-color: #4caf50;
+        &.loaded {
+            //color: #4caf50;
+        }
     }
 }
 
 .container {
+    text-align: center;
+
     .imgPage {
         display: inline;
+        max-width: 100%;
+        height: auto;
 
         &:hover {
             cursor: pointer;

@@ -69,25 +69,6 @@ export default merge.smart(baseConfig, {
                     }
                 }
             },
-            // Extract all .global.css to style.css as is
-            {
-                test: /^(?!_).+\.global\.less$/,
-                use: [
-                    { loader: 'style-loader' },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: 'less-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    }
-                ]
-            },
 
             // Add SASS support  - compile all .global.scss files and pipe it to style.css
             {
@@ -101,29 +82,6 @@ export default merge.smart(baseConfig, {
                         }
                     },
                     { loader: 'sass-loader' }
-                ]
-            },
-
-            // Pipe other styles through css modules and append to style.css
-            {
-                test: /^(?!_)((?!\.global).)*\.less$/,
-                use: [
-                    { loader: 'style-loader' },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            sourceMap: true,
-                            importLoaders: 1,
-                            localIdentName: '[name]__[local]__[hash:base64:5]'
-                        }
-                    },
-                    {
-                        loader: 'less-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    }
                 ]
             },
 

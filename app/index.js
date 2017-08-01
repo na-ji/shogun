@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
-import './less/app.global.less';
+// import 'typeface-roboto';
 import './scss/app.global.scss';
 import './utils/db';// eslint-disable-line
 

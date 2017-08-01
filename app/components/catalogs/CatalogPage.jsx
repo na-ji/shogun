@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
+import { Button, TextField } from 'material-ui';
+import { Search as SearchIcon, Close as CloseIcon } from 'material-ui-icons';
 
 import MangaList from '../mangas/MangaList';
 
@@ -15,9 +17,9 @@ class CatalogPage extends Component {
         let moreButton;
         if (catalog.hasNext && !catalog.loading) {
             moreButton = (
-                <div className="col-sm-12">
-                    <button className="btn btn-raised btn-primary full-width" onClick={ () => fetchMore() }>Load More</button>
-                </div>
+                <Button color="primary" raised className="full-width" onClick={ () => fetchMore() }>
+                    Load More
+                </Button>
             );
         }
 
@@ -49,16 +51,20 @@ class CatalogPage extends Component {
                 <h3>{catalog.catalog ? catalog.catalog.name : ''}</h3>
                 <form className="form-inline" onSubmit={search}>
                     <div className="input-group">
-                        <input type="text" id="search" className="form-control" placeholder="Search" defaultValue={catalog.query ? catalog.query : ''} />
+                        <TextField
+                            id="search"
+                            label="Search"
+                            defaultValue={catalog.query ? catalog.query : ''}
+                        />
                         <span className="input-group-btn input-group-sm">
-                            <button type="submit" className="btn btn-fab btn-fab-mini btn-primary">
-                                <i className="material-icons">search</i>
-                            </button>
+                            <Button fab dense color="primary" type="submit">
+                                <SearchIcon />
+                            </Button>
                         </span>
                         <span className="input-group-btn input-group-sm">
-                            <button type="button" className="btn btn-fab btn-fab-mini btn-primary" onClick={cancelSearch}>
-                                <i className="material-icons">close</i>
-                            </button>
+                            <Button fab dense color="primary" onClick={cancelSearch}>
+                                <CloseIcon />
+                            </Button>
                         </span>
                     </div>
                 </form>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Typography } from 'material-ui';
 
 import MangaList from './mangas/MangaList';
 
@@ -15,7 +16,7 @@ class HomePage extends Component {
 
         return (
             <div>
-                <h3>Library</h3>
+                <Typography type="headline">Library</Typography>
                 <MangaList mangas={state.mangas} loading={!state.loaded} />
             </div>
         );

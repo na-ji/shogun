@@ -29,26 +29,6 @@ export default merge.smart(baseConfig, {
      */
     module: {
         rules: [
-            // Extract all .global.css to style.css as is
-            {
-                test: /^(?!_).+\.global\.less$/,
-                use: [
-                    { loader: 'style-loader' },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    },
-                    {
-                        loader: 'less-loader',
-                        options: {
-                            sourceMap: true
-                        }
-                    }
-                ]
-            },
-
             // Add SASS support  - compile all .global.scss files and pipe it to style.css
             {
                 test: /^(?!_).+\.global\.scss$/,
@@ -64,22 +44,14 @@ export default merge.smart(baseConfig, {
                 ]
             },
 
-            // Pipe other styles through css modules and append to style.css
             {
-                test: /^(?!_)((?!\.global).)*\.less$/,
+                test: /\.global\.css$/,
                 use: [
-                    { loader: 'style-loader' },
                     {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            sourceMap: true,
-                            importLoaders: 1,
-                            localIdentName: '[name]__[local]__[hash:base64:5]'
-                        }
+                        loader: 'style-loader'
                     },
                     {
-                        loader: 'less-loader',
+                        loader: 'css-loader',
                         options: {
                             sourceMap: true
                         }
@@ -105,6 +77,24 @@ export default merge.smart(baseConfig, {
                 ]
             },
 
+            {
+                test: /^((?!\.global).)*\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            sourceMap: true,
+                            importLoaders: 1,
+                            localIdentName: '[name]__[local]__[hash:base64:5]'
+                        }
+                    }
+                ]
+            },
+
             // Fonts
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -112,7 +102,8 @@ export default merge.smart(baseConfig, {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimetype: 'application/font-woff'
+                        mimetype: 'application/font-woff',
+                        useRelativePath: true
                     }
                 }
             },
@@ -122,7 +113,8 @@ export default merge.smart(baseConfig, {
                     loader: 'url-loader',
                     options: {
                         limit: 10000,
-                        mimetype: 'application/font-woff'
+                        mimetype: 'application/font-woff',
+                        useRelativePath: true
                     }
                 }
             },
@@ -169,7 +161,7 @@ export default merge.smart(baseConfig, {
         renderer: (
             Object
                 .keys(dependencies || {})
-                .filter(dependency => dependency !== 'font-awesome')
+                .filter(dependency => dependency !== 'typeface-roboto')
         )
     },
 

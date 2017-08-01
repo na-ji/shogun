@@ -1,19 +1,41 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
+import { ListItem, ListItemText } from 'material-ui';
 
 import styles from './chapter.scss';
 
 class ChapterRow extends React.Component {
+    constructor (props) {
+        super(props);
+
+        this.goToChapter = this.goToChapter.bind(this);
+    }
+
+    goToChapter () {
+        const { chapter, manga, push } = this.props;
+        push({ pathname: `/chapter/${chapter.id}`, state: { chapter: chapter, manga: manga } });
+    }
+
     render () {
+        const { chapter } = this.props;
+
         return (
-            <div>
-                <h4 className={this.props.chapter.read ? styles.read : ''}>
-                    {this.props.chapter.title}
-                    <span className="pull-right">{moment(this.props.chapter.publishedAt).format('DD-MM-YYYY')}</span>
-                </h4>
-            </div>
+            <ListItem dense button onClick={event => this.goToChapter(chapter)}>
+                <ListItemText
+                    className={chapter.read ? styles.read : ''}
+                    primary={chapter.title}
+                    secondary={moment(chapter.publishedAt).format('DD-MM-YYYY')}
+                />
+            </ListItem>
         );
     }
 }
+
+ChapterRow.propTypes = {
+    chapter: PropTypes.object.isRequired,
+    manga: PropTypes.object.isRequired,
+    push: PropTypes.func.isRequired
+};
 
 module.exports = ChapterRow;

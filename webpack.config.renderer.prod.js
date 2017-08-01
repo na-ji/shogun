@@ -29,15 +29,6 @@ export default merge.smart(baseConfig, {
 
     module: {
         rules: [
-            // Extract all .global.css to style.css as is
-            {
-                test: /^(?!_).+\.global\.less$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', 'less-loader']
-                })
-            },
-
             // Add SASS support  - compile all .global.scss files and pipe it to style.css
             {
                 test: /^(?!_).+\.global\.scss$/,
@@ -49,24 +40,6 @@ export default merge.smart(baseConfig, {
                         { loader: 'sass-loader' }
                     ],
                     fallback: 'style-loader'
-                })
-            },
-
-            // Pipe other styles through css modules and append to style.css
-            {
-                test: /^(?!_)((?!\.global).)*\.less$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                modules: true,
-                                importLoaders: 1,
-                                localIdentName: '[name]__[local]__[hash:base64:5]'
-                            }
-                        },
-                        { loader: 'less-loader' }
-                    ]
                 })
             },
 
@@ -90,7 +63,7 @@ export default merge.smart(baseConfig, {
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
                         limit: 10000,
                         mimetype: 'application/font-woff'
@@ -100,7 +73,7 @@ export default merge.smart(baseConfig, {
             {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
                         limit: 10000,
                         mimetype: 'application/font-woff'
@@ -110,7 +83,7 @@ export default merge.smart(baseConfig, {
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
-                    loader: 'url-loader',
+                    loader: 'file-loader',
                     options: {
                         limit: 10000,
                         mimetype: 'application/octet-stream'

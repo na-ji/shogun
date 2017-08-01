@@ -1,0 +1,20 @@
+table.table, #table  {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+
+    tr {
+        th, td {
+            padding: 5px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.075);
+        }
+
+        td {
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        th {
+            color: rgba(0, 0, 0, 0.54);
+        }
+    }
+}

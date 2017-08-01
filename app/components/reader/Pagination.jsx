@@ -1,4 +1,12 @@
 import React from 'react';
+import { Button } from 'material-ui';
+import {
+    FirstPage as FirstPageIcon,
+    LastPage as LastPageIcon,
+    NavigateBefore as NavigateBeforeIcon,
+    NavigateNext as NavigateNextIcon
+} from 'material-ui-icons';
+
 import styles from './pagination.scss';
 
 class Pagination extends React.Component {
@@ -30,44 +38,50 @@ class Pagination extends React.Component {
 
         return (
             <div>
-                <nav>
-                    <ul className={styles.pagination + ' pagination'}>
-                        <li className={(self.props.page === 0 ? 'disabled' : '')} onClick={this.props.handler} data-page="previous">
-                            <a href="#!">
-                                <span>&laquo;</span>
-                            </a>
-                        </li>
-                        {pagesDisplayed.map(function (page, index) {
-                            if (page === '...') {
-                                return (
-                                    <li key={index}
-                                        className="disabled"
-                                        data-page="none"
-                                        onClick={self.props.handler}
-                                    >
-                                        <a href="#!">...</a>
-                                    </li>
-                                );
-                            }
+                <nav className={styles.pagination}>
+                    <Button
+                        dense
+                        disabled={self.props.page === 0}
+                        onClick={this.props.handler}
+                        data-page="previous"
+                    >
+                        <NavigateBeforeIcon />
+                    </Button>
+                    {pagesDisplayed.map(function (page, index) {
+                        if (page === '...') {
                             return (
-                                <li key={index}
-                                    className={(self.props.page === offset + index ? 'active ' : '') + (self.props.loadedImages[offset + index] ? styles.loaded : '')}
+                                <Button
+                                    dense
+                                    key={index}
+                                    disabled
                                     onClick={self.props.handler}
-                                    data-page={offset + index}
+                                    data-page="none"
                                 >
-                                    <a href="#!">{offset + index + 1}</a>
-                                </li>
+                                    ...
+                                </Button>
                             );
-                        })}
-                        <li className={(self.props.page === this.props.pages.length - 1 ? 'disabled' : '')}
-                            onClick={this.props.handler}
-                            data-page="next"
-                        >
-                            <a href="#!">
-                                <span>&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
+                        }
+                        return (
+                            <Button
+                                dense
+                                key={index}
+                                className={self.props.loadedImages[offset + index] ? styles.loaded : ''}
+                                color={self.props.page === offset + index ? 'accent' : 'default'}
+                                onClick={self.props.handler}
+                                data-page={offset + index}
+                            >
+                                {offset + index + 1}
+                            </Button>
+                        );
+                    })}
+                    <Button
+                        dense
+                        disabled={self.props.page === this.props.pages.length - 1}
+                        onClick={this.props.handler}
+                        data-page="next"
+                    >
+                        <NavigateNextIcon />
+                    </Button>
                 </nav>
             </div>
         );

@@ -1,17 +1,28 @@
-@import '_roboto';
-@import '_material-icons';
-
+@import '~typeface-roboto/index.css';
 @import '~select2/dist/css/select2.css';
-@import '_select2-bootstrap.css';
 
-.go-back:hover {
-  cursor: pointer;
+html, body {
+    height: 100vh;
 }
 
-.chapter-list {
-  overflow: auto;
-}
+body {
+    background-color: #EEEEEE;
+    margin: 0;
+    padding: 0;
 
-.full-width {
-  width: 100%;
+    a {
+        text-decoration: none;
+    }
+
+    .go-back:hover {
+        cursor: pointer;
+    }
+
+    .chapter-list {
+        overflow: auto;
+    }
+
+    .full-width {
+        width: 100%;
+    }
 }

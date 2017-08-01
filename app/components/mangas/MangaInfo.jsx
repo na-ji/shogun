@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import Overdrive from 'react-overdrive';
 import _ from 'lodash';
 import { shell } from 'electron';
+import { Button, Typography } from 'material-ui';
+import { Grade as GradeIcon, Refresh as RefreshIcon, OpenInNew as OpenInNewIcon } from 'material-ui-icons';
 
 import Spinner from '../spinner/Spinner';
+import styles from './mangaInfo.scss';
 
 export default class MangaInfo extends Component {
     constructor (props) {
@@ -16,6 +19,7 @@ export default class MangaInfo extends Component {
 
     openExternal (e) {
         e.preventDefault();
+        console.log(this.props);
         shell.openExternal(this.props.manga.url);
     }
 
@@ -48,20 +52,16 @@ export default class MangaInfo extends Component {
             );
         } else {
             render = (
-                <table>
+                <table className={styles.table}>
                     <tbody>
-                    {fieldsToRender.map(function (field, index) {
-                        return (
-                            <tr key={index}>
-                                <th>{_.capitalize(field)}</th>
-                                <td>{self.props.manga[field]}</td>
-                            </tr>
-                        );
-                    })}
-                    <tr>
-                        <th>URL</th>
-                        <td><a target="_blank" href="#!" onClick={this.openExternal}><i className="material-icons">open_in_new</i></a></td>
-                    </tr>
+                        {fieldsToRender.map(function (field, index) {
+                            return (
+                                <tr key={index}>
+                                    <th>{_.capitalize(field)}</th>
+                                    <td>{self.props.manga[field]}</td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             );
@@ -69,17 +69,20 @@ export default class MangaInfo extends Component {
 
         return (
             <div>
-                <h3>{this.props.manga.title}</h3>
+                <Typography type="headline">{this.props.manga.title}</Typography>
                 <Overdrive id={this.props.manga.id} duration={400}>
                     <img src={this.props.manga.thumbnailUrl} />
                 </Overdrive>
                 {render}
-                <button onClick={this.props.toggleLibrary} className={`btn btn-fab ${(this.props.manga.inLibrary ? ' btn-primary' : '')}`}>
-                    <i className="material-icons">grade</i>
-                </button>
-                <button onClick={this.props.updateChapters} className={`btn btn-fab btn-primary`}>
-                    <i className="material-icons">refresh</i>
-                </button>
+                <Button fab color={(this.props.manga.inLibrary ? 'primary' : 'default')} onClick={this.props.toggleLibrary}>
+                    <GradeIcon />
+                </Button>
+                <Button fab color="primary" onClick={this.props.updateChapters}>
+                    <RefreshIcon />
+                </Button>
+                <Button fab color="primary" onClick={this.openExternal}>
+                    <OpenInNewIcon />
+                </Button>
             </div>
         );
     }

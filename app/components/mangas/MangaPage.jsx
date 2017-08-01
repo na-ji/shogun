@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Grid } from 'material-ui';
 
 import MangaInfo from './MangaInfo';
 import ChapterList from '../chapters/ChapterList';
@@ -16,14 +17,14 @@ class MangaPage extends Component {
         const { state, toggleLibrary, updateChapters } = this.props;
 
         return (
-            <div>
-                <div className="col-sm-5 col-md-4 col-lg-3">
+            <Grid container gutter={24}>
+                <Grid item xs={12} sm={5} md={4} lg={3}>
                     <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} updateChapters={updateChapters} />
-                </div>
-                <div className="col-sm-7 col-md-8 col-lg-9">
-                    <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} />
-                </div>
-            </div>
+                </Grid>
+                <Grid item xs={12} sm={7} md={8} lg={9}>
+                    <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} push={this.props.push} />
+                </Grid>
+            </Grid>
         );
     }
 }
@@ -33,7 +34,8 @@ MangaPage.propTypes = {
     manga: PropTypes.object.isRequired,
     fetchInfosIfNeeded: PropTypes.func.isRequired,
     toggleLibrary: PropTypes.func.isRequired,
-    updateChapters: PropTypes.func.isRequired
+    updateChapters: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired
 };
 
 module.exports = MangaPage;

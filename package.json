@@ -20,7 +20,7 @@
     "package-all": "npm run build && build -mwl",
     "package-linux": "npm run build && build --linux",
     "package-win": "npm run build && build --win --x64",
-    "postinstall": "concurrently \"npm run flow-typed\" \"npm run build-dll\" \"electron-builder install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
+    "postinstall": "concurrently \"npm run build-dll\" \"electron-builder install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "prepush": "npm run lint",
     "prestart": "npm run build",
     "rebuild-app": "cd app && npm rebuild && cd ..",
@@ -189,8 +189,6 @@
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
-    "less": "^2.7.2",
-    "less-loader": "^4.0.5",
     "minimist": "^1.2.0",
     "node-sass": "^4.5.3",
     "react-addons-test-utils": "^15.6.0",
@@ -212,14 +210,14 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
-    "bootstrap": "^3.3.7",
-    "bootstrap-material-design": "^0.5.10",
     "cheerio": "^1.0.0-rc.2",
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
     "history": "^4.6.3",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
+    "material-ui": "next",
+    "material-ui-icons": "^1.0.0-alpha.19",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
@@ -236,10 +234,11 @@
     "relational-pouch": "^1.4.5",
     "request": "^2.81.0",
     "select2": "^4.0.3",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "typeface-roboto": "^0.0.31"
   },
   "resolutions": {
-     "sumchecker": "2.0.2"
+    "sumchecker": "2.0.2"
   },
   "devEngines": {
     "node": ">=7.x",

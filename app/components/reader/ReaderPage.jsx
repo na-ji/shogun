@@ -29,7 +29,6 @@ class ReaderPage extends Component {
 
         $('#chapterSelect')
             .select2({
-                theme: 'bootstrap',
                 data: data
             })
             .val(chapter.id).trigger('change')
@@ -88,7 +87,7 @@ class ReaderPage extends Component {
         let image;
         if (images.images[pages.currentPage]) {
             image = (
-                <img className={styles.imgPage + ' img-responsive'} src={images.images[pages.currentPage].src} onClick={ReaderPage.imageClick} />
+                <img className={styles.imgPage} src={images.images[pages.currentPage].src} onClick={ReaderPage.imageClick} />
             );
         } else {
             image = (
@@ -100,7 +99,7 @@ class ReaderPage extends Component {
         );
         return (
             <div>
-                <div className={styles.container + ' text-center'}>
+                <div className={styles.container}>
                     <select id="chapterSelect">
                     </select>
                     {pagination}

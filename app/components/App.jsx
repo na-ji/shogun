@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
-import $ from 'jquery';
-import 'bootstrap-material-design/dist/js/ripples';
-import 'bootstrap-material-design/dist/js/material';
+import { AppBar, Toolbar, Button, IconButton, MuiThemeProvider, Grid } from 'material-ui';
+import { createMuiTheme, createPalette, withStyles, createStyleSheet } from 'material-ui/styles';
+import { ArrowBack as ArrowBackIcon } from 'material-ui-icons';
+import { teal } from 'material-ui/colors';
+
+const theme = createMuiTheme({
+    palette: createPalette({
+        primary: teal
+    })
+});
+
+const styleSheet = createStyleSheet({
+    grid: {
+        padding: '5px',
+        marginTop: '5px',
+        width: '100%'
+    }
+});
 
 class App extends Component {
     constructor (props) {
@@ -18,42 +33,26 @@ class App extends Component {
         goBack();
     }
 
-    componentDidMount () {
-        $.material.init();
-    }
-
     render () {
         const { canGoBack } = this.props;
 
         return (
-            <div>
-                <div className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                                <span className="icon-bar" />
-                                <span className="icon-bar" />
-                                <span className="icon-bar" />
-                            </button>
-                            {canGoBack && <a className="navbar-brand go-back" onClick={this.goBack}><i className="material-icons">arrow_back</i></a>}
-                            <Link className="navbar-brand" to="/">Shogun</Link>
-                        </div>
-                        <div className="navbar-collapse collapse navbar-responsive-collapse">
-                            <ul className="nav navbar-nav">
-                                <li><NavLink exact to="/" activeClassName="active">Library</NavLink></li>
-                                <li><NavLink to="/catalogs" activeClassName="active">Catalogs</NavLink></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-sm-12">
+            <MuiThemeProvider theme={theme}>
+                <div>
+                    <AppBar position="static">
+                        <Toolbar>
+                            {canGoBack && <IconButton color="contrast" aria-label="Previous" onClick={this.goBack}><ArrowBackIcon /></IconButton>}
+                            <Link to="/"><Button color="contrast">Shogun</Button></Link>
+                            <NavLink to="/catalogs" activeClassName="active"><Button color="contrast">Catalogs</Button></NavLink>
+                        </Toolbar>
+                    </AppBar>
+                    <Grid container className={this.props.classes.grid}>
+                        <Grid item sm={12}>
                             {this.props.children}
-                        </div>
-                    </div>
+                        </Grid>
+                    </Grid>
                 </div>
-            </div>
+            </MuiThemeProvider>
         );
     }
 }
@@ -61,7 +60,8 @@ class App extends Component {
 App.propTypes = {
     canGoBack: PropTypes.bool.isRequired,
     goingBack: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired
+    goBack: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired
 };
 
-module.exports = App;
+module.exports = withStyles(styleSheet)(App);
