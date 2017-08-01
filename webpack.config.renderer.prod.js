@@ -63,7 +63,7 @@ export default merge.smart(baseConfig, {
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
-                    loader: 'file-loader',
+                    loader: 'url-loader',
                     options: {
                         limit: 10000,
                         mimetype: 'application/font-woff'
@@ -73,7 +73,7 @@ export default merge.smart(baseConfig, {
             {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
-                    loader: 'file-loader',
+                    loader: 'url-loader',
                     options: {
                         limit: 10000,
                         mimetype: 'application/font-woff'
@@ -83,7 +83,7 @@ export default merge.smart(baseConfig, {
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
-                    loader: 'file-loader',
+                    loader: 'url-loader',
                     options: {
                         limit: 10000,
                         mimetype: 'application/octet-stream'
@@ -130,7 +130,9 @@ export default merge.smart(baseConfig, {
         /**
          * Babli is an ES6+ aware minifier based on the Babel toolchain (beta)
          */
-        new BabiliPlugin(),
+        new BabiliPlugin({
+            mangle: false
+        }),
 
         new ExtractTextPlugin('style.css'),
 
