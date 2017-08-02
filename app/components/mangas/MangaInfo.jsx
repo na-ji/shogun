@@ -4,7 +4,7 @@ import Overdrive from 'react-overdrive';
 import _ from 'lodash';
 import { shell } from 'electron';
 import { Button, Typography } from 'material-ui';
-import { Grade as GradeIcon, Refresh as RefreshIcon, OpenInNew as OpenInNewIcon } from 'material-ui-icons';
+import { Grade as GradeIcon, OpenInNew as OpenInNewIcon } from 'material-ui-icons';
 
 import Spinner from '../spinner/Spinner';
 import styles from './mangaInfo.scss';
@@ -76,9 +76,6 @@ export default class MangaInfo extends Component {
                 {render}
                 <Button fab color={(this.props.manga.inLibrary ? 'primary' : 'default')} onClick={this.props.toggleLibrary}>
                     <GradeIcon />
-                </Button>
-                <Button fab color="primary" onClick={this.props.updateChapters}>
-                    <RefreshIcon />
                 </Button>
                 <Button fab color="primary" onClick={this.openExternal}>
                     <OpenInNewIcon />

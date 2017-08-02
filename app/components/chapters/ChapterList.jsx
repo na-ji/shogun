@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import ReactList from 'react-list';
 import _ from 'lodash';
 import $ from 'jquery';
-import { Typography, List } from 'material-ui';
+import { Typography, List, Button } from 'material-ui';
+import { Refresh as RefreshIcon, Sort as SortIcon } from 'material-ui-icons';
 
 import ChapterRow from './ChapterRow';
 import Spinner from '../spinner/Spinner';
+import styles from './chapter.scss';
 
 class ChapterList extends Component {
     constructor (props) {
@@ -14,26 +16,43 @@ class ChapterList extends Component {
 
         this.state = {
             style: {
-                height: $(window).height() - $('header').outerHeight() - 80
+                height: $(window).height() - $('header').outerHeight() - _.toSafeInteger($('#headline').outerHeight()) - 55
             },
-            chapters: []
+            chapters: [],
+            order: 'desc'
         };
     }
 
     handleResize () {
-        this.setState({style: {height: $(window).height() - $('header').outerHeight() - 80}});
+        this.setState({style: {height: $(window).height() - $('header').outerHeight() - _.toSafeInteger($('#headline').outerHeight()) - 55}});
     }
 
     componentDidMount () {
         this.handleResize = this.handleResize.bind(this);
         window.addEventListener('resize', this.handleResize);
+        this.reverseOrder = this.reverseOrder.bind(this);
         this.loadChapter = this.loadChapter.bind(this);
         this.loadChapter(this.props.chapters);
     }
 
     loadChapter (chapters) {
         this.setState({
-            chapters: _.orderBy(chapters, ['number', 'publishedAt'], ['desc', 'desc'])
+            chapters: _.orderBy(chapters, ['number', 'publishedAt'], [this.state.order, this.state.order])
+        });
+    }
+
+    reverseOrder () {
+        let newOrder = 'asc';
+        if (this.state.order === 'asc') {
+            newOrder = 'desc';
+        }
+
+        console.log(newOrder);
+
+        this.setState({
+            order: newOrder
+        }, () => {
+            this.loadChapter(this.state.chapters);
         });
     }
 
@@ -79,7 +98,15 @@ class ChapterList extends Component {
 
         return (
             <div>
-                <Typography type="headline">{this.props.chapters.length} chapter{(this.props.chapters.length > 1) ? 's' : ''}</Typography>
+                <Typography type="headline" id="headline">
+                    {this.props.chapters.length} chapter{(this.props.chapters.length > 1) ? 's' : ''}
+                    <Button onClick={this.props.updateChapters} dense title="refresh">
+                        <RefreshIcon />
+                    </Button>
+                    <Button onClick={this.reverseOrder} dense title="sort">
+                        <SortIcon className={styles[this.state.order]} />
+                    </Button>
+                </Typography>
                 {render}
             </div>
         );
@@ -89,7 +116,8 @@ class ChapterList extends Component {
 ChapterList.propTypes = {
     chapters: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
+    updateChapters: PropTypes.func.isRequired
 };
 
 module.exports = ChapterList;

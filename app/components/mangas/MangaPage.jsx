@@ -19,10 +19,10 @@ class MangaPage extends Component {
         return (
             <Grid container gutter={24}>
                 <Grid item xs={12} sm={5} md={4} lg={3}>
-                    <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} updateChapters={updateChapters} />
+                    <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} />
                 </Grid>
                 <Grid item xs={12} sm={7} md={8} lg={9}>
-                    <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} push={this.props.push} />
+                    <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} push={this.props.push} updateChapters={updateChapters} />
                 </Grid>
             </Grid>
         );
