@@ -1,15 +1,24 @@
 .pagination {
-    button {
-        height: 36px;
-        line-height: 36px;
-        min-width: 36px;
-        margin: 0px;
-        padding: 0px;
+    margin: 5px 0;
+}
 
-        &.loaded {
-            //color: #4caf50;
+.button {
+    height: 36px;
+    line-height: 36px;
+    min-width: 36px;
+    margin: 0;
+    padding: 0;
+
+    &.MuiButtonBase-root-1g {
+        span.MuiButton-label-14 {
+            display: inline-block;
+
+            svg.MuiSvgIcon-root-52 {
+                vertical-align: middle;
+            }
         }
     }
+
 }
 
 .container {

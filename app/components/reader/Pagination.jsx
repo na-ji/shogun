@@ -1,8 +1,7 @@
 import React from 'react';
+import _ from 'lodash';
 import { Button } from 'material-ui';
 import {
-    FirstPage as FirstPageIcon,
-    LastPage as LastPageIcon,
     NavigateBefore as NavigateBeforeIcon,
     NavigateNext as NavigateNextIcon
 } from 'material-ui-icons';
@@ -14,24 +13,34 @@ class Pagination extends React.Component {
         let self = this;
         let pagesDisplayed = [];
         let numberDisplayed = 20;
-        let offset = 0;
-        // calculate the position of the '...'
+
+        // calculate the pages to display, with '...' to not display more than numberDisplayed
         if (this.props.pages.length > numberDisplayed) {
+            pagesDisplayed.push(1);
+
+            let offset = 2;
             if (this.props.page > numberDisplayed / 2) {
                 pagesDisplayed.push('...');
+                offset = 3;
             }
 
-            offset = Math.max(this.props.page - numberDisplayed / 2, 0);
+            let min = Math.max(this.props.page - numberDisplayed / 2 + 1, offset);
+
+            if (this.props.page + numberDisplayed / 2 > this.props.pages.length) {
+                min = Math.max(this.props.pages.length - numberDisplayed, offset);
+            }
+
+            let max = Math.min(min + numberDisplayed + 1, this.props.pages.length);
+
             pagesDisplayed = pagesDisplayed.concat(
-                this.props.pages.slice(
-                    offset,
-                    Math.min(offset + numberDisplayed, this.props.pages.length - 1)
-                )
+                _.range(min, max)
             );
 
-            if (this.props.page + numberDisplayed / 2 + 1 < this.props.pages.length) {
+            if (this.props.page + numberDisplayed / 2 < this.props.pages.length) {
                 pagesDisplayed.push('...');
             }
+
+            pagesDisplayed.push(this.props.pages.length);
         } else {
             pagesDisplayed = this.props.pages;
         }
@@ -41,9 +50,10 @@ class Pagination extends React.Component {
                 <nav className={styles.pagination}>
                     <Button
                         dense
-                        disabled={self.props.page === 0}
+                        disabled={this.props.page === 0}
                         onClick={this.props.handler}
                         data-page="previous"
+                        className={styles.button}
                     >
                         <NavigateBeforeIcon />
                     </Button>
@@ -56,29 +66,37 @@ class Pagination extends React.Component {
                                     disabled
                                     onClick={self.props.handler}
                                     data-page="none"
+                                    className={styles.button}
                                 >
                                     ...
                                 </Button>
                             );
                         }
+                        let color = 'default';
+                        if (self.props.page === page - 1) {
+                            color = 'accent';
+                        } else if (self.props.loadedImages[page - 1]) {
+                            color = 'primary';
+                        }
                         return (
                             <Button
                                 dense
                                 key={index}
-                                className={self.props.loadedImages[offset + index] ? styles.loaded : ''}
-                                color={self.props.page === offset + index ? 'accent' : 'default'}
+                                color={color}
                                 onClick={self.props.handler}
-                                data-page={offset + index}
+                                data-page={page - 1}
+                                className={styles.button}
                             >
-                                {offset + index + 1}
+                                {page}
                             </Button>
                         );
                     })}
                     <Button
                         dense
-                        disabled={self.props.page === this.props.pages.length - 1}
+                        disabled={this.props.page === this.props.pages.length - 1}
                         onClick={this.props.handler}
                         data-page="next"
+                        className={styles.button}
                     >
                         <NavigateNextIcon />
                     </Button>
