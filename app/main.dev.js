@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
@@ -90,6 +90,10 @@ const createMainWindow = async () => {
 
     const menuBuilder = new MenuBuilder(mainWindow);
     menuBuilder.buildMenu();
+
+    ipcMain.on('progress-bar', (event, progress) => {
+        mainWindow.setProgressBar(progress);
+    });
 };
 
 app.on('ready', () => {

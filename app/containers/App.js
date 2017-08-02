@@ -12,9 +12,12 @@ const actions = {
 
 function mapStateToProps (state) {
     const { canGoBack } = state.app;
+    const { refreshing, progressPercent } = state.library;
 
     return {
-        canGoBack
+        canGoBack,
+        isLibraryRefreshing: refreshing,
+        libraryRefreshingProgress: progressPercent
     };
 }
 

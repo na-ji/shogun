@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Button, IconButton, MuiThemeProvider, Grid } from 'material-ui';
+import { Link } from 'react-router-dom';
+import { AppBar, Toolbar, Button, IconButton, MuiThemeProvider, Grid, LinearProgress } from 'material-ui';
 import { createMuiTheme, createPalette, withStyles, createStyleSheet } from 'material-ui/styles';
 import { ArrowBack as ArrowBackIcon } from 'material-ui-icons';
 import { teal } from 'material-ui/colors';
@@ -17,6 +17,10 @@ const styleSheet = createStyleSheet({
         padding: '5px',
         marginTop: '5px',
         width: '100%'
+    },
+    progressBar: {
+        width: '300px',
+        marginLeft: 'auto'
     }
 });
 
@@ -34,7 +38,16 @@ class App extends Component {
     }
 
     render () {
-        const { canGoBack } = this.props;
+        const { canGoBack, isLibraryRefreshing, libraryRefreshingProgress } = this.props;
+        let progress;
+
+        if (isLibraryRefreshing) {
+            progress = (
+                <div className={this.props.classes.progressBar}>
+                    <LinearProgress color="accent" mode="determinate" value={libraryRefreshingProgress} />
+                </div>
+            );
+        }
 
         return (
             <MuiThemeProvider theme={theme}>
@@ -42,8 +55,13 @@ class App extends Component {
                     <AppBar position="static">
                         <Toolbar>
                             {canGoBack && <IconButton color="contrast" aria-label="Previous" onClick={this.goBack}><ArrowBackIcon /></IconButton>}
-                            <Link to="/"><Button color="contrast">Shogun</Button></Link>
-                            <NavLink to="/catalogs" activeClassName="active"><Button color="contrast">Catalogs</Button></NavLink>
+                            <Link to="/">
+                                <Button color="contrast">Shogun</Button>
+                            </Link>
+                            <Link to="/catalogs">
+                                <Button color="contrast">Catalogs</Button>
+                            </Link>
+                            {progress}
                         </Toolbar>
                     </AppBar>
                     <Grid container className={this.props.classes.grid}>
@@ -59,6 +77,8 @@ class App extends Component {
 
 App.propTypes = {
     canGoBack: PropTypes.bool.isRequired,
+    isLibraryRefreshing: PropTypes.bool.isRequired,
+    libraryRefreshingProgress: PropTypes.number.isRequired,
     goingBack: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired
