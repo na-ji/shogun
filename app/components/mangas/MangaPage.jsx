@@ -14,7 +14,7 @@ class MangaPage extends Component {
     }
 
     render () {
-        const { state, toggleLibrary, updateChapters } = this.props;
+        const { state, toggleLibrary, updateChapters, markChaptersRead, push } = this.props;
 
         return (
             <Grid container gutter={24}>
@@ -22,7 +22,14 @@ class MangaPage extends Component {
                     <MangaInfo manga={state.manga} loading={state.infoLoading} toggleLibrary={toggleLibrary} />
                 </Grid>
                 <Grid item xs={12} sm={7} md={8} lg={9}>
-                    <ChapterList manga={state.manga} chapters={state.manga.chapters} loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading} push={this.props.push} updateChapters={updateChapters} />
+                    <ChapterList
+                        manga={state.manga}
+                        chapters={state.manga.chapters}
+                        loading={_.isNil(state.chapterLoading) ? true : state.chapterLoading}
+                        push={push}
+                        markChaptersRead={markChaptersRead}
+                        updateChapters={updateChapters}
+                    />
                 </Grid>
             </Grid>
         );
@@ -34,6 +41,7 @@ MangaPage.propTypes = {
     manga: PropTypes.object.isRequired,
     fetchInfosIfNeeded: PropTypes.func.isRequired,
     toggleLibrary: PropTypes.func.isRequired,
+    markChaptersRead: PropTypes.func.isRequired,
     updateChapters: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired
 };

@@ -32,10 +32,10 @@ function receiveDetails (manga) {
     };
 }
 
-export function markChaptersRead (manga, chapters) {
+export function markChaptersRead (manga, chapters, read = true) {
     return (dispatch) => {
         _.forEach(chapters, (chapter) => {
-            chapter.read = true;
+            chapter.read = read;
         });
 
         MangaManager.persistChapters(chapters);

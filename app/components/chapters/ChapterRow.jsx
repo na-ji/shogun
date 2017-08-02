@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { ListItem, ListItemText } from 'material-ui';
+import { ListItem, ListItemText, ListItemSecondaryAction, Checkbox } from 'material-ui';
 
 import styles from './chapter.scss';
 
@@ -27,6 +27,12 @@ class ChapterRow extends React.Component {
                     primary={chapter.title}
                     secondary={moment(chapter.publishedAt).format('DD-MM-YYYY')}
                 />
+                <ListItemSecondaryAction>
+                    <Checkbox
+                        onClick={event => this.props.handleToggle(chapter.id)}
+                        checked={this.props.checked}
+                    />
+                </ListItemSecondaryAction>
             </ListItem>
         );
     }
@@ -35,6 +41,8 @@ class ChapterRow extends React.Component {
 ChapterRow.propTypes = {
     chapter: PropTypes.object.isRequired,
     manga: PropTypes.object.isRequired,
+    checked: PropTypes.bool.isRequired,
+    handleToggle: PropTypes.func.isRequired,
     push: PropTypes.func.isRequired
 };
 
