@@ -1,9 +1,8 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import EventEmitter from 'events';
+import { Parser } from 'manga-parser';
 
-import CatalogManager from './catalog-manager';
-import Parser from './site-parser';
 import db from './db';
 import Chapter from '../models/chapter';
 import Manga from '../models/manga';
@@ -17,18 +16,16 @@ export default class MangaManager {
      * @return {Promise}
      */
     static getPopularManga (catalogName, fetchNextPage = false) {
-        let catalog = CatalogManager.getCatalog(catalogName);
-
         return new Promise((resolve, reject) => {
             if (fetchNextPage) {
-                return Parser.getPopularMangaList(catalog, fetchNextPage).then(paginator => {
-                    MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+                return Parser.getPopularMangaList(catalogName, fetchNextPage).then(paginator => {
+                    MangaManager.handleMangaList(catalogName, paginator, resolve, reject);
                 });
             }
 
             db
                 .findAll(Manga)
-                .where({catalog: catalog.file})
+                .where({catalog: catalogName})
                 .order(Manga.attributes.catalogId.ascending())
                 .limit(20)
                 .then(mangas => {
@@ -39,16 +36,16 @@ export default class MangaManager {
                             mangasEvents: new EventEmitter()
                         });
 
-                        return Parser.getPopularMangaList(catalog);
+                        return Parser.getPopularMangaList(catalogName);
                     }
 
-                    return Parser.getPopularMangaList(catalog).then(paginator => {
-                        MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+                    return Parser.getPopularMangaList(catalogName).then(paginator => {
+                        MangaManager.handleMangaList(catalogName, paginator, resolve, reject);
                     });
                 }).catch(error => {
                     console.log(error);
-                    return Parser.getPopularMangaList(catalog).then(paginator => {
-                        MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+                    return Parser.getPopularMangaList(catalogName).then(paginator => {
+                        MangaManager.handleMangaList(catalogName, paginator, resolve, reject);
                     });
                 })
             ;
@@ -60,23 +57,25 @@ export default class MangaManager {
      * @param {string} query - the manga title to search
      */
     static searchManga (catalogName, query) {
-        let catalog = CatalogManager.getCatalog(catalogName);
-
         return new Promise((resolve, reject) => {
-            Parser.searchManga(catalog, query).then(paginator => {
-                MangaManager.handleMangaList(catalog, paginator, resolve, reject);
+            Parser.searchManga(catalogName, query).then(paginator => {
+                MangaManager.handleMangaList(catalogName, paginator, resolve, reject);
             });
         });
     }
 
     /**
      * @private
-     * @param {object} catalog
+     * @param {string} catalogName
      * @param {object} paginator
      * @param {function} resolve
      * @param {function} reject
      */
-    static handleMangaList (catalog, paginator, resolve, reject) {
+    static handleMangaList (catalogName, paginator, resolve, reject) {
+        _.forEach(paginator.mangas, (manga, key) => {
+            paginator.mangas[key] = new Manga(manga);
+        });
+
         // Check if Manga objects are in database
         db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
             // let promises = [];
@@ -92,7 +91,7 @@ export default class MangaManager {
                     return Promise.resolve(manga);
                 } else {
                     if (!paginator.mangas[index].detailsFetched) {
-                        const promise = Parser.getMangaDetail(catalog, paginator.mangas[index]);
+                        const promise = Parser.getMangaDetail(catalogName, paginator.mangas[index]);
                         promise.then(manga => {
                             mangasEvents.emit('details-fetched', manga);
                         });
@@ -156,10 +155,8 @@ export default class MangaManager {
      * @return {Promise}
      */
     static getMangaDetail (manga) {
-        let catalog = CatalogManager.getCatalog(manga.catalog);
-
         return new Promise((resolve, reject) => {
-            Parser.getMangaDetail(catalog, manga).then(manga => {
+            Parser.getMangaDetail(manga.catalog, manga).then(manga => {
                 resolve(manga);
                 db.inTransaction((t) => {
                     return t.persistModel(manga);
@@ -213,10 +210,11 @@ export default class MangaManager {
      * @return {Promise}
      */
     static getChapterList (manga) {
-        let catalog = CatalogManager.getCatalog(manga.catalog);
-
         return new Promise((resolve, reject) => {
-            Parser.getChapterList(catalog, manga).then(chapters => {
+            Parser.getChapterList(manga.catalog, manga).then(chapters => {
+                _.forEach(chapters, (chapter, key) => {
+                    chapters[key] = new Chapter(chapter);
+                });
                 chapters = _.uniqBy(chapters, 'id');
                 manga.chapters = _.unionBy(manga.chapters, chapters, 'id');
 
@@ -262,11 +260,9 @@ export default class MangaManager {
      * @return {Promise}
      */
     static getChapterPages (manga, chapter) {
-        let catalog = CatalogManager.getCatalog(manga.catalog);
-
         return new Promise(function (resolve, reject) {
             let before = (new Date()).getTime();
-            Parser.getPageList(catalog, chapter).then(function (pages) {
+            Parser.getPageList(manga.catalog, chapter).then(function (pages) {
                 console.log('getChapterPages took %d ms', (new Date()).getTime() - before);
                 resolve(pages);
             }).catch(function (error) {
@@ -282,11 +278,9 @@ export default class MangaManager {
      * @return {Promise}
      */
     static getImageURL (manga, pageURL) {
-        let catalog = CatalogManager.getCatalog(manga.catalog);
-
         return new Promise(function (resolve, reject) {
             let before = (new Date()).getTime();
-            Parser.getImageURL(catalog, pageURL).then(function (imageURL) {
+            Parser.getImageURL(manga.catalog, pageURL).then(function (imageURL) {
                 console.log('getImageURL took %d ms', (new Date()).getTime() - before);
                 resolve(imageURL);
             }).catch(function (error) {

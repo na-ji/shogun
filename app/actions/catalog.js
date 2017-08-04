@@ -1,5 +1,4 @@
 import MangaManager from '../utils/manga-manager';
-import CatalogManager from '../utils/catalog-manager';
 
 export const GET_POPULAR_MANGAS = 'GET_POPULAR_MANGAS';
 export const LOAD_MORE = 'LOAD_MORE';
@@ -26,12 +25,9 @@ function receiveMangaDetails (manga) {
 }
 
 function getPopularMangas (catalogName) {
-    let catalog = CatalogManager.getCatalog(catalogName);
-
     return {
         type: GET_POPULAR_MANGAS,
-        catalogName,
-        catalog
+        catalogName
     };
 }
 

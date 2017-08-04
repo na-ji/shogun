@@ -12,7 +12,6 @@ import {
 export default function catalog (state = {
     loading: true,
     catalogName: null,
-    catalog: null,
     hasNext: false,
     query: null,
     mangas: [],
@@ -22,8 +21,7 @@ export default function catalog (state = {
         case GET_POPULAR_MANGAS:
             return Object.assign({}, state, {
                 loading: true,
-                catalogName: action.catalogName,
-                catalog: action.catalog
+                catalogName: action.catalogName
             });
         case LOAD_MORE:
             return Object.assign({}, state, {
