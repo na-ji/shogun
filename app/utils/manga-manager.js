@@ -10,6 +10,8 @@ import Manga from '../models/manga';
 Promise.config({cancellation: true});
 
 export default class MangaManager {
+    static pages = {};
+
     /**
      * @param {string} catalogName - The name of the catalog to use
      * @param {boolean} fetchNextPage - Optional URL to fetch, used for pagination
@@ -18,7 +20,7 @@ export default class MangaManager {
     static getPopularManga (catalogName, fetchNextPage = false) {
         return new Promise((resolve, reject) => {
             if (fetchNextPage) {
-                return Parser.getPopularMangaList(catalogName, fetchNextPage).then(paginator => {
+                return Parser.getPopularMangaList(catalogName, MangaManager.pages[catalogName]).then(paginator => {
                     MangaManager.handleMangaList(catalogName, paginator, resolve, reject);
                 });
             }
@@ -36,7 +38,9 @@ export default class MangaManager {
                             mangasEvents: new EventEmitter()
                         });
 
-                        return Parser.getPopularMangaList(catalogName);
+                        return Parser.getPopularMangaList(catalogName).then(paginator => {
+                            MangaManager.pages[catalogName] = paginator.nextPage;
+                        });
                     }
 
                     return Parser.getPopularMangaList(catalogName).then(paginator => {
@@ -78,7 +82,6 @@ export default class MangaManager {
 
         // Check if Manga objects are in database
         db.modelify(Manga, _.map(paginator.mangas, 'id')).then(mangas => {
-            // let promises = [];
             const mangasEvents = new EventEmitter();
             let before = (new Date()).getTime();
 
@@ -119,6 +122,8 @@ export default class MangaManager {
                     });
                 }
             });
+
+            MangaManager.pages[catalogName] = paginator.nextPage;
 
             resolve({
                 mangas: paginator.mangas,
