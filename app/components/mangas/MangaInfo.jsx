@@ -43,6 +43,10 @@ export default class MangaInfo extends Component {
             fieldsToRender.push('status');
         }
 
+        if (this.props.manga.description) {
+            fieldsToRender.push('description');
+        }
+
         let render;
         if (this.props.loading) {
             render = (
