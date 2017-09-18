@@ -23,7 +23,7 @@ Database.models.registerDeferred({name: 'Chapter', resolver: () => Chapter});
 let countItemsInDb = function (table, name) {
     Database._query(`SELECT COUNT(*) AS count FROM ${table};`).then(response => {
         let count = 0;
-        if (response.length) {
+        if (response && response.length) {
             count = response[0].count;
         }
         console.log('%s %s in DB', count, name);
