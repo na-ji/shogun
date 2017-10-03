@@ -58,6 +58,7 @@ main.js.map
 .idea/dataSources.ids
 .idea/dataSources.xml
 .idea/dataSources.local.xml
+.idea/dbnavigator.xml
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
